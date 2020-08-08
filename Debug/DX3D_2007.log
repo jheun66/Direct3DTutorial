@@ -1,7 +1,0 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Users\jheun\source\repos\DX3D_2007\Debug\Tutorial.cso
-  DX3D_2007.cpp
-C:\Users\jheun\source\repos\DX3D_2007\DX3D_2007.cpp(290,16): warning C4244: '=': 'UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\jheun\source\repos\DX3D_2007\DX3D_2007.cpp(291,17): warning C4244: '=': 'UINT'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DX3D_2007.vcxproj -> C:\Users\jheun\source\repos\DX3D_2007\Debug\DX3D_2007.exe
