@@ -1,0 +1,3 @@
+C:\Users\jheun\source\repos\DX3D_2007\Debug\DX3D_2007.exe
+C:\Users\jheun\source\repos\DX3D_2007\Debug\DX3D_2007.pdb
+C:\Users\jheun\source\repos\DX3D_2007\Debug\Tutorial.cso
