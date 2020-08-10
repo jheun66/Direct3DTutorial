@@ -3,7 +3,6 @@
 class Device 
 {
 private:
-	HWND hWnd;
 
 	// direct는 하드에 직접 접근해 처리하는데 device는 cpu, context는 gpu를 대행해 처리한다.
 	ID3D11Device* device;                       // CPU, 리소스 할당
@@ -15,13 +14,13 @@ private:
 
 	static Device* instance;
 
-	Device(HWND hWnd);
+	Device();
 	~Device();
 
 
 public:
 	static Device* Get() { return instance; }
-	static void Create(HWND hWnd) { instance = new Device(hWnd); }
+	static void Create() { instance = new Device(); }
 	static void Delete() { delete instance; }
 
 	void CreateDevcieAndSwapChain();

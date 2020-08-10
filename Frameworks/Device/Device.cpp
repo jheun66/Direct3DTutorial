@@ -1,8 +1,10 @@
 #include "Framework.h"
 #include "Device.h"
 
-Device::Device(HWND hWnd)
-	: hWnd(hWnd)
+// 스태틱 변수 초기화
+Device* Device::instance = nullptr;
+
+Device::Device()
 {
 	CreateDevcieAndSwapChain();
 	CreateBackBuffer();
@@ -10,15 +12,18 @@ Device::Device(HWND hWnd)
 
 Device::~Device()
 {
+    renderTargetView->Release();
+
+    swapChain->Release();
+    deviceContext->Release();
+    device->Release();
 }
 
 void Device::CreateDevcieAndSwapChain()
 {
-    RECT rc;
-    GetClientRect(hWnd, &rc);
 
-    UINT width = rc.right - rc.left;
-    UINT height = rc.bottom - rc.top;
+    UINT width = WIN_WIDTH;
+    UINT height = WIN_HEIGHT;
 
     // 스왑체인과 관련되 정보를 담고 있는 구조체
     DXGI_SWAP_CHAIN_DESC sd = {};
@@ -39,7 +44,7 @@ void Device::CreateDevcieAndSwapChain()
     // 창모드
     sd.Windowed = true;
 
-    D3D11CreateDeviceAndSwapChain(
+    V(D3D11CreateDeviceAndSwapChain(
         nullptr,
         D3D_DRIVER_TYPE_HARDWARE,
         0,
@@ -52,21 +57,41 @@ void Device::CreateDevcieAndSwapChain()
         &device,
         nullptr,
         &deviceContext
-    );
+    ));
+
 }
 
 void Device::CreateBackBuffer()
 {
+    ID3D11Texture2D* backBuffer;
+
+    V(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer));
+    V(device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView));
+
+    // back버퍼는 사용해제
+    backBuffer->Release();
+
 }
 
 void Device::SetRenderTarget(ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* dsv)
 {
+    if (rtv == nullptr)
+    {
+        rtv = renderTargetView;
+    }
+
+    deviceContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
 }
 
 void Device::Clear(Float4 color, ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* dsv)
 {
+    if (rtv == nullptr)
+        rtv = renderTargetView;
+
+    deviceContext->ClearRenderTargetView(renderTargetView, (float*)&color);
 }
 
 void Device::Present()
 {
+    swapChain->Present(0, 0);
 }

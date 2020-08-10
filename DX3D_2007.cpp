@@ -18,35 +18,6 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-
-
-ID3D11VertexShader* vertexShader;
-ID3D11PixelShader* pixelShader;
-ID3D11InputLayout* inputLayout;
-ID3D11Buffer* vertexBuffer;
-ID3D11Buffer* indexBuffer;
-ID3D11Buffer* constantBuffer;
-
-struct WVP
-{
-    XMMATRIX world;
-    XMMATRIX view;
-    XMMATRIX projection;
-}wvp;
-
-// 정점(Vertex) : 3D 공간에서의 한 점
-struct Vertex
-{
-    XMFLOAT3 pos;
-    XMFLOAT4 color;
-};
-
-
-void InitDevice();
-void Render();
-void ReleaseDevice();
-
-
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -73,7 +44,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 구조체 초기화, zeromemory와 동일
     MSG msg = {};
 
-    InitDevice();
+    Device::Create();
 
     // PeekMessage vs GetMessage : 반환값 차이
     // 기본 메시지 루프입니다:
@@ -90,12 +61,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
-            // Update();
-            Render();
+            Device::Get()->Clear();
+
+            // render
+
+            Device::Get()->Present();
         }
     }
 
-    ReleaseDevice();
+    Device::Delete();
 
     return (int) msg.wParam;
 }
@@ -232,209 +206,194 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
-
-void InitDevice()
-{
-    
-
-    ID3D11Texture2D* backBuffer;
-
-    swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
-    device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
-
-    // back버퍼는 사용해제
-    backBuffer->Release();
-
-    deviceContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
-
-    ////////////////////////////////////////////////////////////////////////////////////////
-
-    D3D11_VIEWPORT vp;
-    vp.Width = width;
-    vp.Height = height;
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
-    deviceContext->RSSetViewports(1, &vp);
-
-    // 컴파일 관련 기본 옵션
-    DWORD flags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
-
-    // shader load 할때 사용(shader마다 따로)
-    ID3DBlob* vertexBlob;
-    //                                                              VS 진입점 이름, vs_.. 버전
-    D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
-        "VS", "vs_5_0", flags, 0, &vertexBlob, nullptr);
-
-    device->CreateVertexShader(vertexBlob->GetBufferPointer(),
-        vertexBlob->GetBufferSize(), nullptr, &vertexShader);
-
-    /*
-    typedef struct D3D11_INPUT_ELEMENT_DESC
-    {
-    LPCSTR SemanticName;
-    UINT SemanticIndex;
-    DXGI_FORMAT Format;
-    UINT InputSlot;
-    UINT AlignedByteOffset;
-    D3D11_INPUT_CLASSIFICATION InputSlotClass;
-    UINT InstanceDataStepRate;
-    } 	D3D11_INPUT_ELEMENT_DESC;
-    */
-    D3D11_INPUT_ELEMENT_DESC layout[] =
-    {
-        {"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-        D3D11_INPUT_PER_VERTEX_DATA, 0},
-         {"CoLor", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12,
-        D3D11_INPUT_PER_VERTEX_DATA, 0}
-    };
-    UINT layoutSize = ARRAYSIZE(layout);
-
-    device->CreateInputLayout(layout, layoutSize,
-        vertexBlob->GetBufferPointer(), vertexBlob->GetBufferSize(),
-        &inputLayout);
-    vertexBlob->Release();
-
-    ID3DBlob* pixelBlob;
-
-    D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
-        "PS", "ps_5_0", flags, 0, &pixelBlob, nullptr);
-
-    device->CreatePixelShader(pixelBlob->GetBufferPointer(),
-        pixelBlob->GetBufferSize(), nullptr, &pixelShader);
-
-    pixelBlob->Release();
-
-    // 폴리곤(Polygon) : 3D 공간에서의 삼각형 (방향 존재 : 시계방향으로 앞면이 결정된다)
-    Vertex vertices[8];
-    vertices[0].pos = { -1, -1, -1 };
-    vertices[1].pos = { -1, 1, -1 };
-    vertices[2].pos = { 1, 1, -1 };
-    vertices[3].pos = { 1, -1, -1 };
-
-    vertices[4].pos = { -1, -1, 1 };
-    vertices[5].pos = { -1, 1, 1 };
-    vertices[6].pos = { 1, 1, 1 };
-    vertices[7].pos = { 1, -1, 1 };
-
-    vertices[0].color = { 1,0,0,1 };
-    vertices[1].color = { 1,1,0,1 };
-    vertices[2].color = { 1,0,1,1 };
-    vertices[3].color = { 0,1,1,1 };
-    vertices[4].color = { 0,1,0,1 };
-    vertices[5].color = { 0,0,1,1 };
-    vertices[6].color = { 1,1,1,1 };
-    vertices[7].color = { 0,0,0,1 };
-
-    {
-        D3D11_BUFFER_DESC bd = {};
-        bd.Usage = D3D11_USAGE_DEFAULT;
-        bd.ByteWidth = sizeof(Vertex) * 8;
-        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-        D3D11_SUBRESOURCE_DATA initData = {};
-        initData.pSysMem = vertices;
-
-        device->CreateBuffer(&bd, &initData, &vertexBuffer);
-    }
-
-    UINT indices[] =
-    {
-        // f
-        0,1,2,
-        0,2,3,
-
-        // u
-        1,5,6,
-        1,6,2,
-
-        // r
-        3,2,6,
-        3,6,7,
-    };
-
-    {
-        D3D11_BUFFER_DESC bd = {};
-        bd.Usage = D3D11_USAGE_DEFAULT;
-        bd.ByteWidth = sizeof(indices);
-        bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-        D3D11_SUBRESOURCE_DATA initData = {};
-        initData.pSysMem = indices;
-
-        device->CreateBuffer(&bd, &initData, &indexBuffer);
-    }
-
-    {
-        D3D11_BUFFER_DESC bd = {};
-        bd.Usage = D3D11_USAGE_DEFAULT;
-        bd.ByteWidth = sizeof(WVP);
-        bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-
-        device->CreateBuffer(&bd, nullptr, &constantBuffer);
-    }
-
-    wvp.world = XMMatrixIdentity();
-    XMVECTOR eye = XMVectorSet(3, 3, -3, 0);
-    XMVECTOR focus = XMVectorSet(0, 0, 0, 0);
-    XMVECTOR up = XMVectorSet(0, 1, 0, 0);
-
-    wvp.view = XMMatrixLookAtLH(eye, focus, up);
-    wvp.projection = XMMatrixPerspectiveFovLH(XM_PIDIV2,
-        width / (float)height, 0.1f, 1000.0f);
-
-}
-
-void Render()
-{
-    float clearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f };
-    deviceContext->ClearRenderTargetView(renderTargetView, clearColor);
-
-    // 상수버퍼로 넘겨줄 때
-    WVP temp;
-    temp.world = XMMatrixTranspose(wvp.world);
-    temp.view = XMMatrixTranspose(wvp.view);
-    temp.projection = XMMatrixTranspose(wvp.projection);
-
-    deviceContext->UpdateSubresource(constantBuffer, 0, nullptr,
-        &temp, 0, 0);
-
-    // Render
-    UINT stride = sizeof(Vertex);
-    UINT offset = 0;
-
-    // 세팅
-    deviceContext->IASetInputLayout(inputLayout);
-
-    deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-    deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-    deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
-
-    deviceContext->VSSetShader(vertexShader, nullptr, 0);
-    deviceContext->PSSetShader(pixelShader, nullptr, 0);
-
-    // 그리기
-    deviceContext->DrawIndexed(36, 0, 0);
-
-    swapChain->Present(0, 0);
-}
-
-void ReleaseDevice()
-{
-    constantBuffer->Release();
-    indexBuffer->Release();
-    vertexBuffer->Release();
-
-    vertexShader->Release();
-    pixelShader->Release();
-    inputLayout->Release();
-
-    renderTargetView->Release();
-
-    swapChain->Release();
-    deviceContext->Release();
-    device->Release();
-}
+//
+//void InitDevice()
+//{
+//    
+//
+// 
+//
+//    ////////////////////////////////////////////////////////////////////////////////////////
+//
+//    D3D11_VIEWPORT vp;
+//    vp.Width = width;
+//    vp.Height = height;
+//    vp.MinDepth = 0.0f;
+//    vp.MaxDepth = 1.0f;
+//    vp.TopLeftX = 0;
+//    vp.TopLeftY = 0;
+//    deviceContext->RSSetViewports(1, &vp);
+//
+//    // 컴파일 관련 기본 옵션
+//    DWORD flags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
+//
+//    // shader load 할때 사용(shader마다 따로)
+//    ID3DBlob* vertexBlob;
+//    //                                                              VS 진입점 이름, vs_.. 버전
+//    D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
+//        "VS", "vs_5_0", flags, 0, &vertexBlob, nullptr);
+//
+//    device->CreateVertexShader(vertexBlob->GetBufferPointer(),
+//        vertexBlob->GetBufferSize(), nullptr, &vertexShader);
+//
+//    /*
+//    typedef struct D3D11_INPUT_ELEMENT_DESC
+//    {
+//    LPCSTR SemanticName;
+//    UINT SemanticIndex;
+//    DXGI_FORMAT Format;
+//    UINT InputSlot;
+//    UINT AlignedByteOffset;
+//    D3D11_INPUT_CLASSIFICATION InputSlotClass;
+//    UINT InstanceDataStepRate;
+//    } 	D3D11_INPUT_ELEMENT_DESC;
+//    */
+//    D3D11_INPUT_ELEMENT_DESC layout[] =
+//    {
+//        {"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
+//        D3D11_INPUT_PER_VERTEX_DATA, 0},
+//         {"CoLor", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12,
+//        D3D11_INPUT_PER_VERTEX_DATA, 0}
+//    };
+//    UINT layoutSize = ARRAYSIZE(layout);
+//
+//    device->CreateInputLayout(layout, layoutSize,
+//        vertexBlob->GetBufferPointer(), vertexBlob->GetBufferSize(),
+//        &inputLayout);
+//    vertexBlob->Release();
+//
+//    ID3DBlob* pixelBlob;
+//
+//    D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
+//        "PS", "ps_5_0", flags, 0, &pixelBlob, nullptr);
+//
+//    device->CreatePixelShader(pixelBlob->GetBufferPointer(),
+//        pixelBlob->GetBufferSize(), nullptr, &pixelShader);
+//
+//    pixelBlob->Release();
+//
+//    // 폴리곤(Polygon) : 3D 공간에서의 삼각형 (방향 존재 : 시계방향으로 앞면이 결정된다)
+//    Vertex vertices[8];
+//    vertices[0].pos = { -1, -1, -1 };
+//    vertices[1].pos = { -1, 1, -1 };
+//    vertices[2].pos = { 1, 1, -1 };
+//    vertices[3].pos = { 1, -1, -1 };
+//
+//    vertices[4].pos = { -1, -1, 1 };
+//    vertices[5].pos = { -1, 1, 1 };
+//    vertices[6].pos = { 1, 1, 1 };
+//    vertices[7].pos = { 1, -1, 1 };
+//
+//    vertices[0].color = { 1,0,0,1 };
+//    vertices[1].color = { 1,1,0,1 };
+//    vertices[2].color = { 1,0,1,1 };
+//    vertices[3].color = { 0,1,1,1 };
+//    vertices[4].color = { 0,1,0,1 };
+//    vertices[5].color = { 0,0,1,1 };
+//    vertices[6].color = { 1,1,1,1 };
+//    vertices[7].color = { 0,0,0,1 };
+//
+//    {
+//        D3D11_BUFFER_DESC bd = {};
+//        bd.Usage = D3D11_USAGE_DEFAULT;
+//        bd.ByteWidth = sizeof(Vertex) * 8;
+//        bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+//
+//        D3D11_SUBRESOURCE_DATA initData = {};
+//        initData.pSysMem = vertices;
+//
+//        device->CreateBuffer(&bd, &initData, &vertexBuffer);
+//    }
+//
+//    UINT indices[] =
+//    {
+//        // f
+//        0,1,2,
+//        0,2,3,
+//
+//        // u
+//        1,5,6,
+//        1,6,2,
+//
+//        // r
+//        3,2,6,
+//        3,6,7,
+//    };
+//
+//    {
+//        D3D11_BUFFER_DESC bd = {};
+//        bd.Usage = D3D11_USAGE_DEFAULT;
+//        bd.ByteWidth = sizeof(indices);
+//        bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+//
+//        D3D11_SUBRESOURCE_DATA initData = {};
+//        initData.pSysMem = indices;
+//
+//        device->CreateBuffer(&bd, &initData, &indexBuffer);
+//    }
+//
+//    {
+//        D3D11_BUFFER_DESC bd = {};
+//        bd.Usage = D3D11_USAGE_DEFAULT;
+//        bd.ByteWidth = sizeof(WVP);
+//        bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+//
+//        device->CreateBuffer(&bd, nullptr, &constantBuffer);
+//    }
+//
+//    wvp.world = XMMatrixIdentity();
+//    XMVECTOR eye = XMVectorSet(3, 3, -3, 0);
+//    XMVECTOR focus = XMVectorSet(0, 0, 0, 0);
+//    XMVECTOR up = XMVectorSet(0, 1, 0, 0);
+//
+//    wvp.view = XMMatrixLookAtLH(eye, focus, up);
+//    wvp.projection = XMMatrixPerspectiveFovLH(XM_PIDIV2,
+//        width / (float)height, 0.1f, 1000.0f);
+//
+//}
+//
+//void Render()
+//{
+//
+//    // 상수버퍼로 넘겨줄 때
+//    WVP temp;
+//    temp.world = XMMatrixTranspose(wvp.world);
+//    temp.view = XMMatrixTranspose(wvp.view);
+//    temp.projection = XMMatrixTranspose(wvp.projection);
+//
+//    deviceContext->UpdateSubresource(constantBuffer, 0, nullptr,
+//        &temp, 0, 0);
+//
+//    // Render
+//    UINT stride = sizeof(Vertex);
+//    UINT offset = 0;
+//
+//    // 세팅
+//    deviceContext->IASetInputLayout(inputLayout);
+//
+//    deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+//    deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+//    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+//
+//    deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+//
+//    deviceContext->VSSetShader(vertexShader, nullptr, 0);
+//    deviceContext->PSSetShader(pixelShader, nullptr, 0);
+//
+//    // 그리기
+//    deviceContext->DrawIndexed(36, 0, 0);
+//
+//    swapChain->Present(0, 0);
+//}
+//
+//void ReleaseDevice()
+//{
+//    constantBuffer->Release();
+//    indexBuffer->Release();
+//    vertexBuffer->Release();
+//
+//    vertexShader->Release();
+//    pixelShader->Release();
+//    inputLayout->Release();
+//
+//}

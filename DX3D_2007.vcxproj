@@ -122,6 +122,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Framework.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,11 +158,15 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Frameworks\Device\Device.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp" />
-    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="Framework.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Device\Device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc" />

@@ -15,13 +15,22 @@
 #define WIN_START_X 100
 #define WIN_START_Y 100
 
+// 디버그 아니면 무시
+#ifdef NDEBUG
+	#define V(hr) hr
+#else
+	#define V(hr) assert(SUCCEEDED(hr))
+#endif
+
+#define DEVICE Device::Get()->GetDevice()
+#define DC Device::Get()->GetDeviceContext()
+
 #include <windows.h>
 
 #include <assert.h>
 #include <vector>
 #include <map>
 #include <string>
-
 
 // direct 라이브러리 추가
 #include <d3d11.h>
@@ -31,6 +40,8 @@
 // 프로젝트 속성 - 링커 - 입력 - 추가 종속성에서 추가해 줘도 된다.
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+// interface id 있는 라이브러리 
+#pragma comment(lib, "dxguid.lib")
 
 using namespace DirectX;
 using namespace std;
@@ -44,9 +55,12 @@ typedef XMMATRIX Matrix;
 // Framework Header
 #include "Frameworks/Device/Device.h"
 
+#include "Frameworks/Render/VertexShader.h"
+#include "Frameworks/Render/PixelShader.h"
+
 // Object Header
 
 
 // Program Header
 
-
+extern HWND hWnd;
