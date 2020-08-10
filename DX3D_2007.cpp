@@ -18,13 +18,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-// direct는 하드에 직접 접근해 처리하는데 device는 cpu, context는 gpu를 대행해 처리한다.
-ID3D11Device* device;                       // CPU, 리소스 할당
-ID3D11DeviceContext* deviceContext;         // GPU, 렌더링
 
-                                            // View가 붙으면 GPU 관련
-IDXGISwapChain* swapChain;                  // 더블 버퍼 관리
-ID3D11RenderTargetView* renderTargetView;   // 백 버퍼
 
 ID3D11VertexShader* vertexShader;
 ID3D11PixelShader* pixelShader;
@@ -148,8 +142,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   // device 크기를 요거로
+   RECT rc = { 0,0,WIN_WIDTH,WIN_HEIGHT };
+   AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, false);
+
    hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      WIN_START_X, WIN_START_Y,
+       rc.right- rc.left, rc.bottom -rc.top,
+       nullptr, nullptr, hInstance, nullptr);
+
+   SetMenu(hWnd, nullptr);
 
    if (!hWnd)
    {
@@ -233,46 +235,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 void InitDevice()
 {
-    // API를 이용하여 윈도우창 크기 구하기
-    RECT rc;
-    GetClientRect(hWnd, &rc);
-
-    UINT width = rc.right - rc.left;
-    UINT height = rc.bottom - rc.top;
-
-    // 스왑체인과 관련되 정보를 담고 있는 구조체
-    DXGI_SWAP_CHAIN_DESC sd = {};
-    sd.BufferCount = 1; // 백버퍼 개수
-    sd.BufferDesc.Width = width;
-    sd.BufferDesc.Height = height;
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;  // unorm 양수인 0 ~ 1 까지 값
-    // RefreshRate : 디스플레이 모드 갱신율(주사율 : Numerator / Denominator) (fps랑은 다름)
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sd.OutputWindow = hWnd;
     
-    // 다중 표본화(안씀)
-    sd.SampleDesc.Count = 1;
-    sd.SampleDesc.Quality = 0;
-
-    // 창모드
-    sd.Windowed = true;
-
-    D3D11CreateDeviceAndSwapChain(
-        nullptr,
-        D3D_DRIVER_TYPE_HARDWARE,
-        0,
-        D3D11_CREATE_DEVICE_DEBUG,
-        nullptr,
-        0,
-        D3D11_SDK_VERSION,
-        &sd,
-        &swapChain,
-        &device,
-        nullptr,
-        &deviceContext
-    );
 
     ID3D11Texture2D* backBuffer;
 

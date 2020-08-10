@@ -127,6 +127,12 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile>
+      <EntryPointName>VS</EntryPointName>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -146,12 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DX3D_2007.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="Frameworks\Device\Device.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp" />
+    <ClCompile Include="Framework.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc" />
