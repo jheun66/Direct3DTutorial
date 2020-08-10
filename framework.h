@@ -57,6 +57,9 @@ typedef XMMATRIX Matrix;
 
 #include "Frameworks/Render/VertexShader.h"
 #include "Frameworks/Render/PixelShader.h"
+#include "Frameworks/Render/VertexBuffer.h"
+#include "Frameworks/Render/IndexBuffer.h"
+#include "Frameworks/Render/ConstBuffer.h"
 
 // Object Header
 
