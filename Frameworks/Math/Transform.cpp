@@ -27,4 +27,5 @@ void Transform::UpdateWorld()
 
 void Transform::SetWorldBuffer(UINT slot)
 {
+	worldBuffer->SetVSBuffer(slot);
 }

@@ -1,25 +1,14 @@
 #pragma once
 
-class Cube
+class Cube : public Transform
 {
 private:
-	Float3 position;
-	Float3 rotation;
-	Float3 scale;
-
-	Float3 pivot;
-
-	Matrix world;
-	Matrix* parent;
-
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 
-	MatrixBuffer* worldBuffer;
-
-	bool isControl = false;
+	ColorBuffer* colorBuffer;
 
 public:
 	Cube();
@@ -30,8 +19,5 @@ public:
 
 	void Create();
 
-	Matrix* GetWorld() { return &world; }
-	void SetPos(Float3 value) { position = value; }
-	void SetControl(bool value) { isControl = value; }
-	void SetParent(Matrix* value) { parent = value; }
+	void SetColor(Float4 color) { colorBuffer->data.color = color; }
 };

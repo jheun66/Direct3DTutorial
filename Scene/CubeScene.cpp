@@ -3,22 +3,33 @@
 
 CubeScene::CubeScene()
 {
-    cube1 = new Cube();
-    cube2 = new Cube();
-    cube1->SetControl(true);
-    cube2->SetPos(Float3(2, 0, 0));
+    sun = new Cube();
+    earth = new Cube();
+    moon = new Cube();
+
+    sun->SetColor({ 1,0,0,1 });
+    earth->SetColor({ 1,0,0,1 });
+    moon->SetColor({ 1,0,0,1 });
+
+    earth->position.x = 5;
+    earth->SetParent(sun->GetWorld());
+
+    moon->position.x = 4;
+    moon->SetParent(earth->GetWorld());
 }
 
 CubeScene::~CubeScene()
 {
-    delete cube1;
-    delete cube2;
+    delete sun;
+    delete earth;
+    delete moon;
 }
 
 void CubeScene::Update()
 {
-    cube1->Update();
-    cube2->Update();
+    sun->Update();
+    earth->Update();
+    moon->Update();
 }
 
 void CubeScene::PreRender()
@@ -27,11 +38,13 @@ void CubeScene::PreRender()
 
 void CubeScene::Render()
 {
-    cube1->Render();
-    cube2->Render();
+    sun->Render();
+    earth->Render();
+    moon->Render();
 }
 
 void CubeScene::PostRender()
 {
+    ImGui::Text("test");
 }
 

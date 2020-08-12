@@ -45,6 +45,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg = {};
 
     Device::Create();
+
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplWin32_Init(hWnd);
+    ImGui_ImplDX11_Init(DEVICE, DC);
+
     Enviroment::Create();
 
     Program* program = new Program();
@@ -69,9 +76,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             program->PreRender();
 
             Device::Get()->Clear();
+            ImGui_ImplDX11_NewFrame();
+            ImGui_ImplWin32_NewFrame();
+            ImGui::NewFrame();
 
             program->Render();
             program->PostRender();
+
+            ImGui::Render();
+            ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
             Device::Get()->Present();
         }
@@ -79,8 +92,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     delete program;
 
+
     Enviroment::Delete();
+    
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
+
     Device::Delete();
+
     
     return (int) msg.wParam;
 }
@@ -159,8 +179,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+
+// 전방선언 
+IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        return true;
+
+
     switch (message)
     {
     case WM_COMMAND:

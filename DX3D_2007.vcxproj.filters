@@ -134,5 +134,7 @@
     <FxCompile Include="Shaders\Tutorial.hlsl" />
     <FxCompile Include="Shaders\VertexColor.hlsl" />
     <FxCompile Include="Shaders\PixelColor.hlsl" />
+    <FxCompile Include="Shaders\Vertex.hlsl" />
+    <FxCompile Include="Shaders\Pixel.hlsl" />
   </ItemGroup>
 </Project>

@@ -21,3 +21,18 @@ public:
 	}
 
 };
+
+class ColorBuffer : public ConstBuffer
+{
+public:
+	struct Data
+	{
+		Float4 color;
+	}data;
+
+	ColorBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+		data.color = { 1,1,1,1 };
+	}
+
+};

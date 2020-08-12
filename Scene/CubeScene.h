@@ -5,8 +5,9 @@
 class CubeScene : public Scene
 {
 private:
-	Cube* cube1;
-	Cube* cube2;
+	Cube* sun;
+	Cube* earth;
+	Cube* moon;
 
 public:
 	CubeScene();
