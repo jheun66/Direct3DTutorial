@@ -45,6 +45,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg = {};
 
     Device::Create();
+    Enviroment::Create();
+
+    Program* program = new Program();
 
     // PeekMessage vs GetMessage : 반환값 차이
     // 기본 메시지 루프입니다:
@@ -61,16 +64,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
+            program->Update();
+
+            program->PreRender();
+
             Device::Get()->Clear();
 
-            // render
+            program->Render();
+            program->PostRender();
 
             Device::Get()->Present();
         }
     }
 
-    Device::Delete();
+    delete program;
 
+    Enviroment::Delete();
+    Device::Delete();
+    
     return (int) msg.wParam;
 }
 
@@ -215,14 +226,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 //
 //    ////////////////////////////////////////////////////////////////////////////////////////
 //
-//    D3D11_VIEWPORT vp;
-//    vp.Width = width;
-//    vp.Height = height;
-//    vp.MinDepth = 0.0f;
-//    vp.MaxDepth = 1.0f;
-//    vp.TopLeftX = 0;
-//    vp.TopLeftY = 0;
-//    deviceContext->RSSetViewports(1, &vp);
+
 //
 //    // 컴파일 관련 기본 옵션
 //    DWORD flags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
@@ -341,14 +345,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 //        device->CreateBuffer(&bd, nullptr, &constantBuffer);
 //    }
 //
-//    wvp.world = XMMatrixIdentity();
-//    XMVECTOR eye = XMVectorSet(3, 3, -3, 0);
-//    XMVECTOR focus = XMVectorSet(0, 0, 0, 0);
-//    XMVECTOR up = XMVectorSet(0, 1, 0, 0);
-//
-//    wvp.view = XMMatrixLookAtLH(eye, focus, up);
-//    wvp.projection = XMMatrixPerspectiveFovLH(XM_PIDIV2,
-//        width / (float)height, 0.1f, 1000.0f);
+
 //
 //}
 //

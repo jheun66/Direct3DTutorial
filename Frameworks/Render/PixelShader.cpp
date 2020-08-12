@@ -9,7 +9,7 @@ PixelShader::PixelShader(wstring file, string psName)
         psName.c_str(), "ps_5_0", flags, 0, &pixelBlob, nullptr));
 
     V(DEVICE->CreatePixelShader(pixelBlob->GetBufferPointer(),
-        pixelBlob->GetBufferSize(), nullptr, &PixelShader));
+        pixelBlob->GetBufferSize(), nullptr, &pixelShader));
 }
 
 PixelShader::~PixelShader()

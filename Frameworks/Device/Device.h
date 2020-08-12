@@ -11,6 +11,7 @@ private:
 												// View가 붙으면 GPU 관련
 	IDXGISwapChain* swapChain;                  // 더블 버퍼 관리
 	ID3D11RenderTargetView* renderTargetView;   // 백 버퍼
+	ID3D11DepthStencilView* depthStencilView;
 
 	static Device* instance;
 

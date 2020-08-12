@@ -60,10 +60,19 @@ typedef XMMATRIX Matrix;
 #include "Frameworks/Render/VertexBuffer.h"
 #include "Frameworks/Render/IndexBuffer.h"
 #include "Frameworks/Render/ConstBuffer.h"
+#include "Frameworks/Render/VertexLayouts.h"
+#include "Frameworks/Render/GlobalBuffer.h"
+
+#include "Frameworks/Math/Vector3.h"
+#include "Frameworks/Math/Transform.h"
+
+#include "Enviroment/Enviroment.h"
 
 // Object Header
 
 
 // Program Header
+#include "Scene/Scene.h"
+#include "Program/Program.h"
 
 extern HWND hWnd;
