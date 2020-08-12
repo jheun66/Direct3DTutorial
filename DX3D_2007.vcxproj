@@ -185,6 +185,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Frameworks\Device\Device.cpp" />
+    <ClCompile Include="Frameworks\Math\Transform.cpp" />
     <ClCompile Include="Frameworks\Math\Vector3.cpp" />
     <ClCompile Include="Frameworks\Render\ConstBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\IndexBuffer.cpp" />
