@@ -12,6 +12,9 @@ private:
 	MatrixBuffer* viewBuffer;
 	MatrixBuffer* projectionBuffer;
 
+	SamplerState* samplerState;
+
+
 	static Enviroment* instance;
 	Enviroment();
 	~Enviroment();
@@ -26,5 +29,5 @@ public:
 private:
 	void CreateViewort();
 	void CreatePerspective();
-
+	void CreateSamplerState();
 };

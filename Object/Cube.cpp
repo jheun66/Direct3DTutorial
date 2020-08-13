@@ -3,8 +3,8 @@
 
 Cube::Cube()
 {
-	vertexShader = new VertexShader(L"Shaders/Vertex.hlsl");
-	pixelShader = new PixelShader(L"Shaders/Pixel.hlsl");
+	vertexShader = new VertexShader(L"Vertex");
+	pixelShader = new PixelShader(L"Pixel");
 
 	Create();
     colorBuffer = new ColorBuffer();

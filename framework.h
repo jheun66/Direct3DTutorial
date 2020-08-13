@@ -48,6 +48,9 @@
 #include "ImGui/imgui_impl_dx11.h"
 #include "ImGui/imgui_impl_win32.h"
 
+// DirectXTex
+#include "../DirectXTex/DirectXTex.h"
+
 
 using namespace DirectX;
 using namespace std;
@@ -72,10 +75,14 @@ typedef XMMATRIX Matrix;
 #include "Frameworks/Math/Vector3.h"
 #include "Frameworks/Math/Transform.h"
 
+#include "Frameworks/State/SamplerState.h"
+#include "Frameworks/State/RasterizerState.h"
+
 #include "Enviroment/Enviroment.h"
 
 // Object Header
-
+#include "Object/Quad.h"
+#include "Object/Cube.h"
 
 // Program Header
 #include "Scene/Scene.h"

@@ -119,6 +119,62 @@ Vector3 Vector3::operator/(const float& value) const
 	return data / XMVectorReplicate(value);
 }
 
+void Vector3::operator+=(const float& value)
+{
+	data += XMVectorReplicate(value);
+}
+
+void Vector3::operator-=(const float& value)
+{
+	data -= XMVectorReplicate(value);
+}
+
+void Vector3::operator*=(const float& value)
+{
+	data *= XMVectorReplicate(value);
+}
+
+void Vector3::operator/=(const float& value)
+{
+	data /= XMVectorReplicate(value);
+}
+
+float Vector3::Length() const
+{
+	// XMVector3Length : 반환되는 벡터의 x값에 길이를 들어있어서
+	return XMVectorGetX(XMVector3Length(data));
+}
+
+Vector3 Vector3::Normal() const
+{
+	return XMVector3Normalize(data);
+}
+
+void Vector3::Normalize()
+{
+	data = XMVector3Normalize(data);
+}
+
+Vector3 Vector3::Cross(const Vector3& value) const
+{
+	return XMVector3Cross(data, value.data);
+}
+
+float Vector3::Dot(const Vector3& value) const
+{
+	return XMVectorGetX(XMVector3Dot(data, value.data));
+}
+
+Vector3 Vector3::Cross(const Vector3& vec1, const Vector3& vec2)
+{
+	return XMVector3Cross(vec1.data, vec2.data);
+}
+
+float Vector3::Dot(const Vector3& vec1, const Vector3& vec2)
+{
+	return XMVectorGetX(XMVector3Cross(vec1.data, vec2.data));
+}
+
 Vector3 operator+(const float value1, const Vector3& value2)
 {
 	return XMVectorReplicate(value1) + value2.data;

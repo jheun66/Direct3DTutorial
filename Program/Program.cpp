@@ -1,10 +1,12 @@
 #include "Framework.h"
 
 #include "Scene/CubeScene.h"
+#include "Scene/TextureScene.h"
 
 Program::Program()
 {
-	scene = new CubeScene();
+	//scene = new CubeScene();
+	scene = new TextureScene();
 }
 
 Program::~Program()

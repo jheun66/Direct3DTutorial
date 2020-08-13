@@ -72,6 +72,18 @@
     <ClInclude Include="Frameworks\Math\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\TextureScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Quad.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\State\SamplerState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\State\RasterizerState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -116,6 +128,18 @@
     <ClCompile Include="Frameworks\Math\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\TextureScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Quad.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\State\RasterizerState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\State\SamplerState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -132,9 +156,11 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\Tutorial.hlsl" />
-    <FxCompile Include="Shaders\VertexColor.hlsl" />
-    <FxCompile Include="Shaders\PixelColor.hlsl" />
-    <FxCompile Include="Shaders\Vertex.hlsl" />
-    <FxCompile Include="Shaders\Pixel.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\Pixel.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelColor.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\Vertex.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexColor.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexUV.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelUV.hlsl" />
   </ItemGroup>
 </Project>

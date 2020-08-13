@@ -6,12 +6,14 @@ Enviroment::Enviroment()
 {
 	CreateViewort();
 	CreatePerspective();
+    CreateSamplerState();
 }
 
 Enviroment::~Enviroment()
 {
 	delete viewBuffer;
     delete projectionBuffer;
+    delete samplerState;
 }
 
 void Enviroment::CreateViewort()
@@ -31,7 +33,7 @@ void Enviroment::CreatePerspective()
     viewBuffer = new MatrixBuffer();
     projectionBuffer = new MatrixBuffer();
 
-    XMVECTOR eye = XMVectorSet(3, 3, -30, 0);
+    XMVECTOR eye = XMVectorSet(0, 0, -3, 0);
     XMVECTOR focus = XMVectorSet(0, 0, 0, 0);
     XMVECTOR up = XMVectorSet(0, 1, 0, 0);
 
@@ -43,4 +45,11 @@ void Enviroment::CreatePerspective()
         WIN_WIDTH / (float)WIN_HEIGHT, 0.1f, 1000.0f);
 
     projectionBuffer->Set(projection);
+}
+
+void Enviroment::CreateSamplerState()
+{
+    samplerState = new SamplerState();
+    //samplerState->Address(D3D11_TEXTURE_ADDRESS_CLAMP);
+    samplerState->SetState();
 }
