@@ -36,3 +36,20 @@ public:
 	}
 
 };
+
+class LightBuffer : public ConstBuffer
+{
+public:
+	struct Data
+	{
+		Float3 direction;
+
+		float padding;
+	}data;
+
+	LightBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+		data.direction = { 0, -1, 0 };
+	}
+
+};

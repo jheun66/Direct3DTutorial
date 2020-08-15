@@ -2,16 +2,20 @@
 
 #include "Scene/CubeScene.h"
 #include "Scene/TextureScene.h"
+#include "Scene/GridScene.h"
 
 Program::Program()
 {
 	//scene = new CubeScene();
-	scene = new TextureScene();
+	//scene = new TextureScene();
+	scene = new GridScene();
 }
 
 Program::~Program()
 {
 	delete scene;
+
+	Texture::Delete();
 }
 
 void Program::Update()

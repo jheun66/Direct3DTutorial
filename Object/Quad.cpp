@@ -7,11 +7,7 @@ Quad::Quad()
 
 	Create();
 	
-	ScratchImage image;
-	LoadFromWICFile(L"Texures/sana.jpeg", WIC_FLAGS_NONE, nullptr, image);
-
-	CreateShaderResourceView(DEVICE, image.GetImages(), image.GetImageCount(),
-		image.GetMetadata(), &srv);
+	texture = Texture::Add(L"sana.jpeg");
 
 	
 	rasterizerState[0] = new RasterizerState();
@@ -27,8 +23,6 @@ Quad::~Quad()
 
 	delete vertexBuffer;
 	delete indexBuffer;
-
-	srv->Release();
 
 	delete rasterizerState[1];
 	delete rasterizerState[0];
@@ -49,7 +43,7 @@ void Quad::Render()
 
 	SetWorldBuffer();
 
-	DC->PSSetShaderResources(0, 1, &srv);
+	texture->PSSet(0);
 
 	vertexShader->Set();
 	pixelShader->Set();

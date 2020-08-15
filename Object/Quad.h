@@ -8,7 +8,7 @@ private:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
 
-	ID3D11ShaderResourceView* srv;
+	Texture* texture;
 	
 	RasterizerState* rasterizerState[2];
 

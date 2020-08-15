@@ -71,9 +71,12 @@ typedef XMMATRIX Matrix;
 #include "Frameworks/Render/ConstBuffer.h"
 #include "Frameworks/Render/VertexLayouts.h"
 #include "Frameworks/Render/GlobalBuffer.h"
+#include "Frameworks/Render/Texture.h"
 
 #include "Frameworks/Math/Vector3.h"
 #include "Frameworks/Math/Transform.h"
+
+#include "Frameworks/Utility/Utility.h"
 
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
