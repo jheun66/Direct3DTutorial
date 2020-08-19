@@ -25,6 +25,14 @@
 #define DEVICE Device::Get()->GetDevice()
 #define DC Device::Get()->GetDeviceContext()
 
+#define KEY_DOWN(k) Control::Get()->Down(k)
+#define KEY_PRESS(k) Control::Get()->Press(k)
+#define KEY_UP(k) Control::Get()->Up(k)
+
+#define MOUSEPOS Control::Get()->GetMouse()
+
+#define DELTA Timer::Get()->Delta()
+
 #include <windows.h>
 
 #include <assert.h>
@@ -61,6 +69,10 @@ typedef XMFLOAT2 Float2;
 typedef XMVECTOR Vector4;
 typedef XMMATRIX Matrix;
 
+const XMVECTORF32 kRight = { 1, 0, 0 };
+const XMVECTORF32 kUp = { 0, 1, 0 };
+const XMVECTORF32 kForward = { 0, 0, 1 };
+
 // Framework Header
 #include "Frameworks/Device/Device.h"
 
@@ -77,9 +89,14 @@ typedef XMMATRIX Matrix;
 #include "Frameworks/Math/Transform.h"
 
 #include "Frameworks/Utility/Utility.h"
+#include "Frameworks/Utility/Control.h"
+#include "Frameworks/Utility/Timer.h"
 
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
+
+#include "Enviroment/Camera/Camera.h"
+#include "Enviroment/Camera/FreeCamera.h"
 
 #include "Enviroment/Enviroment.h"
 

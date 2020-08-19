@@ -7,13 +7,15 @@ Enviroment::Enviroment()
 	CreateViewort();
 	CreatePerspective();
     CreateSamplerState();
+
+    mainCamera = new FreeCamera();
 }
 
 Enviroment::~Enviroment()
 {
-	delete viewBuffer;
     delete projectionBuffer;
     delete samplerState;
+    delete mainCamera;
 }
 
 void Enviroment::CreateViewort()
@@ -30,18 +32,9 @@ void Enviroment::CreateViewort()
 
 void Enviroment::CreatePerspective()
 {
-    viewBuffer = new MatrixBuffer();
     projectionBuffer = new MatrixBuffer();
 
-    XMVECTOR eye = XMVectorSet(128, 50, -2, 0);
-    XMVECTOR focus = XMVectorSet(128, 0, 128, 0);
-    XMVECTOR up = XMVectorSet(0, 1, 0, 0);
-
-    Matrix view = XMMatrixLookAtLH(eye, focus, up);
-
-    viewBuffer->Set(view);
-
-    Matrix projection = XMMatrixPerspectiveFovLH(XM_PIDIV2,
+    Matrix projection = XMMatrixPerspectiveFovLH(XM_PIDIV4,
         WIN_WIDTH / (float)WIN_HEIGHT, 0.1f, 1000.0f);
 
     projectionBuffer->Set(projection);

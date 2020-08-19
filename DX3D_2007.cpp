@@ -52,6 +52,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImGui_ImplWin32_Init(hWnd);
     ImGui_ImplDX11_Init(DEVICE, DC);
 
+    Control::Create();
+    Timer::Create();
+
     Enviroment::Create();
 
     Program* program = new Program();
@@ -71,6 +74,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else
         {
+            Control::Get()->Update();
+            Timer::Get()->Update();
+
             program->Update();
 
             program->PreRender();
@@ -95,6 +101,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     Enviroment::Delete();
     
+    Timer::Delete();
+    Control::Delete();
+
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
@@ -216,6 +225,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
             EndPaint(hWnd, &ps);
         }
+        break;
+    case WM_MOUSEMOVE:
+        Control::Get()->SetMouse(lParam);
+        break;
+    case WM_MOUSEWHEEL:
+    {
+        short value = (short)HIWORD(wParam);
+        Control::Get()->SetWheel((float)value);
+    }
         break;
     case WM_DESTROY:
         PostQuitMessage(0);

@@ -9,8 +9,9 @@ class Enviroment
 {
 private:
 
-	MatrixBuffer* viewBuffer;
 	MatrixBuffer* projectionBuffer;
+
+	Camera* mainCamera;
 
 	SamplerState* samplerState;
 
@@ -23,7 +24,7 @@ public:
 	static void Create() { instance = new Enviroment(); }
 	static void Delete() { delete instance; }
 
-	MatrixBuffer* GetView() { return viewBuffer; }
+	Camera* MainCamera() { return mainCamera; }
 	MatrixBuffer* GetProjection() { return projectionBuffer; }
 
 private:

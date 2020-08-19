@@ -11,5 +11,10 @@ struct PixelInput
 //                          ¹ÝÈ¯°ªÀÇ ½Ã¸àÆ½ ³×ÀÓ(SV : system value)
 float4 PS(PixelInput input) : SV_Target
 {
-    return map.Sample(samp, input.uv) * input.diffuse;
+    float4 albedo = map.Sample(samp, input.uv);
+    
+    // °£Á¢±¤
+    float4 ambient = albedo * 0.1f;
+    
+    return albedo * input.diffuse + ambient;
 }

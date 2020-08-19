@@ -70,7 +70,7 @@ void GridScene::Render()
 
 void GridScene::PostRender()
 {
-	ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -1, 1);
+	ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
 }
 
 void GridScene::CreateData()

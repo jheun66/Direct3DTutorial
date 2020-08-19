@@ -21,6 +21,10 @@ Program::~Program()
 void Program::Update()
 {
 	scene->Update();
+
+	Enviroment::Get()->MainCamera()->Update();
+	
+	Control::Get()->SetWheel(0.0f);
 }
 
 void Program::PreRender()
@@ -30,7 +34,7 @@ void Program::PreRender()
 
 void Program::Render()
 {
-	Enviroment::Get()->GetView()->SetVSBuffer(1);
+	Enviroment::Get()->MainCamera()->VSSet(1);
 	Enviroment::Get()->GetProjection()->SetVSBuffer(2);
 
 	scene->Render();
@@ -38,5 +42,8 @@ void Program::Render()
 
 void Program::PostRender()
 {
+	ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
+	ImGui::Text("Mouse X : %f", MOUSEPOS.x);
+	ImGui::Text("Mouse Y : %f", MOUSEPOS.y);
 	scene->PostRender();
 }

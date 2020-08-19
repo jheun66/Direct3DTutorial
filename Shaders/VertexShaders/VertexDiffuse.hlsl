@@ -14,7 +14,7 @@ cbuffer P : register(b2)
 
 cbuffer Light : register(b3)
 {
-    float3 lightDir;
+    float3 lightPosition;
 }
 
 struct VertexInput
@@ -37,15 +37,15 @@ PixelInput VS(VertexInput input)
 {
     PixelInput output;
 	
-    float3 light = normalize(lightDir);
+    float3 light = normalize(input.pos.xyz - lightPosition);
     float3 normal = normalize(input.normal);
     
     output.pos = mul(input.pos, world);
     output.pos = mul(output.pos, view);
     output.pos = mul(output.pos, projection);
 	
-    output.diffuse = dot(input.normal, -light);
-    
+    output.diffuse = saturate(dot(input.normal, -light));
+
     output.uv = input.uv;
     
     return output;

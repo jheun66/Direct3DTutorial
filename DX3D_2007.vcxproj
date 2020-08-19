@@ -160,6 +160,8 @@
     <ClInclude Include="DX3D_2007.h" />
     <ClInclude Include="Enviroment\Enviroment.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Enviroment\Camera\Camera.h" />
+    <ClInclude Include="Enviroment\Camera\FreeCamera.h" />
     <ClInclude Include="Frameworks\Device\Device.h" />
     <ClInclude Include="Frameworks\Math\Transform.h" />
     <ClInclude Include="Frameworks\Math\Vector3.h" />
@@ -173,6 +175,8 @@
     <ClInclude Include="Frameworks\Render\VertexShader.h" />
     <ClInclude Include="Frameworks\State\RasterizerState.h" />
     <ClInclude Include="Frameworks\State\SamplerState.h" />
+    <ClInclude Include="Frameworks\Utility\Control.h" />
+    <ClInclude Include="Frameworks\Utility\Timer.h" />
     <ClInclude Include="Frameworks\Utility\Utility.h" />
     <ClInclude Include="Object\Cube.h" />
     <ClInclude Include="Object\Quad.h" />
@@ -186,6 +190,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp" />
+    <ClCompile Include="Enviroment\Camera\Camera.cpp" />
+    <ClCompile Include="Enviroment\Camera\FreeCamera.cpp" />
     <ClCompile Include="Enviroment\Enviroment.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -202,6 +208,8 @@
     <ClCompile Include="Frameworks\Render\VertexShader.cpp" />
     <ClCompile Include="Frameworks\State\RasterizerState.cpp" />
     <ClCompile Include="Frameworks\State\SamplerState.cpp" />
+    <ClCompile Include="Frameworks\Utility\Control.cpp" />
+    <ClCompile Include="Frameworks\Utility\Timer.cpp" />
     <ClCompile Include="Frameworks\Utility\Utility.cpp" />
     <ClCompile Include="Object\Cube.cpp" />
     <ClCompile Include="Object\Quad.cpp" />
