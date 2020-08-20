@@ -105,6 +105,12 @@
     <ClInclude Include="Enviroment\Camera\FreeCamera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Sphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\Shader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -182,6 +188,12 @@
     <ClCompile Include="Enviroment\Camera\FreeCamera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Sphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\Shader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -206,5 +218,7 @@
     <FxCompile Include="Shaders\PixelShaders\PixelUV.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexDiffuse.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelDiffuse.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexSpecular.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelSpecular.hlsl" />
   </ItemGroup>
 </Project>

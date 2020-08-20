@@ -32,9 +32,9 @@ void FreeCamera::Move()
 		if (KEY_PRESS('D'))
 			position += right * moveSpeed * DELTA;
 		if (KEY_PRESS('Q'))
-			position += up * moveSpeed * DELTA;
-		if (KEY_PRESS('E'))
 			position -= up * moveSpeed * DELTA;
+		if (KEY_PRESS('E'))
+			position += up * moveSpeed * DELTA;
 	}
 
 	position += forward * Control::Get()->GetWheel() * moveSpeed * DELTA;

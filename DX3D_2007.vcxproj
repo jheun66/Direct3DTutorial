@@ -169,6 +169,7 @@
     <ClInclude Include="Frameworks\Render\GlobalBuffer.h" />
     <ClInclude Include="Frameworks\Render\IndexBuffer.h" />
     <ClInclude Include="Frameworks\Render\PixelShader.h" />
+    <ClInclude Include="Frameworks\Render\Shader.h" />
     <ClInclude Include="Frameworks\Render\Texture.h" />
     <ClInclude Include="Frameworks\Render\VertexBuffer.h" />
     <ClInclude Include="Frameworks\Render\VertexLayouts.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Frameworks\Utility\Utility.h" />
     <ClInclude Include="Object\Cube.h" />
     <ClInclude Include="Object\Quad.h" />
+    <ClInclude Include="Object\Sphere.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\CubeScene.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="Frameworks\Render\ConstBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\IndexBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\PixelShader.cpp" />
+    <ClCompile Include="Frameworks\Render\Shader.cpp" />
     <ClCompile Include="Frameworks\Render\Texture.cpp" />
     <ClCompile Include="Frameworks\Render\VertexBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\VertexShader.cpp" />
@@ -213,6 +216,7 @@
     <ClCompile Include="Frameworks\Utility\Utility.cpp" />
     <ClCompile Include="Object\Cube.cpp" />
     <ClCompile Include="Object\Quad.cpp" />
+    <ClCompile Include="Object\Sphere.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp" />
@@ -248,6 +252,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelSpecular.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelUV.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -277,6 +288,12 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexDiffuse.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexSpecular.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

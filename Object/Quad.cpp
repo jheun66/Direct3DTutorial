@@ -2,8 +2,8 @@
 
 Quad::Quad()
 {
-	vertexShader = new VertexShader(L"VertexUV");
-	pixelShader = new PixelShader(L"PixelUV");
+	vertexShader = Shader::AddVS(L"VertexUV");
+	pixelShader = Shader::AddPS(L"PixelUV");
 
 	Create();
 	
@@ -18,8 +18,6 @@ Quad::Quad()
 
 Quad::~Quad()
 {
-	delete vertexShader;
-	delete pixelShader;
 
 	delete vertexBuffer;
 	delete indexBuffer;

@@ -13,7 +13,7 @@ protected:
 	Matrix matRotation;
 	Matrix matView;
 
-	MatrixBuffer* viewBuffer;
+	ViewBuffer* viewBuffer;
 
 public:
 	Camera();
@@ -26,7 +26,7 @@ public:
 
 	void VSSet(UINT slot = 1);
 
-
 	Matrix GetView() { return matView; }
+	Vector3 GetPos() { return position; }
 
 };

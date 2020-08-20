@@ -7,7 +7,7 @@ Camera::Camera()
 	matRotation = XMMatrixIdentity();
 	matView = XMMatrixIdentity();
 	
-	viewBuffer = new MatrixBuffer();
+	viewBuffer = new ViewBuffer();
 }
 
 Camera::~Camera()

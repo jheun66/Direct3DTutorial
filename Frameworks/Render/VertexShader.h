@@ -1,8 +1,10 @@
 #pragma once
 
-class VertexShader
+class VertexShader : public Shader
 {
 private:
+	friend class Shader;
+
 	ID3D11VertexShader* vertexShader;
 	ID3D11InputLayout* inputLayout;
 
@@ -11,11 +13,11 @@ private:
 	// hlsl 파일에 접근해서 필요한 정보 받아옴
 	ID3D11ShaderReflection* reflection;
 
-public:
 	VertexShader(wstring file, string vsName = "VS");
 	~VertexShader();
+public:
 
-	void Set();
+	void Set() override; 
 
 private:
 	void CreateInputLayout();

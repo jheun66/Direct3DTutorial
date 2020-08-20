@@ -76,6 +76,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 // Framework Header
 #include "Frameworks/Device/Device.h"
 
+#include "Frameworks/Render/Shader.h"
 #include "Frameworks/Render/VertexShader.h"
 #include "Frameworks/Render/PixelShader.h"
 #include "Frameworks/Render/VertexBuffer.h"
@@ -103,6 +104,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 // Object Header
 #include "Object/Quad.h"
 #include "Object/Cube.h"
+#include "Object/Sphere.h"
 
 // Program Header
 #include "Scene/Scene.h"

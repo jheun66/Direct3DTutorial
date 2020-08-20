@@ -25,6 +25,8 @@ private:
 	Texture* texture;
 	Texture* heightMap;
 
+	Sphere* sphere;
+
 public:
 	GridScene();
 	~GridScene();

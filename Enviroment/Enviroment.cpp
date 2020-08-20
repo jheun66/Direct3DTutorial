@@ -9,6 +9,8 @@ Enviroment::Enviroment()
     CreateSamplerState();
 
     mainCamera = new FreeCamera();
+
+    lightBuffer = new LightBuffer();
 }
 
 Enviroment::~Enviroment()
@@ -16,6 +18,17 @@ Enviroment::~Enviroment()
     delete projectionBuffer;
     delete samplerState;
     delete mainCamera;
+
+    delete lightBuffer;
+}
+
+void Enviroment::PostRender()
+{
+    ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
+    ImGui::Text("CameraPos : %.2f, %.2f, %.2f", mainCamera->GetPos().x, mainCamera->GetPos().y, mainCamera->GetPos().z);
+
+    ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
+    ImGui::SliderFloat("LightSpecularExp", (float*)&lightBuffer->data.specularExp, 1, 30);
 }
 
 void Enviroment::CreateViewort()

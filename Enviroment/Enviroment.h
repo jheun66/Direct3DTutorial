@@ -10,6 +10,7 @@ class Enviroment
 private:
 
 	MatrixBuffer* projectionBuffer;
+	LightBuffer* lightBuffer;
 
 	Camera* mainCamera;
 
@@ -23,6 +24,8 @@ public:
 	static Enviroment* Get(){ return instance; }
 	static void Create() { instance = new Enviroment(); }
 	static void Delete() { delete instance; }
+
+	void PostRender();
 
 	Camera* MainCamera() { return mainCamera; }
 	MatrixBuffer* GetProjection() { return projectionBuffer; }

@@ -4,8 +4,8 @@
 GridScene::GridScene()
 	:width(10), height(10)
 {
-	vertexShader = new VertexShader(L"VertexDiffuse");
-	pixelShader = new PixelShader(L"PixelDiffuse");
+	vertexShader = Shader::AddVS(L"VertexSpecular");
+	pixelShader = Shader::AddPS(L"PixelSpecular");
 
 	texture = Texture::Add(L"Landscape/Dirt2.png");
 	heightMap = Texture::Add(L"HeightMaps/ColorMap256.png");
@@ -22,12 +22,11 @@ GridScene::GridScene()
 	worldBuffer = new MatrixBuffer();
 	lightBuffer = new LightBuffer();
 
+	sphere = new Sphere();
 }
 
 GridScene::~GridScene()
 {
-	delete vertexShader;
-	delete pixelShader;
 
 	delete vertexBuffer;
 	delete indexBuffer;
@@ -36,10 +35,14 @@ GridScene::~GridScene()
 	delete rasterizerState[1];
 
 	delete lightBuffer;
+	delete sphere;
 }
 
 void GridScene::Update()
 {
+	//sphere->rotation.y += 0.0001f;
+
+	sphere->Update();
 }
 
 void GridScene::PreRender()
@@ -66,11 +69,12 @@ void GridScene::Render()
 
 	rasterizerState[0]->SetState();
 
+	sphere->Render();
+
 }
 
 void GridScene::PostRender()
 {
-	ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
 }
 
 void GridScene::CreateData()

@@ -16,6 +16,7 @@ Program::~Program()
 	delete scene;
 
 	Texture::Delete();
+	Shader::Delete();
 }
 
 void Program::Update()
@@ -42,8 +43,5 @@ void Program::Render()
 
 void Program::PostRender()
 {
-	ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
-	ImGui::Text("Mouse X : %f", MOUSEPOS.x);
-	ImGui::Text("Mouse Y : %f", MOUSEPOS.y);
 	scene->PostRender();
 }
