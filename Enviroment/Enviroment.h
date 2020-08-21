@@ -29,6 +29,7 @@ public:
 
 	Camera* MainCamera() { return mainCamera; }
 	MatrixBuffer* GetProjection() { return projectionBuffer; }
+	LightBuffer* GetLight() { return lightBuffer; }
 
 private:
 	void CreateViewort();

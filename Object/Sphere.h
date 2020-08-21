@@ -3,10 +3,14 @@
 class Sphere : public Transform
 {
 private:
-	typedef VertexUVNormal VertexType;
+	typedef VertexUVNormalTangent VertexType;
 
 	// Material
 	Texture* texture;
+	Texture* specularMap;
+	Texture* normalMap;
+
+
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
 
@@ -31,5 +35,5 @@ public:
 
 private:
 	void CreateMesh();
-
+	void CreateTangent();
 };

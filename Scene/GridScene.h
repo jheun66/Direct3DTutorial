@@ -12,7 +12,6 @@ private:
 	IndexBuffer* indexBuffer;
 
 	MatrixBuffer* worldBuffer;
-	LightBuffer* lightBuffer;
 
 	vector<VertexUVNormal> vertices;
 	vector<UINT> indices;

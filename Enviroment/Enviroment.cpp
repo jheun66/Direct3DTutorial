@@ -28,7 +28,8 @@ void Enviroment::PostRender()
     ImGui::Text("CameraPos : %.2f, %.2f, %.2f", mainCamera->GetPos().x, mainCamera->GetPos().y, mainCamera->GetPos().z);
 
     ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
-    ImGui::SliderFloat("LightSpecularExp", (float*)&lightBuffer->data.specularExp, 1, 30);
+    ImGui::SliderFloat("LightSpecularExp", (float*)&lightBuffer->data.specularExp, 1, 100);
+    ImGui::ColorEdit4 ("LightAmbient", (float*)&lightBuffer->data.ambient);
 }
 
 void Enviroment::CreateViewort()

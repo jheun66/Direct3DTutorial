@@ -37,11 +37,13 @@ void Program::Render()
 {
 	Enviroment::Get()->MainCamera()->VSSet(1);
 	Enviroment::Get()->GetProjection()->SetVSBuffer(2);
+	Enviroment::Get()->GetLight()->SetPSBuffer(0);
 
 	scene->Render();
 }
 
 void Program::PostRender()
 {
+	Enviroment::Get()->PostRender();
 	scene->PostRender();
 }

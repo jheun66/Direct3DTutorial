@@ -46,12 +46,15 @@ public:
 
 		// Exp 지수
 		float specularExp;
+		// 주변광 비율
+		Float4 ambient;
 	}data;
 
 	LightBuffer() : ConstBuffer(&data, sizeof(Data))
 	{
 		data.direction = { 0, -1, 0 };
 		data.specularExp = 8;
+		data.ambient = { 0.1f, 0.1f, 0.1f, 0.0f };
 	}
 
 };

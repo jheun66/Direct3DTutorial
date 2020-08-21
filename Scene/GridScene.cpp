@@ -20,7 +20,6 @@ GridScene::GridScene()
 	rasterizerState[1]->FillMode(D3D11_FILL_WIREFRAME);
 
 	worldBuffer = new MatrixBuffer();
-	lightBuffer = new LightBuffer();
 
 	sphere = new Sphere();
 }
@@ -34,7 +33,6 @@ GridScene::~GridScene()
 	delete rasterizerState[0];
 	delete rasterizerState[1];
 
-	delete lightBuffer;
 	delete sphere;
 }
 
@@ -58,7 +56,6 @@ void GridScene::Render()
 	IASetPT();
 
 	worldBuffer->SetVSBuffer(0);
-	lightBuffer->SetVSBuffer(3);
 
 	texture->PSSet(0);
 
