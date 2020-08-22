@@ -3,12 +3,14 @@
 #include "Scene/CubeScene.h"
 #include "Scene/TextureScene.h"
 #include "Scene/GridScene.h"
+#include "Scene/TerrainScene.h"
 
 Program::Program()
 {
 	//scene = new CubeScene();
 	//scene = new TextureScene();
-	scene = new GridScene();
+	//scene = new GridScene();
+	scene = new TerrainScene();
 }
 
 Program::~Program()

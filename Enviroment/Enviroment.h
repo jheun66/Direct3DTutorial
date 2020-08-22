@@ -8,7 +8,7 @@ inline void IASetPT(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRI
 class Enviroment
 {
 private:
-
+	Matrix perspective;
 	MatrixBuffer* projectionBuffer;
 	LightBuffer* lightBuffer;
 
@@ -30,6 +30,7 @@ public:
 	Camera* MainCamera() { return mainCamera; }
 	MatrixBuffer* GetProjection() { return projectionBuffer; }
 	LightBuffer* GetLight() { return lightBuffer; }
+	Matrix GetPerspective() { return perspective; }
 
 private:
 	void CreateViewort();

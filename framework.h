@@ -33,6 +33,8 @@
 
 #define DELTA Timer::Get()->Delta()
 
+#define CAMERA Enviroment::Get()->MainCamera()
+
 #include <windows.h>
 
 #include <assert.h>
@@ -44,6 +46,8 @@
 #include <d3d11.h>
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
+// 충돌처리
+#include <DirectXCollision.h>
 
 // 프로젝트 속성 - 링커 - 입력 - 추가 종속성에서 추가해 줘도 된다.
 #pragma comment(lib, "d3d11.lib")
@@ -62,12 +66,14 @@
 
 using namespace DirectX;
 using namespace std;
+using namespace DirectX::TriangleTests;
 
 typedef XMFLOAT4 Float4;
 typedef XMFLOAT3 Float3;
 typedef XMFLOAT2 Float2;
 typedef XMVECTOR Vector4;
 typedef XMMATRIX Matrix;
+typedef XMFLOAT4X4 Float4x4;
 
 const XMVECTORF32 kRight = { 1, 0, 0 };
 const XMVECTORF32 kUp = { 0, 1, 0 };
@@ -85,6 +91,8 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Render/VertexLayouts.h"
 #include "Frameworks/Render/GlobalBuffer.h"
 #include "Frameworks/Render/Texture.h"
+#include "Frameworks/Render/Material.h"
+#include "Frameworks/Render/Mesh.h"
 
 #include "Frameworks/Math/Vector3.h"
 #include "Frameworks/Math/Transform.h"
@@ -102,9 +110,11 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Enviroment/Enviroment.h"
 
 // Object Header
-#include "Object/Quad.h"
-#include "Object/Cube.h"
-#include "Object/Sphere.h"
+#include "Object/Basic/Quad.h"
+#include "Object/Basic/Cube.h"
+#include "Object/Basic/Sphere.h"
+
+#include "Object/LandScape/Terrain.h"
 
 // Program Header
 #include "Scene/Scene.h"

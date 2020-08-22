@@ -53,6 +53,11 @@ public:
 	friend Vector3 operator*(const float value1, const Vector3& value2);
 	friend Vector3 operator/(const float value1, const Vector3& value2);
 
+	friend Vector3 operator+(const Float3& value1, const Vector3& value2);
+	friend Vector3 operator-(const Float3& value1, const Vector3& value2);
+	friend Vector3 operator*(const Float3& value1, const Vector3& value2);
+	friend Vector3 operator/(const Float3& value1, const Vector3& value2);
+
 	float Length() const;		// 벡터의 길이 반환
 
 	Vector3 Normal() const;		// 정규화된 벡터를 반환

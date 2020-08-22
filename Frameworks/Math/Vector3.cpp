@@ -194,3 +194,23 @@ Vector3 operator/(const float value1, const Vector3& value2)
 {
 	return XMVectorReplicate(value1) / value2.data;
 }
+
+Vector3 operator+(const Float3& value1, const Vector3& value2)
+{
+	return value2 + value1;
+}
+
+Vector3 operator-(const Float3& value1, const Vector3& value2)
+{
+	return value2 - value1;
+}
+
+Vector3 operator*(const Float3& value1, const Vector3& value2)
+{
+	return value2 * value1;
+}
+
+Vector3 operator/(const Float3& value1, const Vector3& value2)
+{
+	return value2 / value1;
+}

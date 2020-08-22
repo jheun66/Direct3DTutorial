@@ -168,6 +168,8 @@
     <ClInclude Include="Frameworks\Render\ConstBuffer.h" />
     <ClInclude Include="Frameworks\Render\GlobalBuffer.h" />
     <ClInclude Include="Frameworks\Render\IndexBuffer.h" />
+    <ClInclude Include="Frameworks\Render\Material.h" />
+    <ClInclude Include="Frameworks\Render\Mesh.h" />
     <ClInclude Include="Frameworks\Render\PixelShader.h" />
     <ClInclude Include="Frameworks\Render\Shader.h" />
     <ClInclude Include="Frameworks\Render\Texture.h" />
@@ -179,14 +181,16 @@
     <ClInclude Include="Frameworks\Utility\Control.h" />
     <ClInclude Include="Frameworks\Utility\Timer.h" />
     <ClInclude Include="Frameworks\Utility\Utility.h" />
-    <ClInclude Include="Object\Cube.h" />
-    <ClInclude Include="Object\Quad.h" />
-    <ClInclude Include="Object\Sphere.h" />
+    <ClInclude Include="Object\Basic\Cube.h" />
+    <ClInclude Include="Object\Basic\Quad.h" />
+    <ClInclude Include="Object\Basic\Sphere.h" />
+    <ClInclude Include="Object\LandScape\Terrain.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\CubeScene.h" />
     <ClInclude Include="Scene\GridScene.h" />
     <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Scene\TerrainScene.h" />
     <ClInclude Include="Scene\TextureScene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -204,6 +208,8 @@
     <ClCompile Include="Frameworks\Math\Vector3.cpp" />
     <ClCompile Include="Frameworks\Render\ConstBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\IndexBuffer.cpp" />
+    <ClCompile Include="Frameworks\Render\Material.cpp" />
+    <ClCompile Include="Frameworks\Render\Mesh.cpp" />
     <ClCompile Include="Frameworks\Render\PixelShader.cpp" />
     <ClCompile Include="Frameworks\Render\Shader.cpp" />
     <ClCompile Include="Frameworks\Render\Texture.cpp" />
@@ -214,12 +220,14 @@
     <ClCompile Include="Frameworks\Utility\Control.cpp" />
     <ClCompile Include="Frameworks\Utility\Timer.cpp" />
     <ClCompile Include="Frameworks\Utility\Utility.cpp" />
-    <ClCompile Include="Object\Cube.cpp" />
-    <ClCompile Include="Object\Quad.cpp" />
-    <ClCompile Include="Object\Sphere.cpp" />
+    <ClCompile Include="Object\Basic\Cube.cpp" />
+    <ClCompile Include="Object\Basic\Quad.cpp" />
+    <ClCompile Include="Object\Basic\Sphere.cpp" />
+    <ClCompile Include="Object\LandScape\Terrain.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp" />
+    <ClCompile Include="Scene\TerrainScene.cpp" />
     <ClCompile Include="Scene\TextureScene.cpp" />
   </ItemGroup>
   <ItemGroup>

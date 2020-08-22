@@ -47,3 +47,32 @@ void Camera::VSSet(UINT slot)
 {
 	viewBuffer->SetVSBuffer(slot);
 }
+
+Ray Camera::ScreenPointToRay(Vector3 pos)
+{
+	Float2 screenSize(WIN_WIDTH, WIN_HEIGHT);
+
+	Float2 point;
+	point.x = ((2 * pos.x) / screenSize.x) - 1.0f;
+	point.y = (((2 * pos.y) / screenSize.y) - 1.0f) * -1.0f;
+
+	Matrix projection = Enviroment::Get()->GetPerspective();
+
+	Float4x4 temp;
+	XMStoreFloat4x4(&temp, projection);
+
+	point.x /= temp._11;
+	point.y /= temp._22;
+
+	Ray ray;
+	ray.position = position;
+
+	Matrix invView = XMMatrixInverse(nullptr, matView);
+
+	Vector3 tempPos(point.x, point.y, 1.0f);
+
+	ray.direction = XMVector3TransformNormal(tempPos.data, invView);
+	ray.direction.Normalize();
+
+	return ray;
+}

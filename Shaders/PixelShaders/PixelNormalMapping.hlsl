@@ -11,6 +11,12 @@ cbuffer Light : register(b0)
     float4 ambient;
 }
 
+cbuffer Selected : register(b1)
+{
+    int isSpecularMap;
+    int isNormalMap;
+}
+
 struct PixelInput
 {
     float4 pos : SV_Position;
@@ -34,13 +40,16 @@ float4 PS(PixelInput input) : SV_Target
     
     float3 normal = N;
     
-    float4 normalMapping = normalMap.Sample(samp, input.uv);
+    if(isNormalMap)
+    {
+        float4 normalMapping = normalMap.Sample(samp, input.uv);
     
-    float3x3 TBN = float3x3(T, B, N);
+        float3x3 TBN = float3x3(T, B, N);
     
-    // color 범위 0 ~ 1 을 벡터의 -1 ~ 1 로 바꿔주기 위해
-    normal = normalMapping.xyz * 2.0f - 1.0f;
-    normal = normalize(mul(normal, TBN));
+        // color 범위 0 ~ 1 을 벡터의 -1 ~ 1 로 바꿔주기 위해
+        normal = normalMapping.xyz * 2.0f - 1.0f;
+        normal = normalize(mul(normal, TBN));
+    }
     
     float diffuse = saturate(dot(normal, -light));
     
@@ -57,7 +66,9 @@ float4 PS(PixelInput input) : SV_Target
         float3 halfWay = normalize(input.viewDir + light);
         specular = saturate(dot(-halfWay, normal));
         
-        float4 specualrIntensity = specularMap.Sample(samp, input.uv);
+        float4 specualrIntensity = 1;
+        if(isSpecularMap)
+            specualrIntensity = specularMap.Sample(samp, input.uv);
         
         specular = pow(specular, specExp) * specualrIntensity;
     }

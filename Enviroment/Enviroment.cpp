@@ -48,10 +48,10 @@ void Enviroment::CreatePerspective()
 {
     projectionBuffer = new MatrixBuffer();
 
-    Matrix projection = XMMatrixPerspectiveFovLH(XM_PIDIV4,
+    perspective = XMMatrixPerspectiveFovLH(XM_PIDIV4,
         WIN_WIDTH / (float)WIN_HEIGHT, 0.1f, 1000.0f);
 
-    projectionBuffer->Set(projection);
+    projectionBuffer->Set(perspective);
 }
 
 void Enviroment::CreateSamplerState()

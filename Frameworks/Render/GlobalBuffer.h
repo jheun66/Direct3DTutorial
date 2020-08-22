@@ -84,3 +84,20 @@ public:
 	}
 
 };
+
+class SettingBuffer : public ConstBuffer
+{
+public:
+	struct Data
+	{
+		int option[16];
+		
+		Data() :option{}
+		{}
+	}data;
+
+	SettingBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+	}
+
+};

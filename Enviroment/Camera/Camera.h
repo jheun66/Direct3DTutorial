@@ -1,5 +1,11 @@
 #pragma once
 
+struct Ray
+{
+	Vector3 position;
+	Vector3 direction;
+};
+
 class Camera
 {
 protected:
@@ -26,7 +32,8 @@ public:
 
 	void VSSet(UINT slot = 1);
 
+	Ray ScreenPointToRay(Vector3 pos);
+
 	Matrix GetView() { return matView; }
 	Vector3 GetPos() { return position; }
-
 };

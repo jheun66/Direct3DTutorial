@@ -63,9 +63,6 @@
     <ClInclude Include="Enviroment\Enviroment.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Cube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\Math\Vector3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scene\TextureScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Quad.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Frameworks\State\SamplerState.h">
@@ -105,10 +99,28 @@
     <ClInclude Include="Enviroment\Camera\FreeCamera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Sphere.h">
+    <ClInclude Include="Frameworks\Render\Shader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Frameworks\Render\Shader.h">
+    <ClInclude Include="Scene\TerrainScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Basic\Cube.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Basic\Quad.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Basic\Sphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\LandScape\Terrain.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\Material.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\Mesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,9 +158,6 @@
     <ClCompile Include="Enviroment\Enviroment.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Cube.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Frameworks\Math\Vector3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -156,9 +165,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scene\TextureScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Quad.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Frameworks\State\RasterizerState.cpp">
@@ -188,10 +194,28 @@
     <ClCompile Include="Enviroment\Camera\FreeCamera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Sphere.cpp">
+    <ClCompile Include="Frameworks\Render\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Frameworks\Render\Shader.cpp">
+    <ClCompile Include="Scene\TerrainScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Basic\Cube.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Basic\Quad.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Basic\Sphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\Material.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\Mesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\LandScape\Terrain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
