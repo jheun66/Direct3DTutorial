@@ -63,6 +63,8 @@ private:
 	bool isRaise;
 	float adjustValue;
 
+	vector<float> heights;
+
 public:
 	TerrainEditor(UINT width, UINT height);
 	~TerrainEditor();
@@ -74,6 +76,10 @@ public:
 	bool ComputePicking(OUT Vector3* position);
 
 	void AdjustY(Vector3 position, float value);
+
+	void Save();
+	void Load();
+
 private:
 	void CreateData();
 	void CreateNormal();

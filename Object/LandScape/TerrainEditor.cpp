@@ -76,6 +76,12 @@ void TerrainEditor::PostRender()
 	ImGui::Text("TerrainEditor");
 	ImGui::Checkbox("Raise", &isRaise);
 	ImGui::SliderFloat("AdjustValue", &adjustValue, 0, 300);
+
+	if (ImGui::Button("Save"))
+		Save();
+	if (ImGui::Button("Load"))
+		Load();
+
 }
 
 bool TerrainEditor::ComputePicking(OUT Vector3* position)
@@ -152,6 +158,43 @@ void TerrainEditor::AdjustY(Vector3 position, float value)
 	}
 
 	mesh->UpdateVertex(vertices.data(), vertices.size());
+}
+
+void TerrainEditor::Save()
+{
+	heights.clear();
+
+	for (VertexType vertex : vertices)
+		heights.emplace_back(vertex.position.y);
+
+	BinaryWriter* writer = new BinaryWriter(L"TextData/MapHeight.map");
+
+	writer->UInt(heights.size());
+	writer->Byte(heights.data(), sizeof(float) * heights.size());
+
+	delete writer;
+}
+
+void TerrainEditor::Load()
+{
+	BinaryReader* reader = new BinaryReader(L"TextData/MapHeight.map");
+
+	UINT size = reader->UInt();
+
+	// resize는 초기화까지 해준다. reserve는 확보만
+	heights.resize(size);
+	void* data = heights.data();
+
+	reader->Byte(&data, sizeof(float) * size);
+
+	for (UINT i = 0; i < size; i++)
+		vertices[i].position.y = heights[i];
+
+	delete reader;
+
+	CreateNormal();
+	mesh->UpdateVertex(vertices.data(), vertices.size());
+
 }
 
 void TerrainEditor::CreateData()

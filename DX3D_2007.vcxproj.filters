@@ -141,6 +141,12 @@
     <ClInclude Include="Environment\Environment.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\Utility\BinaryWriter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Utility\BinaryReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -252,6 +258,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Environment\Environment.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Utility\BinaryWriter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Utility\BinaryReader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

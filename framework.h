@@ -103,6 +103,8 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Utility/Utility.h"
 #include "Frameworks/Utility/Control.h"
 #include "Frameworks/Utility/Timer.h"
+#include "Frameworks/Utility/BinaryWriter.h"
+#include "Frameworks/Utility/BinaryReader.h"
 
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
