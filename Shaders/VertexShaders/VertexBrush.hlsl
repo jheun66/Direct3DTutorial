@@ -13,6 +13,15 @@ cbuffer P : register(b2)
     matrix projection;
 }
 
+cbuffer Brush : register(b3)
+{
+    int type;
+    float3 location;
+    
+    float range;
+    float3 color;
+}
+
 struct VertexInput
 {
 	//          ½Ã¸àÆ½ ³×ÀÓ
@@ -27,7 +36,23 @@ struct PixelInput
     float2 uv : UV;
     float3 normal : NORMAL;
     float3 viewDir : VIEWDIR;
+    float3 brushColor : COLOR;
 };
+
+float3 BrushColor(float3 pos)
+{
+    if(type == 1)
+    {
+        float x = pos.x - location.x;
+        float z = pos.z - location.z;
+        
+        float dist = sqrt(x * x + z * z);
+        
+        if(dist <= range)
+            return color;
+    }
+    return float3(0, 0, 0);
+}
 
 
 PixelInput VS(VertexInput input)
@@ -38,6 +63,8 @@ PixelInput VS(VertexInput input)
     
     float3 camPos = invView._41_42_43;
     output.viewDir = normalize(output.pos.xyz - camPos);
+    
+    output.brushColor = BrushColor(output.pos.xyz);
     
     output.pos = mul(output.pos, view);
     output.pos = mul(output.pos, projection);

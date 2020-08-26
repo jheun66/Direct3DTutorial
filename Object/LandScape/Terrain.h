@@ -5,6 +5,18 @@ class Terrain : Transform
 private:
 	typedef VertexUVNormalTangent VertexType;
 
+	struct InputDesc
+	{
+		UINT index;
+		Float3 v0, v1, v2;
+	};
+
+	struct OutputDesc
+	{
+		UINT picked;
+		float u, v, distance;
+	};
+
 	Material* material;
 	Mesh* mesh;
 
@@ -15,6 +27,15 @@ private:
 
 	Texture* heightMap;
 
+	ComputeShader* computeShader;
+	RayBuffer* rayBuffer;
+
+	StructuredBuffer* structuredBuffer;
+
+	InputDesc* input;
+	OutputDesc* output;
+
+	UINT size;
 
 public:
 	Terrain();
@@ -25,6 +46,9 @@ public:
 
 	bool Picking(OUT Vector3* position);
 	float GetHeight(Vector3 position);
+	
+	bool ComputePicking(OUT Vector3* position);
+
 
 private:
 	void CreateData();

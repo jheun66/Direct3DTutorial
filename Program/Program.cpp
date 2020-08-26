@@ -4,13 +4,17 @@
 #include "Scene/TextureScene.h"
 #include "Scene/GridScene.h"
 #include "Scene/TerrainScene.h"
+#include "Scene/ComputeScene.h"
+#include "Scene/TerrainEditorScene.h"
 
 Program::Program()
 {
 	//scene = new CubeScene();
 	//scene = new TextureScene();
 	//scene = new GridScene();
-	scene = new TerrainScene();
+	//scene = new TerrainScene();
+	//scene = new ComputeScene();
+	scene = new TerrainEditorScene();
 }
 
 Program::~Program()
@@ -25,7 +29,7 @@ void Program::Update()
 {
 	scene->Update();
 
-	Enviroment::Get()->MainCamera()->Update();
+	Environment::Get()->MainCamera()->Update();
 	
 	Control::Get()->SetWheel(0.0f);
 }
@@ -37,15 +41,15 @@ void Program::PreRender()
 
 void Program::Render()
 {
-	Enviroment::Get()->MainCamera()->VSSet(1);
-	Enviroment::Get()->GetProjection()->SetVSBuffer(2);
-	Enviroment::Get()->GetLight()->SetPSBuffer(0);
+	Environment::Get()->MainCamera()->VSSet(1);
+	Environment::Get()->GetProjection()->SetVSBuffer(2);
+	Environment::Get()->GetLight()->SetPSBuffer(0);
 
 	scene->Render();
 }
 
 void Program::PostRender()
 {
-	Enviroment::Get()->PostRender();
+	Environment::Get()->PostRender();
 	scene->PostRender();
 }

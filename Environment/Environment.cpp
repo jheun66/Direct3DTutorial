@@ -1,8 +1,8 @@
 #include "Framework.h"
 
-Enviroment* Enviroment::instance = nullptr;
+Environment* Environment::instance = nullptr;
 
-Enviroment::Enviroment()
+Environment::Environment()
 {
 	CreateViewort();
 	CreatePerspective();
@@ -13,7 +13,7 @@ Enviroment::Enviroment()
     lightBuffer = new LightBuffer();
 }
 
-Enviroment::~Enviroment()
+Environment::~Environment()
 {
     delete projectionBuffer;
     delete samplerState;
@@ -22,7 +22,7 @@ Enviroment::~Enviroment()
     delete lightBuffer;
 }
 
-void Enviroment::PostRender()
+void Environment::PostRender()
 {
     ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
     ImGui::Text("CameraPos : %.2f, %.2f, %.2f", mainCamera->GetPos().x, mainCamera->GetPos().y, mainCamera->GetPos().z);
@@ -32,7 +32,7 @@ void Enviroment::PostRender()
     ImGui::ColorEdit4 ("LightAmbient", (float*)&lightBuffer->data.ambient);
 }
 
-void Enviroment::CreateViewort()
+void Environment::CreateViewort()
 {
     D3D11_VIEWPORT vp;
     vp.Width = WIN_WIDTH;
@@ -44,7 +44,7 @@ void Enviroment::CreateViewort()
     DC->RSSetViewports(1, &vp);
 }
 
-void Enviroment::CreatePerspective()
+void Environment::CreatePerspective()
 {
     projectionBuffer = new MatrixBuffer();
 
@@ -54,7 +54,7 @@ void Enviroment::CreatePerspective()
     projectionBuffer->Set(perspective);
 }
 
-void Enviroment::CreateSamplerState()
+void Environment::CreateSamplerState()
 {
     samplerState = new SamplerState();
     //samplerState->Address(D3D11_TEXTURE_ADDRESS_CLAMP);

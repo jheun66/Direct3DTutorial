@@ -16,12 +16,28 @@ Terrain::Terrain()
 	mesh = new Mesh(vertices.data(), sizeof(VertexType), vertices.size(),
 		indices.data(), indices.size());
 
+	computeShader = Shader::AddCS(L"Intersection");
+
+	// 폴리곤 개수
+	size = indices.size() / 3;
+
+	structuredBuffer = new StructuredBuffer(input, sizeof(InputDesc), size,
+		sizeof(OutputDesc), size);
+
+	rayBuffer = new RayBuffer();
+	output = new OutputDesc[size];
 }
 
 Terrain::~Terrain()
 {
 	delete material;
 	delete mesh;
+
+	delete rayBuffer;
+	delete structuredBuffer;
+
+	delete[] input;
+	delete[] output;
 }
 
 void Terrain::Update()
@@ -114,6 +130,53 @@ float Terrain::GetHeight(Vector3 position)
 	return result.y;
 }
 
+bool Terrain::ComputePicking(OUT Vector3* position)
+{
+	Ray ray = CAMERA->ScreenPointToRay(MOUSEPOS);
+	rayBuffer->data.position = ray.position;
+	rayBuffer->data.direction = ray.direction;
+	rayBuffer->data.size = size;
+	computeShader->Set();
+
+	rayBuffer->SetCSBuffer(0);
+
+	DC->CSSetShaderResources(0, 1, &structuredBuffer->GetSRV());
+	DC->CSSetUnorderedAccessViews(0, 1, &structuredBuffer->GetUAV(), nullptr);
+
+	// ceil 올림				1024 쓰레드 개수
+	UINT x = ceil((float)size / 1024.0f);
+
+	DC->Dispatch(x, 1, 1);
+	
+	structuredBuffer->Copy(output, sizeof(OutputDesc) * size);
+
+	float minDistance = FLT_MAX;
+	int minIndex = -1;
+
+	for (UINT i = 0; i < size; i++)
+	{
+		OutputDesc temp = output[i];
+		if (temp.picked)
+		{
+			if (minDistance > temp.distance)
+			{
+				minDistance = temp.distance;
+				minIndex = i;
+			}
+		}
+	}
+
+	if (minIndex >= 0)
+	{
+
+		*position = ray.position + ray.direction * minDistance;
+		return true;
+	}
+
+
+	return false;
+}
+
 void Terrain::CreateData()
 {
 	width = heightMap->GetWidth() -1;
@@ -147,6 +210,20 @@ void Terrain::CreateData()
 			indices.emplace_back((width + 1) * (z + 1) + x + 1);
 			indices.emplace_back((width + 1) * z + x + 1);
 		}
+	}
+
+	input = new InputDesc[indices.size() / 3];
+	for (UINT i = 0; i < indices.size() / 3; i++)
+	{
+		UINT index0 = indices[i * 3 + 0];
+		UINT index1 = indices[i * 3 + 1];
+		UINT index2 = indices[i * 3 + 2];
+
+		input[i].v0 = vertices[index0].position;
+		input[i].v1 = vertices[index1].position;
+		input[i].v2 = vertices[index2].position;
+
+		input[i].index = i;
 	}
 }
 

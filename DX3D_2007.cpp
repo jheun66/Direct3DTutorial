@@ -55,7 +55,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Control::Create();
     Timer::Create();
 
-    Enviroment::Create();
+    Environment::Create();
 
     Program* program = new Program();
 
@@ -99,7 +99,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     delete program;
 
 
-    Enviroment::Delete();
+    Environment::Delete();
     
     Timer::Delete();
     Control::Delete();

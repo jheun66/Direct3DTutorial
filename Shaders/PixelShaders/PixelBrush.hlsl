@@ -14,6 +14,7 @@ struct PixelInput
     float2 uv : UV;
     float3 normal : NORMAL;
     float3 viewDir : VIEWDIR;
+    float3 brushColor : COLOR;
 };
 
 //                          ¹ÝÈ¯°ªÀÇ ½Ã¸àÆ½ ³×ÀÓ(SV : system value)
@@ -39,5 +40,5 @@ float4 PS(PixelInput input) : SV_Target
     }
    
     
-    return albedo * (diffuse + ambient) + specular;
+    return albedo * (diffuse + ambient) + specular + float4(input.brushColor, 1);
 }

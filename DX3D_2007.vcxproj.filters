@@ -60,9 +60,6 @@
     <ClInclude Include="Program\Program.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Enviroment\Enviroment.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\Math\Vector3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -93,12 +90,6 @@
     <ClInclude Include="Frameworks\Utility\Timer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Enviroment\Camera\Camera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Enviroment\Camera\FreeCamera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Frameworks\Render\Shader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -121,6 +112,33 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Frameworks\Render\Mesh.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ComputeScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\ComputeShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\RawBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\StructuredBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\LandScape\TerrainEditor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TerrainEditorScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Camera\Camera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Camera\FreeCamera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment\Environment.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,9 +173,6 @@
     <ClCompile Include="Program\Program.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Enviroment\Enviroment.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Frameworks\Math\Vector3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -188,12 +203,6 @@
     <ClCompile Include="Frameworks\Utility\Timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Enviroment\Camera\Camera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Enviroment\Camera\FreeCamera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Frameworks\Render\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -216,6 +225,33 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object\LandScape\Terrain.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ComputeScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\ComputeShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\RawBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\StructuredBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\LandScape\TerrainEditor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TerrainEditorScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\Camera\Camera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\Camera\FreeCamera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment\Environment.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,5 +284,9 @@
     <FxCompile Include="Shaders\PixelShaders\PixelSpecularMapping.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexNormalMapping.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelNormalMapping.hlsl" />
+    <FxCompile Include="Shaders\ComputeShaders\ByteAddress.hlsl" />
+    <FxCompile Include="Shaders\ComputeShaders\Intersection.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexBrush.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelBrush.hlsl" />
   </ItemGroup>
 </Project>

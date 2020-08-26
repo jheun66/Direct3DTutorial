@@ -5,7 +5,7 @@ inline void IASetPT(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRI
 	DC->IASetPrimitiveTopology(type);
 }
 
-class Enviroment
+class Environment
 {
 private:
 	Matrix perspective;
@@ -17,12 +17,12 @@ private:
 	SamplerState* samplerState;
 
 
-	static Enviroment* instance;
-	Enviroment();
-	~Enviroment();
+	static Environment* instance;
+	Environment();
+	~Environment();
 public:
-	static Enviroment* Get(){ return instance; }
-	static void Create() { instance = new Enviroment(); }
+	static Environment* Get(){ return instance; }
+	static void Create() { instance = new Environment(); }
 	static void Delete() { delete instance; }
 
 	void PostRender();

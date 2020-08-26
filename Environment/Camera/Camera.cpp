@@ -56,7 +56,7 @@ Ray Camera::ScreenPointToRay(Vector3 pos)
 	point.x = ((2 * pos.x) / screenSize.x) - 1.0f;
 	point.y = (((2 * pos.y) / screenSize.y) - 1.0f) * -1.0f;
 
-	Matrix projection = Enviroment::Get()->GetPerspective();
+	Matrix projection = Environment::Get()->GetPerspective();
 
 	Float4x4 temp;
 	XMStoreFloat4x4(&temp, projection);

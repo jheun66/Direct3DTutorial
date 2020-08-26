@@ -33,7 +33,7 @@
 
 #define DELTA Timer::Get()->Delta()
 
-#define CAMERA Enviroment::Get()->MainCamera()
+#define CAMERA Environment::Get()->MainCamera()
 
 #include <windows.h>
 
@@ -85,9 +85,12 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Render/Shader.h"
 #include "Frameworks/Render/VertexShader.h"
 #include "Frameworks/Render/PixelShader.h"
+#include "Frameworks/Render/ComputeShader.h"
 #include "Frameworks/Render/VertexBuffer.h"
 #include "Frameworks/Render/IndexBuffer.h"
 #include "Frameworks/Render/ConstBuffer.h"
+#include "Frameworks/Render/RawBuffer.h"
+#include "Frameworks/Render/StructuredBuffer.h"
 #include "Frameworks/Render/VertexLayouts.h"
 #include "Frameworks/Render/GlobalBuffer.h"
 #include "Frameworks/Render/Texture.h"
@@ -104,10 +107,10 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
 
-#include "Enviroment/Camera/Camera.h"
-#include "Enviroment/Camera/FreeCamera.h"
+#include "Environment/Camera/Camera.h"
+#include "Environment/Camera/FreeCamera.h"
 
-#include "Enviroment/Enviroment.h"
+#include "Environment/Environment.h"
 
 // Object Header
 #include "Object/Basic/Quad.h"
@@ -115,7 +118,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Object/Basic/Sphere.h"
 
 #include "Object/LandScape/Terrain.h"
-
+#include "Object/LandScape/TerrainEditor.h"
 // Program Header
 #include "Scene/Scene.h"
 #include "Program/Program.h"

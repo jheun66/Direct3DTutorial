@@ -41,3 +41,9 @@ void ConstBuffer::SetPSBuffer(UINT slot)
     MapData();
     DC->PSSetConstantBuffers(slot, 1, &buffer);
 }
+
+void ConstBuffer::SetCSBuffer(UINT slot)
+{
+    MapData();
+    DC->CSSetConstantBuffers(slot, 1, &buffer);
+}

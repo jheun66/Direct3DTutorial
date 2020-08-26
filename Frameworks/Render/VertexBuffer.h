@@ -14,4 +14,6 @@ public:
 
 	void IASet();
 
+	void Update(void* data, UINT count);
+
 };
