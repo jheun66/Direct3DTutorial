@@ -63,6 +63,13 @@
 // DirectXTex
 #include "../DirectXTex/DirectXTex.h"
 
+//Assimp
+#include <Assimp/Importer.hpp>
+#include <Assimp/scene.h>
+#include <Assimp/postprocess.h>
+
+#pragma comment(lib, "Assimp/assimp-vc142-mtd.lib")
+
 
 using namespace DirectX;
 using namespace std;
@@ -99,25 +106,36 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 
 #include "Frameworks/Math/Vector3.h"
 #include "Frameworks/Math/Transform.h"
+#include "Frameworks/Math/Math.h"
 
 #include "Frameworks/Utility/Utility.h"
 #include "Frameworks/Utility/Control.h"
 #include "Frameworks/Utility/Timer.h"
 #include "Frameworks/Utility/BinaryWriter.h"
 #include "Frameworks/Utility/BinaryReader.h"
+#include "Frameworks/Utility/Xml.h"
 
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
+
+#include "Frameworks/Assimp/ModelTypes.h"
+#include "Frameworks/Assimp/ModelReader.h"
 
 #include "Environment/Camera/Camera.h"
 #include "Environment/Camera/FreeCamera.h"
 
 #include "Environment/Environment.h"
 
+using namespace GameMath;
+using namespace Utility;
+
 // Object Header
 #include "Object/Basic/Quad.h"
 #include "Object/Basic/Cube.h"
 #include "Object/Basic/Sphere.h"
+
+#include "Object/Model/ModelMesh.h"
+#include "Object/Model/Model.h"
 
 #include "Object/LandScape/Terrain.h"
 #include "Object/LandScape/TerrainEditor.h"

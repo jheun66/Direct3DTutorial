@@ -7,7 +7,7 @@ Terrain::Terrain()
 	material->SetSpecularMap(L"Landscape/Wall_specular.png");
 	material->SetNormalMap(L"Landscape/Wall_normal.png");
 
-	heightMap = Texture::Add(L"HeightMaps/HeightMap.png");
+	heightMap = Texture::Add(L"HeightMaps/TestHeightMap.png");
 
 	CreateData();
 	CreateNormal();
@@ -192,8 +192,11 @@ void Terrain::CreateData()
 			vertex.position = Float3(x, 0, z);
 			vertex.uv = Float2(x / (float)width, 1.0f - (z / (float)height));
 
-			UINT index = width * z + x;
-			vertex.position.y = pixels[index].x * 20.0f;
+			UINT index = (width + 1) * z + x;
+
+			vertex.position.y += pixels[index].x * 20.0f;
+			vertex.position.y += pixels[index].y * 20.0f;
+			vertex.position.y += pixels[index].z * 20.0f;
 
 			vertices.emplace_back(vertex);
 		}

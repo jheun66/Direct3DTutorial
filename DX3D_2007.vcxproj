@@ -78,6 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)\Libraries;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Libraries;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -162,7 +164,10 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Environment\Camera\Camera.h" />
     <ClInclude Include="Environment\Camera\FreeCamera.h" />
+    <ClInclude Include="Frameworks\Assimp\ModelReader.h" />
+    <ClInclude Include="Frameworks\Assimp\ModelTypes.h" />
     <ClInclude Include="Frameworks\Device\Device.h" />
+    <ClInclude Include="Frameworks\Math\Math.h" />
     <ClInclude Include="Frameworks\Math\Transform.h" />
     <ClInclude Include="Frameworks\Math\Vector3.h" />
     <ClInclude Include="Frameworks\Render\ComputeShader.h" />
@@ -186,16 +191,20 @@
     <ClInclude Include="Frameworks\Utility\Control.h" />
     <ClInclude Include="Frameworks\Utility\Timer.h" />
     <ClInclude Include="Frameworks\Utility\Utility.h" />
+    <ClInclude Include="Frameworks\Utility\Xml.h" />
     <ClInclude Include="Object\Basic\Cube.h" />
     <ClInclude Include="Object\Basic\Quad.h" />
     <ClInclude Include="Object\Basic\Sphere.h" />
     <ClInclude Include="Object\LandScape\Terrain.h" />
     <ClInclude Include="Object\LandScape\TerrainEditor.h" />
+    <ClInclude Include="Object\Model\Model.h" />
+    <ClInclude Include="Object\Model\ModelMesh.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\ComputeScene.h" />
     <ClInclude Include="Scene\CubeScene.h" />
     <ClInclude Include="Scene\GridScene.h" />
+    <ClInclude Include="Scene\ModelScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\TerrainEditorScene.h" />
     <ClInclude Include="Scene\TerrainScene.h" />
@@ -211,7 +220,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Frameworks\Assimp\ModelReader.cpp" />
     <ClCompile Include="Frameworks\Device\Device.cpp" />
+    <ClCompile Include="Frameworks\Math\Math.cpp" />
     <ClCompile Include="Frameworks\Math\Transform.cpp" />
     <ClCompile Include="Frameworks\Math\Vector3.cpp" />
     <ClCompile Include="Frameworks\Render\ComputeShader.cpp" />
@@ -233,15 +244,19 @@
     <ClCompile Include="Frameworks\Utility\Control.cpp" />
     <ClCompile Include="Frameworks\Utility\Timer.cpp" />
     <ClCompile Include="Frameworks\Utility\Utility.cpp" />
+    <ClCompile Include="Frameworks\Utility\Xml.cpp" />
     <ClCompile Include="Object\Basic\Cube.cpp" />
     <ClCompile Include="Object\Basic\Quad.cpp" />
     <ClCompile Include="Object\Basic\Sphere.cpp" />
     <ClCompile Include="Object\LandScape\Terrain.cpp" />
     <ClCompile Include="Object\LandScape\TerrainEditor.cpp" />
+    <ClCompile Include="Object\Model\Model.cpp" />
+    <ClCompile Include="Object\Model\ModelMesh.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\ComputeScene.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp" />
+    <ClCompile Include="Scene\ModelScene.cpp" />
     <ClCompile Include="Scene\TerrainEditorScene.cpp" />
     <ClCompile Include="Scene\TerrainScene.cpp" />
     <ClCompile Include="Scene\TextureScene.cpp" />
@@ -326,6 +341,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelSplatting.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelUV.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -384,6 +406,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexSplatting.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexUV.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -398,6 +426,10 @@
     <ProjectReference Include="ImGui\ImGui.vcxproj">
       <Project>{c498e45e-dd98-474e-8cac-1d174d0e52cf}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />
+    <None Include="Shaders\VertexShaders\VertexHeader.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 BinaryReader::BinaryReader(wstring filePath)
-{	
+{
     file = CreateFile(filePath.c_str(), GENERIC_READ, FILE_SHARE_READ,
         0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 }
@@ -39,7 +39,7 @@ string BinaryReader::String()
     char* temp = new char[size + 1];
     ReadFile(file, temp, sizeof(char) * size, &this->size, nullptr);
     temp[size] = '\0';
-    
+
     return temp;
 }
 

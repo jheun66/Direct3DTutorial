@@ -2,10 +2,9 @@
 
 class Mesh
 {
-private:
+protected:
 	VertexBuffer* vertexBuffer;
 	IndexBuffer* indexBuffer;
-
 
 public:
 	Mesh(void* vertexData, UINT stride, UINT vertexCount,

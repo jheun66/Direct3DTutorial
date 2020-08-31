@@ -147,6 +147,27 @@
     <ClInclude Include="Frameworks\Utility\BinaryReader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Frameworks\Math\Math.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ModelScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Assimp\ModelTypes.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Assimp\ModelReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Utility\Xml.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Model\ModelMesh.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Model\Model.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -266,6 +287,24 @@
     <ClCompile Include="Frameworks\Utility\BinaryReader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Frameworks\Math\Math.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ModelScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Assimp\ModelReader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Utility\Xml.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Model\ModelMesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Model\Model.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -300,5 +339,11 @@
     <FxCompile Include="Shaders\ComputeShaders\Intersection.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexBrush.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelBrush.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexSplatting.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelSplatting.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />
+    <None Include="Shaders\VertexShaders\VertexHeader.hlsli" />
   </ItemGroup>
 </Project>

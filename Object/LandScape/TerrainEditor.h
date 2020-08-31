@@ -26,7 +26,7 @@ public:
 	};
 
 private:
-	typedef VertexUVNormal VertexType;
+	typedef VertexUVNormalAlpha VertexType;
 
 	struct InputDesc
 	{
@@ -63,7 +63,16 @@ private:
 	bool isRaise;
 	float adjustValue;
 
+	bool isPainting;
+	float paintValue;
+
+	int selectMap;
+
 	vector<float> heights;
+
+	//Texture* alphaMap;
+	Texture* secondMap;
+	Texture* thirdMap;
 
 public:
 	TerrainEditor(UINT width, UINT height);
@@ -76,9 +85,13 @@ public:
 	bool ComputePicking(OUT Vector3* position);
 
 	void AdjustY(Vector3 position, float value);
+	void PaintBrush(Vector3 position, float value);
 
 	void Save();
 	void Load();
+
+	void SaveHeightMap();
+	void SaveAlphaMap();
 
 private:
 	void CreateData();

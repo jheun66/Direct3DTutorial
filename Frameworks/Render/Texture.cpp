@@ -23,19 +23,17 @@ Texture* Texture::Add(wstring file)
 
     ScratchImage image;
 
-    wstring path = L"Textures/" + file;
-
     if (extension == L"tga")
     {
-        V(LoadFromTGAFile(path.c_str(), nullptr, image));
+        V(LoadFromTGAFile(file.c_str(), nullptr, image));
     }
     else if (extension == L"dds")
     {
-        V(LoadFromDDSFile(path.c_str(), DDS_FLAGS_NONE, nullptr, image));
+        V(LoadFromDDSFile(file.c_str(), DDS_FLAGS_NONE, nullptr, image));
     }
     else
     {
-        V(LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, nullptr, image));
+        V(LoadFromWICFile(file.c_str(), WIC_FLAGS_FORCE_RGB, nullptr, image));
     }
 
     ID3D11ShaderResourceView* srv;

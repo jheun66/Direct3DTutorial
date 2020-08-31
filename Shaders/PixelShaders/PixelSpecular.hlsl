@@ -1,12 +1,4 @@
-Texture2D diffuseMap : register(t0);
-SamplerState samp : register(s0);
-
-cbuffer Light : register(b0)
-{
-    float3 lightDir;
-    float specExp;
-    float4 ambient;
-}
+#include "PixelHeader.hlsli"
 
 struct PixelInput
 {
@@ -26,7 +18,7 @@ float4 PS(PixelInput input) : SV_Target
     float3 viewDir = normalize(input.viewDir);
     
     float diffuse = saturate(dot(normal, -light));
-    
+   
     float4 specular = 0;
     if (diffuse > 0)
     {
@@ -34,10 +26,10 @@ float4 PS(PixelInput input) : SV_Target
         float3 reflection = normalize(reflect(light, normal));
         specular = saturate(dot(reflection, -viewDir));
         
-        specular = pow(specular, specExp);
+        specular = pow(specular, mSpecular.a);
 
     }
    
     
-    return albedo * (diffuse + ambient) + specular;
+    return albedo * (diffuse * mDiffuse + ambient * mAmbient) + specular * mSpecular;
 }

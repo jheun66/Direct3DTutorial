@@ -3,8 +3,8 @@
 BinaryWriter::BinaryWriter(wstring filePath)
 {
 	// 있으면 덮어쓰기형식
-	file = CreateFile(filePath.c_str(),GENERIC_WRITE,0,
-		0,CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	file = CreateFile(filePath.c_str(), GENERIC_WRITE, 0,
+		0, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 }
 
@@ -33,7 +33,7 @@ void BinaryWriter::String(string data)
 	UInt(data.size());
 
 	const char* str = data.c_str();
-	WriteFile(file, &str, sizeof(char) * data.size(), &size, nullptr);
+	WriteFile(file, str, sizeof(char) * data.size(), &size, nullptr);
 }
 
 void BinaryWriter::Byte(void* data, UINT dataSize)

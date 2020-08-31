@@ -1,9 +1,10 @@
 #include "Framework.h"
 
 TerrainEditor::TerrainEditor(UINT width, UINT height)
-    :width(width), height(height), isRaise(true) , adjustValue(50)
+    :width(width), height(height), isRaise(true) , adjustValue(50),
+	isPainting(true), paintValue(5.0f), selectMap(0)
 {
-    material = new Material(L"Brush");
+    material = new Material(L"Splatting");
     material->SetDiffuseMap(L"Landscape/Dirt2.png");
 
 	CreateData();
@@ -14,6 +15,10 @@ TerrainEditor::TerrainEditor(UINT width, UINT height)
 
 	CreateCompute();
 	brushBuffer = new BrushBuffer();
+
+	//alphaMap = Texture::Add(L"HeightMaps/AlphaMap.png");
+	secondMap = Texture::Add(L"Landscape/Stones.png");
+	thirdMap = Texture::Add(L"sana.jpeg");
 }
 
 TerrainEditor::~TerrainEditor()
@@ -40,10 +45,20 @@ void TerrainEditor::Update()
 	{
 		if (KEY_PRESS(VK_LBUTTON))
 		{
-			if (isRaise)
-				AdjustY(temp, adjustValue);
+			if (isPainting)
+			{
+				if (isRaise)
+					PaintBrush(brushBuffer->data.location, paintValue);
+				else
+					PaintBrush(brushBuffer->data.location, -paintValue);
+			}
 			else
-				AdjustY(temp, -adjustValue);
+			{
+				if (isRaise)
+					AdjustY(temp, adjustValue);
+				else
+					AdjustY(temp, -adjustValue);
+			}
 		}
 
 		if (KEY_UP(VK_LBUTTON))
@@ -66,6 +81,10 @@ void TerrainEditor::Render()
 	SetWorldBuffer();
 	brushBuffer->SetVSBuffer(3);
 
+	//alphaMap->PSSet(10);
+	secondMap->PSSet(11);
+	thirdMap->PSSet(12);
+
 	material->Set();
 
 	DC->DrawIndexed(indices.size(), 0, 0);
@@ -74,14 +93,22 @@ void TerrainEditor::Render()
 void TerrainEditor::PostRender()
 {
 	ImGui::Text("TerrainEditor");
+	ImGui::Checkbox("PaintMode", &isPainting);
 	ImGui::Checkbox("Raise", &isRaise);
 	ImGui::SliderFloat("AdjustValue", &adjustValue, 0, 300);
+	ImGui::SliderFloat("PaintValue", &paintValue, 0, 10);
+	ImGui::SliderInt("SelectMap", &selectMap, 0, 1);
 
 	if (ImGui::Button("Save"))
 		Save();
 	if (ImGui::Button("Load"))
 		Load();
 
+	if (ImGui::Button("SaveHeightMap"))
+		SaveHeightMap();
+
+	if (ImGui::Button("SaveAlphatMap"))
+		SaveAlphaMap();
 }
 
 bool TerrainEditor::ComputePicking(OUT Vector3* position)
@@ -148,6 +175,14 @@ void TerrainEditor::AdjustY(Vector3 position, float value)
 			if (dist <= brushBuffer->data.range)
 			{
 				vertex.position.y += temp * DELTA;
+
+				if (vertex.position.y < 0)
+					vertex.position.y = 0.0f;
+
+				float maxHeight = 255 * 3 / 20.0f;
+
+				if (vertex.position.y > maxHeight)
+					vertex.position.y = maxHeight;
 			}
 		}
 	}
@@ -155,6 +190,35 @@ void TerrainEditor::AdjustY(Vector3 position, float value)
 	default:
 		break;
 
+	}
+
+	mesh->UpdateVertex(vertices.data(), vertices.size());
+}
+
+void TerrainEditor::PaintBrush(Vector3 position, float value)
+{
+	switch (brushBuffer->data.type)
+	{
+	case 1:
+	{
+		for (VertexType& vertex : vertices)
+		{
+			Vector3 p1 = Vector3(vertex.position.x, 0, vertex.position.z);
+			Vector3 p2 = Vector3(position.x, 0, position.z);
+
+			float dist = (p2 - p1).Length();
+
+			float temp = value * max(0, cos(XM_PIDIV2 * dist / brushBuffer->data.range));
+
+			if (dist <= brushBuffer->data.range)
+			{
+				vertex.alpha[selectMap] += temp * DELTA;
+				vertex.alpha[selectMap] = Saturate(vertex.alpha[selectMap]);
+			}
+		}
+	}
+	default:
+		break;
 	}
 
 	mesh->UpdateVertex(vertices.data(), vertices.size());
@@ -197,32 +261,96 @@ void TerrainEditor::Load()
 
 }
 
+void TerrainEditor::SaveHeightMap()
+{
+	UINT size = width * height * 4;
+	uint8_t* pixels = new uint8_t[size];
+
+	for (UINT i = 0; i < size / 4; i++)
+	{
+		float y = (vertices[i].position.y) * 20.0f;
+		
+		for (UINT j = 0; j < 3; j++)
+		{
+			pixels[i * 4 + j] = y > 255 ? 255 : y;
+			
+			y -= 255;
+
+			if (y < 0)
+				y = 0;
+		}
+
+		pixels[i * 4 + 3] = 255;
+	}
+
+	Image image;
+
+	image.width = width;
+	image.height = height;
+	image.pixels = pixels;
+	image.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	image.rowPitch = width * 4;
+
+	image.slicePitch = image.width * image.height * 4;
+
+	SaveToWICFile(image, WIC_FLAGS_FORCE_RGB, GetWICCodec(WIC_CODEC_PNG),
+		L"Textures/HeightMaps/TestHeightMap.png");
+
+}
+
+void TerrainEditor::SaveAlphaMap()
+{
+	UINT size = width * height * 4;
+	uint8_t* pixels = new uint8_t[size];
+
+	for (UINT i = 0; i < size / 4; i++)
+	{
+		for (UINT j = 0; j < 3; j++)
+		{
+			pixels[i * 4 + j] = (uint8_t)(vertices[i].alpha[j] * 255);
+		}
+		pixels[i * 4 + 3] = 255;
+	}
+
+	Image image;
+
+	image.width = width;
+	image.height = height;
+	image.pixels = pixels;
+	image.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	image.rowPitch = (size_t)width * 4;
+
+	image.slicePitch = image.width * image.height * 4;
+
+	SaveToWICFile(image, WIC_FLAGS_FORCE_RGB, GetWICCodec(WIC_CODEC_PNG),
+		L"Textures/HeightMaps/TestAlphaMap.png");
+}
+
 void TerrainEditor::CreateData()
 {
-	for (UINT z = 0; z <= height; z++)
+	for (UINT z = 0; z < height; z++)
 	{
-		for (UINT x = 0; x <= width; x++)
+		for (UINT x = 0; x < width; x++)
 		{
 			VertexType vertex;
 			vertex.position = Float3(x, 0, z);
 			vertex.uv = Float2(x / (float)width, 1.0f - (z / (float)height));
 
-			UINT index = width * z + x;
 
 			vertices.emplace_back(vertex);
 		}
 	}
 
-	for (UINT z = 0; z < height; z++)
+	for (UINT z = 0; z < height - 1; z++)
 	{
-		for (UINT x = 0; x < width; x++)
+		for (UINT x = 0; x < width -1; x++)
 		{
-			indices.emplace_back((width + 1) * z + x);
-			indices.emplace_back((width + 1) * (z + 1) + x);
-			indices.emplace_back((width + 1) * (z + 1) + x + 1);
-			indices.emplace_back((width + 1) * z + x);
-			indices.emplace_back((width + 1) * (z + 1) + x + 1);
-			indices.emplace_back((width + 1) * z + x + 1);
+			indices.emplace_back(width * z + x);
+			indices.emplace_back(width * (z + 1) + x);
+			indices.emplace_back(width * (z + 1) + x + 1);
+			indices.emplace_back(width * z + x);
+			indices.emplace_back(width * (z + 1) + x + 1);
+			indices.emplace_back(width * z + x + 1);
 		}
 	}
 
