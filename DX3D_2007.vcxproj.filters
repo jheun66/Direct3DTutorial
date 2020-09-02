@@ -168,6 +168,9 @@
     <ClInclude Include="Object\Model\Model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Model\ModelMeshPart.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -305,6 +308,9 @@
     <ClCompile Include="Object\Model\Model.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Model\ModelMeshPart.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -341,6 +347,7 @@
     <FxCompile Include="Shaders\PixelShaders\PixelBrush.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexSplatting.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelSplatting.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexModel.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

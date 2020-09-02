@@ -10,6 +10,7 @@ private:
 
 	vector<MaterialData*> materials;
 	vector<MeshData*> meshes;
+	vector<BoneData*> bones;
 
 public:
 	ModelReader();
@@ -27,6 +28,7 @@ public:
 	//Mesh//////////////////////////////////////////////////
 	void ExportMesh(string savePath);
 
-	void ReadMeshData(aiNode* node);
+	void ReadBoneData(aiNode* node, int index, int parent);
+	void ReadMeshData(aiNode* node, int bone);
 	void WriteMeshData(string savePath);
 };

@@ -15,6 +15,10 @@
 #define WIN_START_X 100
 #define WIN_START_Y 100
 
+// 본 개수 제한
+#define MAX_MODEL_BONE 256
+
+
 // 디버그 아니면 무시
 #ifdef NDEBUG
 	#define V(hr) hr
@@ -134,6 +138,7 @@ using namespace Utility;
 #include "Object/Basic/Cube.h"
 #include "Object/Basic/Sphere.h"
 
+#include "Object/Model/ModelMeshPart.h"
 #include "Object/Model/ModelMesh.h"
 #include "Object/Model/Model.h"
 

@@ -71,6 +71,14 @@ string Utility::GetFileName(string path)
     return path.substr(index + 1);
 }
 
+string Utility::GetFileNameWithoutExtension(string path)
+{
+    string fileName = GetFileName(path);
+    size_t index = fileName.find_first_of('.');
+
+    return fileName.substr(0, index);
+}
+
 bool Utility::ExistDirectory(string path)
 {
     DWORD fileValue = GetFileAttributesA(path.c_str());

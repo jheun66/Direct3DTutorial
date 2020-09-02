@@ -42,6 +42,7 @@ public:
 	void Set();
 
 	void SetShader(wstring file);
+	void SetShader(wstring vsFile, wstring psFile);
 
 	void SetDiffuseMap(wstring file) { diffuseMap = Texture::Add(file); }
 	void SetSpecularMap(wstring file) { specularMap = Texture::Add(file); }

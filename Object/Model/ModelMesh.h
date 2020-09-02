@@ -6,9 +6,12 @@ private:
 	friend class Model;
 
 	string name;
-	string materialName;
 
-	Material* material;
+	int boneIndex;
+	ModelBone* bone;
+
+	vector<ModelMeshPart*> meshParts;
+
 	Mesh* mesh;
 
 	ModelVertex* vertices;
@@ -22,5 +25,11 @@ private:
 public:
 	void CreateMesh();
 
+
+	void Update();
 	void Render();
+
+	void SetTransforms(Matrix* transforms);
+
+	int BoneIndex() { return boneIndex; }
 };

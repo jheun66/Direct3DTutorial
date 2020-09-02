@@ -59,3 +59,9 @@ void Material::SetShader(wstring file)
 	vertexShader = Shader::AddVS(L"Vertex" + file);
 	pixelShader = Shader::AddPS(L"Pixel" + file);
 }
+
+void Material::SetShader(wstring vsFile, wstring psFile)
+{
+	vertexShader = Shader::AddVS(vsFile);
+	pixelShader = Shader::AddPS(psFile);
+}

@@ -131,7 +131,7 @@ string ModelReader::WriteTexture(string savePath, string file)
 	if (file.length() == 0)
 		return "";
 
-	string fileName = GetFileName(file);
+	string fileName = GetFileNameWithoutExtension(file) + ".png";
 	const aiTexture* texture = scene->GetEmbeddedTexture(file.c_str());
 
 	string path = "";
@@ -167,25 +167,54 @@ string ModelReader::WriteTexture(string savePath, string file)
 
 void ModelReader::ExportMesh(string savePath)
 {
-	ReadMeshData(scene->mRootNode);
+	ReadBoneData(scene->mRootNode, -1, -1);
 	savePath = "ModelData/Meshes/" + savePath + ".mesh";
 	WriteMeshData(savePath);
 }
 
-void ModelReader::ReadMeshData(aiNode* node)
+void ModelReader::ReadBoneData(aiNode* node, int index, int parent)
 {
+	BoneData* bone = new BoneData();
+	bone->index = index;
+	bone->parent = parent;
+	bone->name = node->mName.C_Str();
+
+	Matrix transform(node->mTransformation[0]);
+	bone->transform = XMMatrixTranspose(transform);
+
+	Matrix matParent;
+	// 부모 0보다 작으면 루트
+	if (parent < 0)
+		matParent = XMMatrixIdentity();
+	else
+		matParent = bones[parent]->transform;
+
+	bone->transform = bone->transform * matParent;
+	bones.emplace_back(bone);
+
+	ReadMeshData(node, index);
+
+	for (UINT i = 0; i < node->mNumChildren; i++)
+		ReadBoneData(node->mChildren[i], bones.size(), index);
+	
+}
+
+void ModelReader::ReadMeshData(aiNode* node, int bone)
+{
+	if (node->mNumMeshes < 1)
+		return;
+
+	MeshData* mesh = new MeshData();
+	mesh->name = node->mName.C_Str();
+	mesh->boneIndex = bone;
+
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
-		MeshData* mesh = new MeshData();
-		mesh->name = node->mName.C_Str();
-
 		UINT index = node->mMeshes[i];
 		aiMesh* srcMesh = scene->mMeshes[index];
 
-		aiMaterial* material = scene->mMaterials[srcMesh->mMaterialIndex];
-		mesh->materialName = material->GetName().C_Str();
-
 		UINT startVertex = mesh->vertices.size();
+		UINT startIndex = mesh->indices.size();
 
 		for (UINT v = 0; v < srcMesh->mNumVertices; v++)
 		{
@@ -215,11 +244,22 @@ void ModelReader::ReadMeshData(aiNode* node)
 			}
 		}//Indices
 
-		meshes.emplace_back(mesh);
+		aiMaterial* material = scene->mMaterials[srcMesh->mMaterialIndex];
+
+		MeshPartData* meshPart = new MeshPartData();
+		meshPart->name = srcMesh->mName.C_Str();
+		meshPart->materialName = material->GetName().C_Str();
+		meshPart->startVertex = startVertex;
+		meshPart->startIndex = startIndex;
+		meshPart->vertexCount = srcMesh->mNumVertices;
+		meshPart->indexCount = srcMesh->mNumFaces * srcMesh->mFaces->mNumIndices;
+
+		mesh->meshParts.emplace_back(meshPart);
+		
+	
 	}//Mesh
 
-	for (UINT i = 0; i < node->mNumChildren; i++)
-		ReadMeshData(node->mChildren[i]);
+	meshes.emplace_back(mesh);
 }
 
 void ModelReader::WriteMeshData(string savePath)
@@ -228,17 +268,49 @@ void ModelReader::WriteMeshData(string savePath)
 
 	BinaryWriter* w = new BinaryWriter(ToWString(savePath));
 
+	w->UInt(bones.size());
+	for (BoneData* bone : bones)
+	{
+		w->Int(bone->index);
+		w->String(bone->name);
+		w->Int(bone->parent);
+
+		// xmmatrix와 형변환
+		Float4x4 temp;
+		XMStoreFloat4x4(&temp, bone->transform);
+		w->Float4x4(temp);
+
+		delete bone;
+	}
+	bones.clear();
+
 	w->UInt(meshes.size());
 	for (MeshData* mesh : meshes)
 	{
 		w->String(mesh->name);
-		w->String(mesh->materialName);
+		w->Int(mesh->boneIndex);
 
 		w->UInt(mesh->vertices.size());
 		w->Byte(mesh->vertices.data(), sizeof(ModelVertex) * mesh->vertices.size());
 
 		w->UInt(mesh->indices.size());
 		w->Byte(mesh->indices.data(), sizeof(UINT) * mesh->indices.size());
+
+		w->UInt(mesh->meshParts.size());
+		for (MeshPartData* part : mesh->meshParts)
+		{
+			w->String(part->name);
+			w->String(part->materialName);
+
+			w->UInt(part->startVertex);
+			w->UInt(part->vertexCount);
+
+			w->UInt(part->startIndex);
+			w->UInt(part->indexCount);
+
+			delete part;
+		}
+		mesh->meshParts.clear();
 
 		delete mesh;
 	}

@@ -3,14 +3,14 @@
 
 ModelScene::ModelScene()
 {
-	string name = "Character/Character";
+	string name = "Zombie/Zombie";
 	modelReader = new ModelReader();
-	modelReader->ReadFile("ModelData/Models/maw_j_laygo.fbx");
+	modelReader->ReadFile("ModelData/Models/zombie.fbx");
 	modelReader->ExportMaterial(name);
 	modelReader->ExportMesh(name);
 
 	model = new Model(name);
-	model->SetShader(L"NormalMapping");
+	model->SetShader(L"VertexModel", L"PixelNormalMapping");
 
 	settingBuffer = new SettingBuffer();
 }

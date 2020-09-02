@@ -199,6 +199,7 @@
     <ClInclude Include="Object\LandScape\TerrainEditor.h" />
     <ClInclude Include="Object\Model\Model.h" />
     <ClInclude Include="Object\Model\ModelMesh.h" />
+    <ClInclude Include="Object\Model\ModelMeshPart.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\ComputeScene.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="Object\LandScape\TerrainEditor.cpp" />
     <ClCompile Include="Object\Model\Model.cpp" />
     <ClCompile Include="Object\Model\ModelMesh.cpp" />
+    <ClCompile Include="Object\Model\ModelMeshPart.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\ComputeScene.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
@@ -383,6 +385,12 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexDiffuse.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexModel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

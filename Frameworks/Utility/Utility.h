@@ -11,6 +11,7 @@ namespace Utility
 	wstring GetExtension(wstring path);
 	string GetDirectoryName(string path);
 	string GetFileName(string path);
+	string GetFileNameWithoutExtension(string path);
 
 	void CreateFolders(string path);
 	bool ExistDirectory(string path);

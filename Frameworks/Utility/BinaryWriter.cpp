@@ -36,6 +36,11 @@ void BinaryWriter::String(string data)
 	WriteFile(file, str, sizeof(char) * data.size(), &size, nullptr);
 }
 
+void BinaryWriter::Float4x4(XMFLOAT4X4 data)
+{
+	WriteFile(file, &data, sizeof(XMFLOAT4X4), &size, nullptr);
+}
+
 void BinaryWriter::Byte(void* data, UINT dataSize)
 {
 	WriteFile(file, data, dataSize, &size, nullptr);
