@@ -16,4 +16,6 @@ cbuffer Material : register(b1)
     float4 mDiffuse;
     float4 mSpecular;
     float4 mAmbient;
+    
+    int4 hasMap;
 }

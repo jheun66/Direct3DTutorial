@@ -17,7 +17,7 @@
 
 // 본 개수 제한
 #define MAX_MODEL_BONE 256
-
+#define MAX_ANIM_KEY 500
 
 // 디버그 아니면 무시
 #ifdef NDEBUG
@@ -143,6 +143,7 @@ using namespace Utility;
 #include "Object/Model/ModelMesh.h"
 #include "Object/Model/ModelClip.h"
 #include "Object/Model/Model.h"
+#include "Object/Model/ModelRender.h"
 #include "Object/Model/ModelAnimator.h"
 
 #include "Object/LandScape/Terrain.h"

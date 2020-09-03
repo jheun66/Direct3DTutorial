@@ -1,11 +1,5 @@
 #include "PixelHeader.hlsli"
 
-cbuffer Selected : register(b10)
-{
-    int isSpecularMap;
-    int isNormalMap;
-}
-
 struct PixelInput
 {
     float4 pos : SV_Position;
@@ -18,7 +12,9 @@ struct PixelInput
 //                          ¹ÝÈ¯°ªÀÇ ½Ã¸àÆ½ ³×ÀÓ(SV : system value)
 float4 PS(PixelInput input) : SV_Target
 {
-    float4 albedo = diffuseMap.Sample(samp, input.uv);
+    float4 albedo = float4(1, 1, 1, 1);
+    if(hasMap[0])
+        albedo = diffuseMap.Sample(samp, input.uv);
     
     float3 light = normalize(lightDir);
     
@@ -29,7 +25,7 @@ float4 PS(PixelInput input) : SV_Target
     
     float3 normal = N;
     
-    if(isNormalMap)
+    if(hasMap[2])
     {
         float4 normalMapping = normalMap.Sample(samp, input.uv);
     
@@ -56,7 +52,7 @@ float4 PS(PixelInput input) : SV_Target
         specular = saturate(dot(-halfWay, normal));
         
         float4 specualrIntensity = 1;
-        if(isSpecularMap)
+        if (hasMap[1])
             specualrIntensity = specularMap.Sample(samp, input.uv);
         
         specular = pow(specular, specExp) * specualrIntensity;

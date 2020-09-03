@@ -21,13 +21,13 @@ Model::~Model()
 	for (ModelBone* bone : bones)
 		delete bone;
 
-	for (ModelClip* clip : clips)
-		delete clip;
 }
 
 void Model::Update()
 {
-	UpdateTransform();
+	for (ModelMesh* mesh : meshes)
+		mesh->Update();
+
 	UpdateWorld();
 }
 
@@ -191,40 +191,6 @@ void Model::ReadMesh(string file)
 	BindMesh();
 }
 
-void Model::ReadClip(string file)
-{
-	file = "ModelData/Clips/" + file + ".clip";
-
-	BinaryReader* r = new BinaryReader(ToWString(file));
-
-	ModelClip* clip = new ModelClip();
-
-	clip->name = r->String();
-	clip->duration = r->Float();
-	clip->frameRate = r->Float();
-	clip->frameCount = r->UInt();
-
-	UINT keyFrameCount = r->UInt();
-	for (UINT i = 0; i < keyFrameCount; i++)
-	{
-		KeyFrame* keyFrame = new KeyFrame();
-		keyFrame->boneName = r->String();
-
-		UINT size = r->UInt();
-		if (size > 0)
-		{
-			keyFrame->transforms.resize(size);
-
-			void* ptr = (void*)keyFrame->transforms.data();
-			r->Byte(&ptr, sizeof(KeyTransform) * size);
-		}
-		clip->keyFrameMap[keyFrame->boneName] = keyFrame;
-	}
-	clips.emplace_back(clip);
-
-	delete r;
-}
-
 void Model::BindBone()
 {
 	root = bones[0];
@@ -271,11 +237,3 @@ void Model::SetShader(wstring vsFile, wstring psFile)
 		material.second->SetShader(vsFile, psFile);
 }
 
-void Model::UpdateTransform()
-{
-	for (UINT i = 0; i < bones.size(); i++)
-		transforms[i] = bones[i]->transform;
-
-	for (ModelMesh* mesh : meshes)
-		mesh->SetTransforms(transforms);
-}

@@ -3,7 +3,7 @@
 class ModelClip
 {
 private:
-	friend class Model;
+	friend class ModelAnimator;
 
 	string name;
 
@@ -18,8 +18,4 @@ public:
 	~ModelClip();
 
 	KeyFrame* GetKeyFrame(string name);
-
-	float Duration() { return duration; }
-	float FrameRate() { return frameRate; }
-	UINT FrameCount() { return frameCount; }
 };

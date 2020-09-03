@@ -180,6 +180,9 @@
     <ClInclude Include="Object\Model\ModelClip.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Model\ModelRender.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -326,6 +329,12 @@
     <ClCompile Include="Object\Model\ModelClip.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Model\ModelRender.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Model\ModelAnimator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -363,6 +372,7 @@
     <FxCompile Include="Shaders\VertexShaders\VertexSplatting.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelSplatting.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexModel.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexModelAnimation.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

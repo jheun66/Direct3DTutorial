@@ -9,7 +9,7 @@ ModelScene::ModelScene()
 	modelReader->ExportMaterial(name);
 	modelReader->ExportMesh(name);
 
-	model = new Model(name);
+	model = new ModelRender(name);
 	model->SetShader(L"VertexModel", L"PixelNormalMapping");
 
 	settingBuffer = new SettingBuffer();

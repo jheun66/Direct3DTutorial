@@ -23,21 +23,54 @@ private:
 	public:
 		struct Data
 		{
-			float takeTime;
-			float tweenTime;
-			float runningTime;
-			float padding;
-
-			KeyFrameDesc cur;
-			KeyFrameDesc next;
+			KeyFrameDesc keyFrame;
 		}data;
 
 		FrameBuffer() : ConstBuffer(&data, sizeof(Data))
 		{
-			data.takeTime = 1.0f;
-			data.tweenTime = 0.0f;
-			data.runningTime = 0.0f;
 		}
 	};
 
+	struct ClipTransform
+	{
+		// Matrix 의 2차원 배열
+		Matrix** transform;
+		
+		ClipTransform()
+		{
+			transform = new Matrix * [MAX_ANIM_KEY];
+
+			for (UINT i = 0; i < MAX_ANIM_KEY; i++)
+				transform[i] = new Matrix[MAX_MODEL_BONE];
+		}
+		~ClipTransform()
+		{
+			for (UINT i = 0; i < MAX_ANIM_KEY; i++)
+				delete transform[i];
+
+			delete[] transform;
+		}
+	
+	};
+
+	FrameBuffer* frameBuffer;
+	ClipTransform* clipTransform;
+
+	ID3D11Texture2D* texture;
+	ID3D11ShaderResourceView* srv;
+
+	vector<ModelClip*> clips;
+public:
+	ModelAnimator(string file);
+	~ModelAnimator();
+
+	void Update();
+	void Render();
+
+	void PlayClip(UINT clip, float speed = 1.0f);
+	void ReadClip(string file);
+
+private:
+	void CreateTexture();
+	void CreateClipTransform(UINT index);
 };

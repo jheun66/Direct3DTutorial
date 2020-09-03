@@ -11,6 +11,8 @@ public:
 			Float4 diffuse;
 			Float4 specular;
 			Float4 ambient;
+
+			UINT hasMap[4];
 		}data;
 
 		MaterialBuffer() : ConstBuffer(&data, sizeof(Data))
@@ -18,6 +20,9 @@ public:
 			data.diffuse = Float4(1, 1, 1, 1);
 			data.specular = Float4(1, 1, 1, 1);
 			data.ambient = Float4(1, 1, 1, 1);
+
+			for (UINT &i : data.hasMap)
+				i = 0;
 		}
 	};
 

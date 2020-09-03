@@ -4,7 +4,7 @@ class ModelScene : public Scene
 {
 private:
 	ModelReader* modelReader;
-	Model* model;
+	ModelRender* model;
 	SettingBuffer* settingBuffer;
 public:
 	ModelScene();

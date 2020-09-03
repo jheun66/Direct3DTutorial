@@ -42,13 +42,23 @@ void Material::Set()
 	buffer->SetPSBuffer(1);
 
 	if (diffuseMap != nullptr)
+	{
+		buffer->data.hasMap[0] = 1;
 		diffuseMap->PSSet(0);
+	}
 
 	if (specularMap != nullptr)
+	{
+		buffer->data.hasMap[1] = 1;
 		specularMap->PSSet(1);
+	}
+		
 
 	if (normalMap != nullptr)
+	{
+		buffer->data.hasMap[2] = 1;
 		normalMap->PSSet(2);
+	}
 
 	vertexShader->Set();
 	pixelShader->Set();
