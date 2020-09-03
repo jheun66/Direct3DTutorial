@@ -61,6 +61,22 @@ struct VertexUVNormalTangent
 	}
 };
 
+struct VertexUVNormalTangentBlend
+{
+	Float3 position;
+	Float2 uv;
+	Float3 normal;
+	Float3 tangent;
+	Float4 blendIndices;
+	Float4 blendWeights;
+
+	VertexUVNormalTangentBlend() : position(0, 0, 0), uv(0, 0), normal(0, 0, 0), tangent(0, 0, 0),
+		blendIndices(0, 0, 0, 0), blendWeights(0, 0, 0, 0)
+	{
+
+	}
+};
+
 struct VertexUVNormalAlpha
 {
 	Float3 position;

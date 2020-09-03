@@ -167,12 +167,13 @@ string ModelReader::WriteTexture(string savePath, string file)
 
 void ModelReader::ExportMesh(string savePath)
 {
-	ReadBoneData(scene->mRootNode, -1, -1);
+	ReadBone(scene->mRootNode, -1, -1);
+	ReadSkin();
 	savePath = "ModelData/Meshes/" + savePath + ".mesh";
-	WriteMeshData(savePath);
+	WriteMesh(savePath);
 }
 
-void ModelReader::ReadBoneData(aiNode* node, int index, int parent)
+void ModelReader::ReadBone(aiNode* node, int index, int parent)
 {
 	BoneData* bone = new BoneData();
 	bone->index = index;
@@ -192,14 +193,14 @@ void ModelReader::ReadBoneData(aiNode* node, int index, int parent)
 	bone->transform = bone->transform * matParent;
 	bones.emplace_back(bone);
 
-	ReadMeshData(node, index);
+	ReadMesh(node, index);
 
 	for (UINT i = 0; i < node->mNumChildren; i++)
-		ReadBoneData(node->mChildren[i], bones.size(), index);
+		ReadBone(node->mChildren[i], bones.size(), index);
 	
 }
 
-void ModelReader::ReadMeshData(aiNode* node, int bone)
+void ModelReader::ReadMesh(aiNode* node, int bone)
 {
 	if (node->mNumMeshes < 1)
 		return;
@@ -262,7 +263,55 @@ void ModelReader::ReadMeshData(aiNode* node, int bone)
 	meshes.emplace_back(mesh);
 }
 
-void ModelReader::WriteMeshData(string savePath)
+void ModelReader::ReadSkin()
+{
+	for (UINT i = 0; i < scene->mNumMeshes; i++)
+	{
+		aiMesh* srcMesh = scene->mMeshes[i];
+		if (!srcMesh->HasBones())
+			continue;
+
+		MeshData* mesh = meshes[i];
+		vector<BoneWeights> boneWeights;
+		boneWeights.resize(mesh->vertices.size());
+
+		for (UINT b = 0; b < srcMesh->mNumBones; b++)
+		{
+			aiBone* srcBone = srcMesh->mBones[b];
+
+			UINT boneIndex = 0;
+			for (BoneData* bone : bones)
+			{
+				if (bone->name == srcBone->mName.C_Str())
+				{
+					boneIndex = bone->index;
+					break;
+				}
+			}// BoneData
+
+			for (UINT w = 0; w < srcBone->mNumWeights; w++)
+			{
+				UINT index = srcBone->mWeights[w].mVertexId;
+				float weight = srcBone->mWeights[w].mWeight;
+
+				boneWeights[index].AddWeights(boneIndex, weight);
+			}// Weight
+		}// SrcBone
+
+		for (UINT w = 0; w < boneWeights.size(); w++)
+		{
+			boneWeights[w].Normalize();
+
+			BlendWeight blendWeight;
+			boneWeights[w].GetBlendWeights(blendWeight);
+
+			mesh->vertices[w].blendIndices = blendWeight.indices;
+			mesh->vertices[w].blendWeights = blendWeight.weights;
+		}// BoneWeights
+	}// Mesh
+}
+
+void ModelReader::WriteMesh(string savePath)
 {
 	CreateFolders(savePath);
 
@@ -315,6 +364,172 @@ void ModelReader::WriteMeshData(string savePath)
 		delete mesh;
 	}
 	meshes.clear();
+
+	delete w;
+}
+
+
+void ModelReader::ExportClip(UINT index, string savePath)
+{
+	Clip* clip = ReadClip(scene->mAnimations[index]);
+	savePath = "ModelData/Clips/" + savePath + ".clip";
+	WriteClip(clip, savePath);
+}
+
+Clip* ModelReader::ReadClip(aiAnimation* animation)
+{
+	Clip* clip = new Clip();
+	clip->name = animation->mName.C_Str();
+	clip->frameRate = (float)animation->mTicksPerSecond;
+	clip->frameCount = (UINT)animation->mDuration + 1;
+
+	vector<ClipNode> nodeInfos;
+	for (UINT i = 0; i < animation->mNumChannels; i++)
+	{
+		aiNodeAnim* aniNode = animation->mChannels[i];
+
+		ClipNode nodeInfo;
+		nodeInfo.name = aniNode->mNodeName;
+
+		UINT keyCount = max(aniNode->mNumPositionKeys, aniNode->mNumRotationKeys);
+		keyCount = max(keyCount, aniNode->mNumScalingKeys);
+
+		KeyTransform transform;
+		for (UINT k = 0; k < keyCount; k++)
+		{
+			bool isFound = false;
+			UINT t = nodeInfo.keyFrame.size();
+
+			if (abs((float)aniNode->mPositionKeys[k].mTime - (float)t) <= FLT_EPSILON)
+			{
+				aiVectorKey key = aniNode->mPositionKeys[k];
+
+				memcpy_s(&transform.position, sizeof(Float3),
+					&key.mValue, sizeof(aiVector3D));
+
+				transform.time = (float)aniNode->mPositionKeys[k].mTime;
+				isFound = true;
+			}
+
+			if (abs((float)aniNode->mRotationKeys[k].mTime - (float)t) <= FLT_EPSILON)
+			{
+				aiQuatKey key = aniNode->mRotationKeys[k];
+
+				transform.rotation.x = (float)key.mValue.x;
+				transform.rotation.y = (float)key.mValue.y;
+				transform.rotation.z = (float)key.mValue.z;
+				transform.rotation.w = (float)key.mValue.w;
+
+				transform.time = (float)aniNode->mRotationKeys[k].mTime;
+				
+				isFound = true;
+			}
+
+			if (abs((float)aniNode->mScalingKeys[k].mTime - (float)t) <= FLT_EPSILON)
+			{
+				aiVectorKey key = aniNode->mScalingKeys[k];
+
+				memcpy_s(&transform.scale, sizeof(Float3),
+					&key.mValue, sizeof(aiVector3D));
+
+				transform.time = (float)aniNode->mScalingKeys[k].mTime;
+				isFound = true;
+			}
+
+			if (isFound)
+				nodeInfo.keyFrame.emplace_back(transform);
+		}// KeyTransform
+
+		if (nodeInfo.keyFrame.size() < clip->frameCount)
+		{
+			UINT count = clip->frameCount - nodeInfo.keyFrame.size();
+
+			KeyTransform keyTransform = nodeInfo.keyFrame.back();
+
+			for (UINT n = 0; n < count; n++)
+				nodeInfo.keyFrame.emplace_back(keyTransform);
+		}
+		clip->duration = max(clip->duration, nodeInfo.keyFrame.back().time);
+
+		nodeInfos.emplace_back(nodeInfo);
+	}// KeyChannel
+
+	ReadKeyFrame(clip, scene->mRootNode, nodeInfos);
+
+	return clip;
+}
+
+void ModelReader::ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& nodeInfos)
+{
+	KeyFrame* keyFrame = new KeyFrame();
+	keyFrame->boneName = node->mName.C_Str();
+
+	for (UINT i = 0; i < clip->frameCount; i++)
+	{
+		ClipNode* clipNode = nullptr;
+		for (UINT n = 0; n < nodeInfos.size(); n++)
+		{
+			if (nodeInfos[n].name == node->mName)
+			{
+				clipNode = &nodeInfos[n];
+				break;
+			}
+		}
+
+		KeyTransform keyTransform;
+		if (clipNode == nullptr)
+		{
+			Matrix transform(node->mTransformation[0]);
+			transform = XMMatrixTranspose(transform);
+
+			Vector3 scale;
+			Vector4 rotation;
+			Vector3 position;
+			XMMatrixDecompose(&scale.data, &rotation, &position.data, transform);
+			keyTransform.scale = scale;
+			XMStoreFloat4(&keyTransform.rotation, rotation);
+			keyTransform.position = position;
+
+			keyTransform.time = (float)i;
+		}
+		else
+		{
+			keyTransform = clipNode->keyFrame[i];
+
+		}
+		keyFrame->transforms.emplace_back(keyTransform);
+	}
+	clip->keyFrame.emplace_back(keyFrame);
+
+	for (UINT i = 0; i < node->mNumChildren; i++)
+		ReadKeyFrame(clip, node->mChildren[i], nodeInfos);
+
+}
+
+void ModelReader::WriteClip(Clip* clip, string savePath)
+{
+	CreateFolders(savePath);
+
+	BinaryWriter* w = new BinaryWriter(ToWString(savePath));
+
+	w->String(clip->name);
+	w->Float(clip->duration);
+	w->Float(clip->frameRate);
+	w->UInt(clip->frameCount);
+
+	w->UInt(clip->keyFrame.size());
+	for (KeyFrame* keyFrame : clip->keyFrame)
+	{
+		w->String(keyFrame->boneName);
+
+		w->UInt(keyFrame->transforms.size());
+		w->Byte(keyFrame->transforms.data(), sizeof(KeyTransform) * keyFrame->transforms.size());
+
+		delete keyFrame;
+	}
+	clip->keyFrame.clear();
+
+	delete clip;
 
 	delete w;
 }

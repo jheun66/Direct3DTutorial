@@ -8,6 +8,7 @@ private:
 	map<string, Material*> materials;
 	vector<ModelMesh*> meshes;
 	vector<ModelBone*> bones;
+	vector<ModelClip*> clips;
 
 	Matrix transforms[MAX_MODEL_BONE];
 public:
@@ -20,6 +21,7 @@ public:
 
 	void ReadMaterial(string file);
 	void ReadMesh(string file);
+	void ReadClip(string file);
 
 	void BindBone();
 	void BindMesh();

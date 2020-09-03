@@ -43,8 +43,9 @@
 
 #include <assert.h>
 #include <vector>
-#include <map>
+#include <map>				// RBTree 구조, 넣을 때 자동 정렬
 #include <string>
+#include <unordered_map>	// HashTable 구조
 
 // direct 라이브러리 추가
 #include <d3d11.h>
@@ -140,7 +141,9 @@ using namespace Utility;
 
 #include "Object/Model/ModelMeshPart.h"
 #include "Object/Model/ModelMesh.h"
+#include "Object/Model/ModelClip.h"
 #include "Object/Model/Model.h"
+#include "Object/Model/ModelAnimator.h"
 
 #include "Object/LandScape/Terrain.h"
 #include "Object/LandScape/TerrainEditor.h"

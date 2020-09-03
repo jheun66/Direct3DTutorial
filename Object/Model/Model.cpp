@@ -20,6 +20,9 @@ Model::~Model()
 
 	for (ModelBone* bone : bones)
 		delete bone;
+
+	for (ModelClip* clip : clips)
+		delete clip;
 }
 
 void Model::Update()
@@ -186,6 +189,40 @@ void Model::ReadMesh(string file)
 
 	BindBone();
 	BindMesh();
+}
+
+void Model::ReadClip(string file)
+{
+	file = "ModelData/Clips/" + file + ".clip";
+
+	BinaryReader* r = new BinaryReader(ToWString(file));
+
+	ModelClip* clip = new ModelClip();
+
+	clip->name = r->String();
+	clip->duration = r->Float();
+	clip->frameRate = r->Float();
+	clip->frameCount = r->UInt();
+
+	UINT keyFrameCount = r->UInt();
+	for (UINT i = 0; i < keyFrameCount; i++)
+	{
+		KeyFrame* keyFrame = new KeyFrame();
+		keyFrame->boneName = r->String();
+
+		UINT size = r->UInt();
+		if (size > 0)
+		{
+			keyFrame->transforms.resize(size);
+
+			void* ptr = (void*)keyFrame->transforms.data();
+			r->Byte(&ptr, sizeof(KeyTransform) * size);
+		}
+		clip->keyFrameMap[keyFrame->boneName] = keyFrame;
+	}
+	clips.emplace_back(clip);
+
+	delete r;
 }
 
 void Model::BindBone()

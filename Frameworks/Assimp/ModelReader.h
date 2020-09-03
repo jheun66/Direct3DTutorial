@@ -18,17 +18,27 @@ public:
 
 	void ReadFile(string file);
 
+	////////////////////////////////////////////////////////
 	//Material//////////////////////////////////////////////
 	void ExportMaterial(string savePath);
 
 	void ReadMaterial();
 	void WriteMaterial(string savePath);
 	string WriteTexture(string savePath, string file);
-	///////////////////////////////////////////////////
+	////////////////////////////////////////////////////////
 	//Mesh//////////////////////////////////////////////////
 	void ExportMesh(string savePath);
 
-	void ReadBoneData(aiNode* node, int index, int parent);
-	void ReadMeshData(aiNode* node, int bone);
-	void WriteMeshData(string savePath);
+	void ReadBone(aiNode* node, int index, int parent);
+	void ReadMesh(aiNode* node, int bone);
+	void ReadSkin();
+	void WriteMesh(string savePath);
+
+	////////////////////////////////////////////////////////
+	//Clip//////////////////////////////////////////////////
+	void ExportClip(UINT index, string savePath);
+
+	Clip* ReadClip(aiAnimation* animation);
+	void ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& nodeInfos);
+	void WriteClip(Clip* clip, string savePath);
 };
