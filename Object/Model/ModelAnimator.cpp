@@ -25,24 +25,68 @@ ModelAnimator::~ModelAnimator()
 
 void ModelAnimator::Update()
 {
-	KeyFrameDesc& desc = frameBuffer->data.keyFrame;
-	ModelClip* clip = clips[desc.clip];
+	{// 현재 애니메이션
+		KeyFrameDesc& desc = frameBuffer->data.cur;
+		ModelClip* clip = clips[desc.clip];
 
-	float time = 1.0f / clip->frameRate/ desc.speed;
-	desc.runningTime += DELTA;
+		float time = 1.0f / clip->frameRate / desc.speed;
+		desc.runningTime += DELTA;
 
-	if (desc.time >= 1.0f)	// 다음 프레임으로 넘기는 조건
-	{
-		desc.runningTime = 0.0f;
+		if (desc.time >= 1.0f)	// 다음 프레임으로 넘기는 조건
+		{
+			desc.runningTime = 0.0f;
 
-		//									루프 돌게
-		desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
-		desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
+			//									루프 돌게
+			desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
+			desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
+		}
+
+		desc.time = desc.runningTime / time;
 	}
 
-	desc.time = desc.runningTime / time;
+	{// 다음 애니메이션
+		KeyFrameDesc& desc = frameBuffer->data.next;
+
+		if (desc.clip > -1)
+		{
+			ModelClip* clip = clips[desc.clip];
+
+			frameBuffer->data.runningTime += DELTA;
+			frameBuffer->data.tweenTime = frameBuffer->data.runningTime / frameBuffer->data.takeTime;
+
+			if (frameBuffer->data.tweenTime >= 1.0f)
+			{
+				frameBuffer->data.cur = desc;
+				frameBuffer->data.runningTime = 0.0f;
+				frameBuffer->data.tweenTime = 0.0f;
+
+				desc.runningTime = 0.0f;
+				desc.curFrame = 0;
+				desc.nextFrame = 0;
+				desc.time = 0.0f;
+				desc.clip = -1;
+			}
+			else
+			{
+				float time = 1.0f / clip->frameRate / desc.speed;
+				desc.runningTime += DELTA;
+
+				if (desc.time >= 1.0f)
+				{
+					desc.runningTime = 0.0f;
+
+					desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
+
+					desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
+				}
+				desc.time = desc.runningTime / time;
+			}
+		}
+	}
 
 	Model::Update();
+	
+
 }
 
 void ModelAnimator::Render()
@@ -56,10 +100,11 @@ void ModelAnimator::Render()
 	Model::Render();
 }
 
-void ModelAnimator::PlayClip(UINT clip, float speed)
+void ModelAnimator::PlayClip(UINT clip, float speed, float takeTime)
 {
-	frameBuffer->data.keyFrame.clip = clip;
-	frameBuffer->data.keyFrame.speed = speed;
+	frameBuffer->data.takeTime = takeTime;
+	frameBuffer->data.next.clip = clip;
+	frameBuffer->data.next.speed = speed;
 }
 
 void ModelAnimator::ReadClip(string file)
@@ -107,7 +152,7 @@ void ModelAnimator::CreateTexture()
 	
 	{//Craete Texture
 		D3D11_TEXTURE2D_DESC desc = {};
-		desc.Width = MAX_MODEL_BONE * 4;
+		desc.Width = MAX_MODEL_BONE * 4;	// 텍스처의 가로 길이, x4는 rgba
 		desc.Height = MAX_ANIM_KEY;
 		desc.ArraySize = clipCount;
 		desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -116,8 +161,10 @@ void ModelAnimator::CreateTexture()
 		desc.MipLevels = 1;
 		desc.SampleDesc.Count = 1;
 
-		UINT pageSize = MAX_MODEL_BONE * 4 * 16 * MAX_ANIM_KEY;
+		// 우리가 만들 메모리 크기
+		UINT pageSize = MAX_MODEL_BONE * sizeof(Float4x4) * MAX_ANIM_KEY;
 
+		// malloc은 크기를 감당못함, 용량이 큰거는 가상메모리 예약
 		void* p = VirtualAlloc(nullptr, pageSize * clipCount, MEM_RESERVE, PAGE_READWRITE);
 
 		for (UINT c = 0; c < clipCount; c++)
@@ -128,7 +175,9 @@ void ModelAnimator::CreateTexture()
 			{
 				void* temp = (BYTE*)p + MAX_MODEL_BONE * y * sizeof(Matrix) + start;
 
+				// 실제 메모리 쪼개서 할당
 				VirtualAlloc(temp, MAX_MODEL_BONE * sizeof(Matrix), MEM_COMMIT, PAGE_READWRITE);
+				// memcpy도 쪼개서 넣어줌
 				memcpy(temp, clipTransform[c].transform[y], MAX_MODEL_BONE * sizeof(Matrix));
 			}
 		}
@@ -160,6 +209,7 @@ void ModelAnimator::CreateTexture()
 	
 }
 
+// texture로 넣어줄수 있도록
 void ModelAnimator::CreateClipTransform(UINT index)
 {
 	Matrix* boneTransforms = new Matrix[MAX_MODEL_BONE];
@@ -198,6 +248,7 @@ void ModelAnimator::CreateClipTransform(UINT index)
 			}
 
 			boneTransforms[b] = animation * parent;
+			// T자 빼고 부모와 애니메이션의 Matrix만 넣어줌
 			clipTransform[index].transform[f][b] = invGlobal * boneTransforms[b];
 		}
 	}

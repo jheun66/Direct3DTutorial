@@ -400,6 +400,7 @@ Clip* ModelReader::ReadClip(aiAnimation* animation)
 			bool isFound = false;
 			UINT t = nodeInfo.keyFrame.size();
 
+			// °¡²û ¿ä±â¼­ ÅÍÁü
 			if (abs((float)aniNode->mPositionKeys[k].mTime - (float)t) <= FLT_EPSILON)
 			{
 				aiVectorKey key = aniNode->mPositionKeys[k];

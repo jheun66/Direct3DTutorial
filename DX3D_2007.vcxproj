@@ -195,6 +195,7 @@
     <ClInclude Include="Object\Basic\Cube.h" />
     <ClInclude Include="Object\Basic\Quad.h" />
     <ClInclude Include="Object\Basic\Sphere.h" />
+    <ClInclude Include="Object\Character\Zombie.h" />
     <ClInclude Include="Object\LandScape\Terrain.h" />
     <ClInclude Include="Object\LandScape\TerrainEditor.h" />
     <ClInclude Include="Object\Model\Model.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="Object\Basic\Cube.cpp" />
     <ClCompile Include="Object\Basic\Quad.cpp" />
     <ClCompile Include="Object\Basic\Sphere.cpp" />
+    <ClCompile Include="Object\Character\Zombie.cpp" />
     <ClCompile Include="Object\LandScape\Terrain.cpp" />
     <ClCompile Include="Object\LandScape\TerrainEditor.cpp" />
     <ClCompile Include="Object\Model\Model.cpp" />

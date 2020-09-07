@@ -3,11 +3,11 @@
 Terrain::Terrain()
 {
 	material = new Material(L"NormalMapping");
-	material->SetDiffuseMap(L"Landscape/Wall.png");
-	material->SetSpecularMap(L"Landscape/Wall_specular.png");
-	material->SetNormalMap(L"Landscape/Wall_normal.png");
+	material->SetDiffuseMap(L"Textures/Landscape/Wall.png");
+	material->SetSpecularMap(L"Textures/Landscape/Wall_specular.png");
+	material->SetNormalMap(L"Textures/Landscape/Wall_normal.png");
 
-	heightMap = Texture::Add(L"HeightMaps/TestHeightMap.png");
+	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
 
 	CreateData();
 	CreateNormal();

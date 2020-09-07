@@ -148,6 +148,9 @@ using namespace Utility;
 
 #include "Object/LandScape/Terrain.h"
 #include "Object/LandScape/TerrainEditor.h"
+
+#include "Object/Character/Zombie.h"
+
 // Program Header
 #include "Scene/Scene.h"
 #include "Program/Program.h"

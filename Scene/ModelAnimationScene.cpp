@@ -3,31 +3,27 @@
 
 ModelAnimationScene::ModelAnimationScene()
 {
-	ModelReader* reader = new ModelReader();
-	reader->ReadFile("ModelData/Animations/Zombie/Idle.fbx");
-	reader->ExportClip(0, "Zombie/Idle");
+	CAMERA->SetPosition(0, 10, -30);
+	//ModelReader* reader = new ModelReader();
+	//reader->ReadFile("ModelData/Animations/Zombie/Run.fbx");
+	//reader->ExportClip(0, "Zombie/Run");
+	//delete reader;
 
-	model = new ModelAnimator("Zombie/Zombie");
-
-	model->ReadClip("Zombie/Dance");
-	model->ReadClip("Zombie/Idle");
-
-	model->PlayClip(0);
+	terrain = new Terrain();
+	zombie = new Zombie();
+	zombie->SetTerrain(terrain);
 }
 
 ModelAnimationScene::~ModelAnimationScene()
 {
-	delete model;
+	delete terrain;
+	delete zombie;
 }
 
 void ModelAnimationScene::Update()
 {
-	if(KEY_DOWN(VK_F1))
-		model->PlayClip(0);
-	if (KEY_DOWN(VK_F2))
-		model->PlayClip(1);
-
-	model->Update();
+	terrain->Update();
+	zombie->Update();
 }
 
 void ModelAnimationScene::PreRender()
@@ -36,7 +32,8 @@ void ModelAnimationScene::PreRender()
 
 void ModelAnimationScene::Render()
 {
-	model->Render();
+	terrain->Render();
+	zombie->Render();
 }
 
 void ModelAnimationScene::PostRender()

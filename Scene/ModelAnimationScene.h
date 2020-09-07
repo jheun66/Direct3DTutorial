@@ -13,5 +13,6 @@ public:
 	virtual void PostRender() override;
 
 private:
-	ModelAnimator* model;
+	Terrain* terrain;
+	Zombie* zombie;
 };
