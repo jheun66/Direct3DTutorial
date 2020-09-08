@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DX3D_2007.h" />
+    <ClInclude Include="Environment\Camera\FollowCamera.h" />
     <ClInclude Include="Environment\Environment.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Environment\Camera\Camera.h" />
@@ -220,6 +221,7 @@
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp" />
     <ClCompile Include="Environment\Camera\Camera.cpp" />
+    <ClCompile Include="Environment\Camera\FollowCamera.cpp" />
     <ClCompile Include="Environment\Camera\FreeCamera.cpp" />
     <ClCompile Include="Environment\Environment.cpp" />
     <ClCompile Include="Framework.cpp">

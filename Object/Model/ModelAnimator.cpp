@@ -34,6 +34,13 @@ void ModelAnimator::Update()
 
 		if (desc.time >= 1.0f)	// 다음 프레임으로 넘기는 조건
 		{
+			// 현재 애니메이션이 끝나는 조건 (프레임 끝에 도달)
+			if (desc.curFrame + desc.time >= clip->frameCount)
+			{
+				if (EndEvent.count(desc.clip) > 0)
+					EndEvent[desc.clip]();
+			}
+			
 			desc.runningTime = 0.0f;
 
 			//									루프 돌게

@@ -39,6 +39,9 @@
 
 #define CAMERA Environment::Get()->MainCamera()
 
+#define LERP(s, e, t) (s + (e - s) * t)
+//#define LERP(s, e, t) (s * (1 - t) + e * t)
+
 #include <windows.h>
 
 #include <assert.h>
@@ -46,6 +49,7 @@
 #include <map>				// RBTree 구조, 넣을 때 자동 정렬
 #include <string>
 #include <unordered_map>	// HashTable 구조
+#include <functional>
 
 // direct 라이브러리 추가
 #include <d3d11.h>
@@ -128,6 +132,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 
 #include "Environment/Camera/Camera.h"
 #include "Environment/Camera/FreeCamera.h"
+#include "Environment/Camera/FollowCamera.h"
 
 #include "Environment/Environment.h"
 

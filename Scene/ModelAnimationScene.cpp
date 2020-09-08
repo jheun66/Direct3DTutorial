@@ -5,13 +5,15 @@ ModelAnimationScene::ModelAnimationScene()
 {
 	CAMERA->SetPosition(0, 10, -30);
 	//ModelReader* reader = new ModelReader();
-	//reader->ReadFile("ModelData/Animations/Zombie/Run.fbx");
-	//reader->ExportClip(0, "Zombie/Run");
+	//reader->ReadFile("ModelData/Animations/Zombie/Attack.fbx");
+	//reader->ExportClip(0, "Zombie/Attack");
 	//delete reader;
 
 	terrain = new Terrain();
 	zombie = new Zombie();
 	zombie->SetTerrain(terrain);
+
+	CAMERA->SetTarget(zombie);
 }
 
 ModelAnimationScene::~ModelAnimationScene()

@@ -22,6 +22,8 @@ void Transform::UpdateWorld()
 	if (parent != nullptr)
 		world *= *parent;
 
+	XMMatrixDecompose(&globalScale.data, &globalRotation.data, &globalPosition.data, world);
+
 	worldBuffer->Set(world);
 }
 
@@ -49,5 +51,11 @@ Vector3 Transform::Right()
 Vector3 Transform::WorldPos()
 {
 	// ¸¶Áö¸· w 1
-	return XMVector3TransformCoord(XMVectorZero(), world);
+	//return XMVector3TransformCoord(XMVectorZero(), world);
+	return globalPosition;
+}
+
+Vector3 Transform::WorldRot()
+{
+	return globalRotation;
 }

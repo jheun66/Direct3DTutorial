@@ -8,8 +8,8 @@ Environment::Environment()
 	CreatePerspective();
     CreateSamplerState();
 
-    mainCamera = new FreeCamera();
-
+    //mainCamera = new FreeCamera();
+    mainCamera = new FollowCamera();
     lightBuffer = new LightBuffer();
 }
 
@@ -25,7 +25,7 @@ Environment::~Environment()
 void Environment::PostRender()
 {
     ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
-    ImGui::Text("CameraPos : %.2f, %.2f, %.2f", mainCamera->GetPos().x, mainCamera->GetPos().y, mainCamera->GetPos().z);
+    mainCamera->PostRender();
 
     ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
     ImGui::SliderFloat("LightSpecularExp", (float*)&lightBuffer->data.specularExp, 1, 100);

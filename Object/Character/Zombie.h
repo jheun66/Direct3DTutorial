@@ -6,7 +6,8 @@ private:
 	enum AnimState
 	{
 		IDLE,
-		RUN
+		RUN,
+		ATTACK
 	}state;
 
 	float moveSpeed;
@@ -23,6 +24,9 @@ public:
 	void Render();
 
 	void Move();
+	void Attack();
+	void AttackEnd();
+
 	void SetAnimation(AnimState state);
 	void SetTerrain(Terrain* terrain) { this->terrain = terrain; }
 };

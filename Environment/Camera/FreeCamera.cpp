@@ -3,7 +3,6 @@
 FreeCamera::FreeCamera()
 	:moveSpeed(20.0f), rotSpeed(1.0f)
 {
-	oldPos = MOUSEPOS;
 }
 
 FreeCamera::~FreeCamera()

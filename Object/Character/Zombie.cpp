@@ -1,12 +1,15 @@
 #include "Framework.h"
 
 Zombie::Zombie()
-	:ModelAnimator("Zombie/Zombie"), moveSpeed(100), rotSpeed(10)
+	:ModelAnimator("Zombie/Zombie"), moveSpeed(50), rotSpeed(10)
 {
 	scale = { 0.1f, 0.1f, 0.1f };
 
 	ReadClip("Zombie/Idle");
 	ReadClip("Zombie/Run");
+	ReadClip("Zombie/Attack");
+
+	SetEndEvent(ATTACK, bind(&Zombie::AttackEnd, this));
 
 	PlayClip(0);
 
@@ -23,6 +26,7 @@ Zombie::~Zombie()
 void Zombie::Update()
 {
 	Move();
+	Attack();
 	ModelAnimator::Update();
 }
 
@@ -54,7 +58,7 @@ void Zombie::Move()
 		SetAnimation(RUN);
 	}
 
-	if (KEY_PRESS(VK_UP) || KEY_UP(VK_DOWN))
+	if (KEY_UP(VK_UP) || KEY_UP(VK_DOWN))
 	{
 		SetAnimation(IDLE);
 	}
@@ -69,4 +73,15 @@ void Zombie::SetAnimation(AnimState state)
 		this->state = state;
 		PlayClip(state);
 	}
+}
+
+void Zombie::Attack()
+{
+	if (KEY_DOWN(VK_SPACE))
+		SetAnimation(ATTACK);
+}
+
+void Zombie::AttackEnd()
+{
+	SetAnimation(IDLE);
 }

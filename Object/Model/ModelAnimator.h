@@ -69,6 +69,8 @@ private:
 	ID3D11ShaderResourceView* srv;
 
 	vector<ModelClip*> clips;
+
+	map<UINT, function<void()>> EndEvent;
 public:
 	ModelAnimator(string file);
 	~ModelAnimator();
@@ -79,6 +81,7 @@ public:
 	void PlayClip(UINT clip, float speed = 1.0f, float takeTime = 1.0f);
 	void ReadClip(string file);
 
+	void SetEndEvent(UINT clip, function<void()> value) { EndEvent[clip] = value; }
 private:
 	void CreateTexture();
 	void CreateClipTransform(UINT index);

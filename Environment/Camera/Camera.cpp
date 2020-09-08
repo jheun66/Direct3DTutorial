@@ -8,6 +8,8 @@ Camera::Camera()
 	matView = XMMatrixIdentity();
 	
 	viewBuffer = new ViewBuffer();
+	
+	oldPos = MOUSEPOS;
 }
 
 Camera::~Camera()
@@ -41,6 +43,12 @@ void Camera::View()
 	Vector3 focus = position + forward;
 	matView = XMMatrixLookAtLH(position.data, focus.data, up.data);
 	viewBuffer->Set(matView);
+}
+
+void Camera::PostRender()
+{
+	ImGui::Text("CamPos : %.2f, %.2f, %.2f", position.x, position.y, position.z);
+	ImGui::Text("CamRot : %.2f, %.2f, %.2f", rotation.x, rotation.y, rotation.z);
 }
 
 void Camera::VSSet(UINT slot)

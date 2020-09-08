@@ -21,6 +21,7 @@ protected:
 
 	ViewBuffer* viewBuffer;
 
+	Vector3 oldPos;
 public:
 	Camera();
 	virtual ~Camera();
@@ -29,6 +30,10 @@ public:
 	virtual void Move();
 	virtual void Rotation();
 	virtual void View();
+	
+	// 업캐스트 위해서
+	virtual void PostRender();
+	virtual void SetTarget(Transform* value) {}
 
 	void VSSet(UINT slot = 1);
 
