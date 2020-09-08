@@ -18,6 +18,12 @@ void FreeCamera::Update()
 	View();
 }
 
+void FreeCamera::PostRender()
+{
+	ImGui::SliderFloat("CamMoveSpeed", &moveSpeed, 1, 50);
+	ImGui::SliderFloat("CamRotSpeed", &rotSpeed, 0.1f, 1.0f);
+}
+
 void FreeCamera::Move()
 {
 	if (KEY_PRESS(VK_RBUTTON))

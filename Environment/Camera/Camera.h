@@ -1,11 +1,5 @@
 #pragma once
 
-struct Ray
-{
-	Vector3 position;
-	Vector3 direction;
-};
-
 class Camera
 {
 protected:

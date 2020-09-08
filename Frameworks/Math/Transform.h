@@ -16,10 +16,6 @@ protected:
 	Matrix* parent;
 
 	MatrixBuffer* worldBuffer;
-
-	Vector3 globalPosition;
-	Vector3 globalRotation;
-	Vector3 globalScale;
 public:
 	Transform(string tag = "Untagged");
 	virtual ~Transform();
@@ -36,5 +32,4 @@ public:
 	Vector3 Right();
 
 	Vector3 WorldPos();
-	Vector3 WorldRot();
 };

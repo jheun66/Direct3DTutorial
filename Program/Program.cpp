@@ -8,6 +8,7 @@
 #include "Scene/TerrainEditorScene.h"
 #include "Scene/ModelScene.h"
 #include "Scene/ModelAnimationScene.h"
+#include "Scene/CollisionScene.h"
 
 Program::Program()
 {
@@ -18,7 +19,8 @@ Program::Program()
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
-	scene = new ModelAnimationScene();
+	//scene = new ModelAnimationScene();
+	scene = new CollisionScene();
 }
 
 Program::~Program()

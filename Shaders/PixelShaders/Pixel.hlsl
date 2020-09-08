@@ -1,7 +1,4 @@
-cbuffer Colr : register(b0)
-{
-    float4 color;
-}
+#include "pixelHeader.hlsli"
 
 struct PixelInput
 {
@@ -11,5 +8,5 @@ struct PixelInput
 //                          ¹ÝÈ¯°ªÀÇ ½Ã¸àÆ½ ³×ÀÓ(SV : system value)
 float4 PS(PixelInput input) : SV_Target
 {
-    return color;
+    return mDiffuse;
 }

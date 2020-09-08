@@ -130,6 +130,10 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Assimp/ModelTypes.h"
 #include "Frameworks/Assimp/ModelReader.h"
 
+#include "Frameworks/Collision/Collider.h"
+#include "Frameworks/Collision/BoxCollider.h"
+#include "Frameworks/Collision/SphereCollider.h"
+
 #include "Environment/Camera/Camera.h"
 #include "Environment/Camera/FreeCamera.h"
 #include "Environment/Camera/FollowCamera.h"

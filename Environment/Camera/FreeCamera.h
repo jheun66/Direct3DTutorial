@@ -10,6 +10,7 @@ public:
 	~FreeCamera();
 
 	void Update() override;
+	void PostRender() override;
 
 private:
 	void Move() override;

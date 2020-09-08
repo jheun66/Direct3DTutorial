@@ -9,7 +9,6 @@ private:
 	float height;
 
 	Vector3 offset;
-	float rotOffset;
 
 	Vector3 destPos;
 	float destRot;

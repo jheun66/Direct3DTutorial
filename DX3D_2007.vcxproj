@@ -167,6 +167,9 @@
     <ClInclude Include="Environment\Camera\FreeCamera.h" />
     <ClInclude Include="Frameworks\Assimp\ModelReader.h" />
     <ClInclude Include="Frameworks\Assimp\ModelTypes.h" />
+    <ClInclude Include="Frameworks\Collision\BoxCollider.h" />
+    <ClInclude Include="Frameworks\Collision\Collider.h" />
+    <ClInclude Include="Frameworks\Collision\SphereCollider.h" />
     <ClInclude Include="Frameworks\Device\Device.h" />
     <ClInclude Include="Frameworks\Math\Math.h" />
     <ClInclude Include="Frameworks\Math\Transform.h" />
@@ -207,6 +210,7 @@
     <ClInclude Include="Object\Model\ModelRender.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene\CollisionScene.h" />
     <ClInclude Include="Scene\ComputeScene.h" />
     <ClInclude Include="Scene\CubeScene.h" />
     <ClInclude Include="Scene\GridScene.h" />
@@ -229,6 +233,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Frameworks\Assimp\ModelReader.cpp" />
+    <ClCompile Include="Frameworks\Collision\Collider.cpp" />
+    <ClCompile Include="Frameworks\Collision\SphereCollider.cpp" />
     <ClCompile Include="Frameworks\Device\Device.cpp" />
     <ClCompile Include="Frameworks\Math\Math.cpp" />
     <ClCompile Include="Frameworks\Math\Transform.cpp" />
@@ -266,6 +272,7 @@
     <ClCompile Include="Object\Model\ModelMeshPart.cpp" />
     <ClCompile Include="Object\Model\ModelRender.cpp" />
     <ClCompile Include="Program\Program.cpp" />
+    <ClCompile Include="Scene\CollisionScene.cpp" />
     <ClCompile Include="Scene\ComputeScene.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp" />
