@@ -29,7 +29,7 @@ public:
 	Collider();
 	virtual ~Collider();
 
-	virtual bool IsCollision(Collider* collider) = 0;
+	bool IsCollision(Collider* collider);
 	virtual bool IsCollision(IN Ray ray, OUT Contact* contact = nullptr) = 0;
 	virtual bool IsBoxCollision(BoxCollider* collider) = 0;
 	virtual bool IsSphereCollision(SphereCollider* collider) = 0;

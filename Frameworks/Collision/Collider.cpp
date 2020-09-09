@@ -12,6 +12,19 @@ Collider::~Collider()
     delete mesh;
 }
 
+bool Collider::IsCollision(Collider* collider)
+{    
+    //enum으로 찾는게 깔끔함..
+
+    // 형이 맞으면 변환 안맞으면 널을 반환
+    BoxCollider* coll = dynamic_cast<BoxCollider*>(collider);
+
+    if (coll != nullptr)
+        return IsBoxCollision(coll);
+
+    return IsSphereCollision(static_cast<SphereCollider*>(collider));
+}
+
 void Collider::Render()
 {
     UpdateWorld();

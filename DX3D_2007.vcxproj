@@ -233,6 +233,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Frameworks\Assimp\ModelReader.cpp" />
+    <ClCompile Include="Frameworks\Collision\BoxCollider.cpp" />
     <ClCompile Include="Frameworks\Collision\Collider.cpp" />
     <ClCompile Include="Frameworks\Collision\SphereCollider.cpp" />
     <ClCompile Include="Frameworks\Device\Device.cpp" />

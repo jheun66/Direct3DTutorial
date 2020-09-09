@@ -139,6 +139,11 @@ void Vector3::operator/=(const float& value)
 	data /= XMVectorReplicate(value);
 }
 
+bool Vector3::operator==(const Vector3& value)
+{
+	return XMVector3Equal(data, value.data);
+}
+
 float Vector3::Length() const
 {
 	// XMVector3Length : 반환되는 벡터의 x값에 길이를 들어있어서

@@ -10,19 +10,6 @@ SphereCollider::~SphereCollider()
 {
 }
 
-bool SphereCollider::IsCollision(Collider* collider)
-{
-    //enum으로 찾는게 깔끔함..
-
-    // 형이 맞으면 변환 안맞으면 널을 반환
-    BoxCollider* coll = dynamic_cast<BoxCollider*>(collider);
-
-    if (coll != nullptr)
-        return IsBoxCollision(coll);
-
-    return IsSphereCollision(static_cast<SphereCollider*>(collider));
-}
-
 bool SphereCollider::IsCollision(IN Ray ray, OUT Contact* contact)
 {
     Vector3 P = ray.position;

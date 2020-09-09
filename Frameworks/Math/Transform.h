@@ -10,6 +10,10 @@ public:
 	Vector3 scale;
 
 protected:
+	Vector3 globalPosition;
+	Vector3 globalRotation;
+	Vector3 globalScale;
+
 	Vector3 pivot;
 
 	Matrix world;
@@ -32,4 +36,5 @@ public:
 	Vector3 Right();
 
 	Vector3 WorldPos();
+	Vector3 WorldRot();
 };

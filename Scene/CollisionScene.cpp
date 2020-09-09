@@ -3,8 +3,8 @@
 
 CollisionScene::CollisionScene()
 {
-	colliders.emplace_back(new SphereCollider());
-	colliders.emplace_back(new SphereCollider());
+	colliders.emplace_back(new BoxCollider());
+	colliders.emplace_back(new BoxCollider());
 }
 
 CollisionScene::~CollisionScene()
@@ -15,28 +15,28 @@ CollisionScene::~CollisionScene()
 
 void CollisionScene::Update()
 {
-	//if (colliders[0]->IsCollision(colliders[1]))
-	//	colliders[0]->SetColor({ 1, 0, 0, 1 });
-	//else
-	//	colliders[0]->SetColor({ 0, 1, 0, 1 });
+	if (colliders[0]->IsCollision(colliders[1]))
+		colliders[0]->SetColor({ 1, 0, 0, 1 });
+	else
+		colliders[0]->SetColor({ 0, 1, 0, 1 });
 
 
-	if (KEY_DOWN(VK_LBUTTON))
-	{
-		Ray ray = CAMERA->ScreenPointToRay(MOUSEPOS);
+	//if (KEY_DOWN(VK_LBUTTON))
+	//{
+	//	Ray ray = CAMERA->ScreenPointToRay(MOUSEPOS);
 
-		for (Collider* collider : colliders)
-		{
-			if (collider->IsCollision(ray, &contact))
-			{
-				collider->SetColor({ 0,0,1,1 });
-			}
-			else
-			{
-				collider->SetColor({ 0,1,0,1 });
-			}
-		}
-	}
+	//	for (Collider* collider : colliders)
+	//	{
+	//		if (collider->IsCollision(ray, &contact))
+	//		{
+	//			collider->SetColor({ 0,0,1,1 });
+	//		}
+	//		else
+	//		{
+	//			collider->SetColor({ 0,1,0,1 });
+	//		}
+	//	}
+	//}
 	
 }
 
@@ -53,6 +53,9 @@ void CollisionScene::Render()
 void CollisionScene::PostRender()
 {
 	ImGui::SliderFloat3("ColPos0", (float*)&colliders[0]->position, -10, 10);
+	ImGui::SliderFloat3("ColRot0", (float*)&colliders[0]->rotation, -10, 10);
+	ImGui::SliderFloat3("ColWorldRot0", (float*)&colliders[0]->WorldRot(), -10, 10);
+
 	ImGui::SliderFloat("ContactDistance", &contact.distance, 0, 100);
 	ImGui::SliderFloat3("ContactPoint", (float*)&contact.hitPoint, 0, 100);
 }
