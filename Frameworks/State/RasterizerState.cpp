@@ -40,5 +40,5 @@ void RasterizerState::Changed()
 		state->Release();
 
 
-	DEVICE->CreateRasterizerState(&desc, &state);
+	V(DEVICE->CreateRasterizerState(&desc, &state));
 }

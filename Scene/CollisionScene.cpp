@@ -4,7 +4,7 @@
 CollisionScene::CollisionScene()
 {
 	colliders.emplace_back(new BoxCollider());
-	colliders.emplace_back(new BoxCollider());
+	colliders.emplace_back(new SphereCollider());
 }
 
 CollisionScene::~CollisionScene()
@@ -19,6 +19,11 @@ void CollisionScene::Update()
 		colliders[0]->SetColor({ 1, 0, 0, 1 });
 	else
 		colliders[0]->SetColor({ 0, 1, 0, 1 });
+
+	if (colliders[1]->IsCollision(colliders[0]))
+		colliders[1]->SetColor({ 1, 0, 0, 1 });
+	else
+		colliders[1]->SetColor({ 0, 1, 0, 1 });
 
 
 	//if (KEY_DOWN(VK_LBUTTON))

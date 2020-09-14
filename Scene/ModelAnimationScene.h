@@ -15,4 +15,6 @@ public:
 private:
 	Terrain* terrain;
 	Zombie* zombie;
+
+	SkyBox* skyBox;
 };

@@ -16,6 +16,11 @@ private:
 	Terrain* terrain;
 
 	Transform offset;
+
+	Collider* attackCollider;
+	ModelBone* leftHandBone;
+
+	Matrix boneWorld;
 public:
 	Zombie();
 	~Zombie();
@@ -26,6 +31,8 @@ public:
 	void Move();
 	void Attack();
 	void AttackEnd();
+
+	void SetAttackCollider();
 
 	void SetAnimation(AnimState state);
 	void SetTerrain(Terrain* terrain) { this->terrain = terrain; }

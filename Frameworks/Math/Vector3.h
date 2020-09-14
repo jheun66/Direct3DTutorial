@@ -15,13 +15,16 @@ public:
 	void SetX(float value);
 	void SetY(float value);
 	void SetZ(float value);
+	void SetW(float value);
 	float GetX();
 	float GetY();
 	float GetZ();
+	float GetW();
 
 	__declspec(property(get = GetX, put = SetX)) float x;
 	__declspec(property(get = GetY, put = SetY)) float y;
 	__declspec(property(get = GetZ, put = SetZ)) float z;
+	__declspec(property(get = GetW, put = SetW)) float w;
 
 	Vector3 operator+(const Vector3& value) const;
 	Vector3 operator-(const Vector3& value) const;

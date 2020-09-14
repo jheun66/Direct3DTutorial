@@ -126,6 +126,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
+#include "Frameworks/State/DepthStencilState.h"
 
 #include "Frameworks/Assimp/ModelTypes.h"
 #include "Frameworks/Assimp/ModelReader.h"
@@ -157,6 +158,7 @@ using namespace Utility;
 
 #include "Object/LandScape/Terrain.h"
 #include "Object/LandScape/TerrainEditor.h"
+#include "Object/LandScape/SkyBox.h"
 
 #include "Object/Character/Zombie.h"
 

@@ -20,3 +20,42 @@ cbuffer ModelBone : register(b3)
     
     int index;
 }
+
+//////////////////////////////////////////////////////////////////////
+///VertexLayouts//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+struct Vertex
+{
+    float4 pos : Position;
+};
+
+struct VertexUV
+{
+    float4 pos : Position;
+    float2 uv : UV;
+};
+
+struct VertexUVNormal
+{
+    float4 pos : Position;
+    float2 uv : UV;
+    float3 normal : Normal;
+};
+
+struct VertexUVNormalTangent
+{
+    float4 pos : Position;
+    float2 uv : UV;
+    float3 normal : Normal;
+    float3 tangent : Tangent;
+};
+
+struct VertexUVNormalTangentBlend
+{
+    float4 pos : Position;
+    float2 uv : UV;
+    float3 normal : Normal;
+    float3 tangent : Tangent;
+    float4 indices : BlendIndices;
+    float4 weights : BlendWeight;
+};

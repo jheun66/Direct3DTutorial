@@ -44,6 +44,11 @@ void Vector3::SetZ(float value)
 	data = XMVectorSetZ(data, value);
 }
 
+void Vector3::SetW(float value)
+{
+	data = XMVectorSetW(data, value);
+}
+
 float Vector3::GetX()
 {
 	return XMVectorGetX(data);
@@ -57,6 +62,11 @@ float Vector3::GetY()
 float Vector3::GetZ()
 {
 	return XMVectorGetZ(data);
+}
+
+float Vector3::GetW()
+{
+	return XMVectorGetW(data);
 }
 
 Vector3 Vector3::operator+(const Vector3& value) const

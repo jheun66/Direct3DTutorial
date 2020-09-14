@@ -237,3 +237,14 @@ void Model::SetShader(wstring vsFile, wstring psFile)
 		material.second->SetShader(vsFile, psFile);
 }
 
+ModelBone* Model::GetBoneByName(string name)
+{
+	for (ModelBone* bone : bones)
+	{
+		if (bone->name == name)
+			return bone;
+	}
+
+	return nullptr;
+}
+

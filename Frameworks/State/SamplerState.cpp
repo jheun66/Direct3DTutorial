@@ -46,5 +46,5 @@ void SamplerState::Changed()
 	if (state != nullptr)
 		state->Release();
 
-	DEVICE->CreateSamplerState(&desc, &state);
+	V(DEVICE->CreateSamplerState(&desc, &state));
 }

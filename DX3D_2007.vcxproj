@@ -188,6 +188,7 @@
     <ClInclude Include="Frameworks\Render\VertexBuffer.h" />
     <ClInclude Include="Frameworks\Render\VertexLayouts.h" />
     <ClInclude Include="Frameworks\Render\VertexShader.h" />
+    <ClInclude Include="Frameworks\State\DepthStencilState.h" />
     <ClInclude Include="Frameworks\State\RasterizerState.h" />
     <ClInclude Include="Frameworks\State\SamplerState.h" />
     <ClInclude Include="Frameworks\Utility\BinaryReader.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Object\Basic\Quad.h" />
     <ClInclude Include="Object\Basic\Sphere.h" />
     <ClInclude Include="Object\Character\Zombie.h" />
+    <ClInclude Include="Object\LandScape\SkyBox.h" />
     <ClInclude Include="Object\LandScape\Terrain.h" />
     <ClInclude Include="Object\LandScape\TerrainEditor.h" />
     <ClInclude Include="Object\Model\Model.h" />
@@ -252,6 +254,7 @@
     <ClCompile Include="Frameworks\Render\Texture.cpp" />
     <ClCompile Include="Frameworks\Render\VertexBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\VertexShader.cpp" />
+    <ClCompile Include="Frameworks\State\DepthStencilState.cpp" />
     <ClCompile Include="Frameworks\State\RasterizerState.cpp" />
     <ClCompile Include="Frameworks\State\SamplerState.cpp" />
     <ClCompile Include="Frameworks\Utility\BinaryReader.cpp" />
@@ -264,6 +267,7 @@
     <ClCompile Include="Object\Basic\Quad.cpp" />
     <ClCompile Include="Object\Basic\Sphere.cpp" />
     <ClCompile Include="Object\Character\Zombie.cpp" />
+    <ClCompile Include="Object\LandScape\SkyBox.cpp" />
     <ClCompile Include="Object\LandScape\Terrain.cpp" />
     <ClCompile Include="Object\LandScape\TerrainEditor.cpp" />
     <ClCompile Include="Object\Model\Model.cpp" />
@@ -349,6 +353,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelSkyBox.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelSpecular.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -423,6 +434,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexNormalMapping.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexSkyBox.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

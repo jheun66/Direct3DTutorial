@@ -18,6 +18,7 @@ public:
 	virtual bool IsBoxCollision(BoxCollider* collider) override;
 	virtual bool IsSphereCollision(SphereCollider* collider) override;
 
+	float Radius() { return radius * max(scale.x, max(scale.y, scale.z)); }
 private:
 	virtual void CreateMesh() override;
 };

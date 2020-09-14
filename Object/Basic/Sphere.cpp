@@ -3,24 +3,29 @@
 Sphere::Sphere(float radius, UINT sliceCount, UINT stackCount)
 	:radius(radius), sliceCount(sliceCount), stackCount(stackCount)
 {
-	texture = Texture::Add(L"LandScape/Fieldstone_DM.tga");
-	specularMap = Texture::Add(L"LandScape/Fieldstone_SM.tga");
-	normalMap = Texture::Add(L"LandScape/Fieldstone_NM.tga");
-
-	vertexShader = Shader::AddVS(L"VertexNormalMapping");
-	pixelShader = Shader::AddPS(L"PixelNormalMapping");
+	material = new Material();
 
 	CreateMesh();
 
 	fillMode[0] = new RasterizerState();
 	fillMode[1] = new RasterizerState();
-	fillMode[1]->FillMode(D3D11_FILL_WIREFRAME);
+}
+
+Sphere::Sphere(wstring shaderFile, float radius, UINT sliceCount, UINT stackCount)
+	:radius(radius), sliceCount(sliceCount), stackCount(stackCount)
+{
+	material = new Material(shaderFile);
+
+	CreateMesh();
+
+	fillMode[0] = new RasterizerState();
+	fillMode[1] = new RasterizerState();
 }
 
 Sphere::~Sphere()
 {
-	delete vertexBuffer;
-	delete indexBuffer;
+	delete material;
+	delete mesh;
 
 	delete fillMode[0];
 	delete fillMode[1];
@@ -33,22 +38,16 @@ void Sphere::Update()
 
 void Sphere::Render()
 {
-	vertexBuffer->IASet();
-	indexBuffer->IASet();
+	mesh->Set();
 	IASetPT();
 
 	SetWorldBuffer();
 
-	texture->PSSet(0);
-	specularMap->PSSet(1);
-	normalMap->PSSet(2);
+	material->Set();
 
-	vertexShader->Set();
-	pixelShader->Set();
-
-	//fillMode[1]->SetState();
+	fillMode[1]->SetState();
 	DC->DrawIndexed(indices.size(), 0, 0);
-	//fillMode[0]->SetState();
+	fillMode[0]->SetState();
 
 }
 
@@ -93,8 +92,7 @@ void Sphere::CreateMesh()
 
 	CreateTangent();
 
-	vertexBuffer = new VertexBuffer(vertices.data(), sizeof(VertexType), vertices.size());
-	indexBuffer = new IndexBuffer(indices.data(), indices.size());
+	mesh = new Mesh(vertices.data(), sizeof(VertexType), vertices.size(), indices.data(), indices.size());
 }
 
 void Sphere::CreateTangent()

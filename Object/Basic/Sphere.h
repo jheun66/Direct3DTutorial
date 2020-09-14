@@ -6,17 +6,11 @@ private:
 	typedef VertexUVNormalTangent VertexType;
 
 	// Material
-	Texture* texture;
-	Texture* specularMap;
-	Texture* normalMap;
-
-
-	VertexShader* vertexShader;
-	PixelShader* pixelShader;
+	Material* material;
 
 	// Mesh
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
+	Mesh* mesh;
+
 	vector<VertexType> vertices;
 	vector<UINT> indices;
 
@@ -28,10 +22,15 @@ private:
 
 public:
 	Sphere(float radius =1.0f, UINT sliceCount = 20, UINT stackCount = 20);
+	Sphere(wstring shaderFile, float radius = 1.0f, UINT sliceCount = 20, UINT stackCount = 20);
 	~Sphere();
 
 	void Update();
 	void Render();
+
+	float GetRadius() { return radius; }
+	Material* GetMaterial() { return material; }
+	RasterizerState* GetFillMode() { return fillMode[1]; }
 
 private:
 	void CreateMesh();

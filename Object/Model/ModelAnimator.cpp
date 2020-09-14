@@ -148,6 +148,14 @@ void ModelAnimator::ReadClip(string file)
 	delete r;
 }
 
+Matrix ModelAnimator::GetCurBoneMatrix(UINT boneIndex)
+{
+	if (clipTransform == nullptr)
+		return XMMatrixIdentity();
+
+	return clipTransform[frameBuffer->data.cur.clip].transform[frameBuffer->data.cur.curFrame][boneIndex];
+}
+
 void ModelAnimator::CreateTexture()
 {
 	UINT clipCount = clips.size();

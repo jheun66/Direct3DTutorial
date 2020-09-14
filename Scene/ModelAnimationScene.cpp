@@ -14,12 +14,15 @@ ModelAnimationScene::ModelAnimationScene()
 	zombie->SetTerrain(terrain);
 
 	CAMERA->SetTarget(zombie);
+
+	skyBox = new SkyBox();
 }
 
 ModelAnimationScene::~ModelAnimationScene()
 {
 	delete terrain;
 	delete zombie;
+	delete skyBox;
 }
 
 void ModelAnimationScene::Update()
@@ -34,6 +37,9 @@ void ModelAnimationScene::PreRender()
 
 void ModelAnimationScene::Render()
 {
+	// 중요 skybox 맨위에
+	skyBox->Render();
+
 	terrain->Render();
 	zombie->Render();
 }

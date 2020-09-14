@@ -19,8 +19,8 @@ Program::Program()
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
-	//scene = new ModelAnimationScene();
-	scene = new CollisionScene();
+	scene = new ModelAnimationScene();
+	//scene = new CollisionScene();
 }
 
 Program::~Program()

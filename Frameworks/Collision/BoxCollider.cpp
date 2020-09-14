@@ -12,7 +12,65 @@ BoxCollider::~BoxCollider()
 
 bool BoxCollider::IsCollision(IN Ray ray, OUT Contact* contact)
 {
-    return false;
+    Contact temp;
+    temp.distance = FLT_MAX;
+
+    UINT face[] = {
+        0,1,2,3,
+        4,5,6,7,
+        0,1,5,4,
+        1,5,6,2,
+        2,3,7,6,
+        0,3,7,4
+    };
+
+    for (UINT i = 0; i < 6; i++)
+    {
+        Vector3 p[4];
+
+        p[0] = vertices[face[i * 4 + 0]].position;
+        p[1] = vertices[face[i * 4 + 1]].position;
+        p[2] = vertices[face[i * 4 + 2]].position;
+        p[3] = vertices[face[i * 4 + 3]].position;
+
+        p[0] = XMVector3TransformCoord(p[0].data, world);
+        p[1] = XMVector3TransformCoord(p[1].data, world);
+        p[2] = XMVector3TransformCoord(p[2].data, world);
+        p[3] = XMVector3TransformCoord(p[3].data, world);
+
+        float dist;
+        if (Intersects(ray.position.data, ray.direction.data,
+            p[0].data, p[1].data, p[2].data, dist))
+        {
+            if (dist < temp.distance)
+            {
+                temp.distance = dist;
+                temp.hitPoint = ray.position + ray.direction * dist;
+
+            }
+        }
+        if (Intersects(ray.position.data, ray.direction.data,
+            p[0].data, p[2].data, p[3].data, dist))
+        {
+            if (dist < temp.distance)
+            {
+                temp.distance = dist;
+                temp.hitPoint = ray.position + ray.direction * dist;
+
+            }
+        }
+    }
+
+    if (temp.distance == FLT_MAX)
+        return false;
+
+    if (contact != nullptr)
+    {
+        contact->distance = temp.distance;
+        contact->hitPoint = temp.hitPoint;
+    }
+
+    return true;
 }
 
 bool BoxCollider::IsBoxCollision(BoxCollider* collider)
@@ -49,8 +107,43 @@ bool BoxCollider::IsBoxCollision(BoxCollider* collider)
 
 bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 {
-    return false;
+    Matrix invWorld = XMMatrixInverse(nullptr, world);
+
+    Vector3 spherePos = XMVector3TransformCoord(collider->WorldPos().data, invWorld);
+
+    Vector3 temp;
+    temp.x = max(minBox.x, min(spherePos.x, maxBox.x));
+    temp.y = max(minBox.y, min(spherePos.y, maxBox.y));
+    temp.z = max(minBox.z, min(spherePos.z, maxBox.z));
+
+    temp -= spherePos;
+
+    return temp.Length() <= collider->Radius();
 }
+
+
+//bool BoxCollider::IsSphereCollision(SphereCollider* collider)
+//{
+//    Obb obb = GetObb();
+//
+//    float size[3] = { obb.halfSize.x, obb.halfSize.y, obb.halfSize.z };
+//    Vector3 pos = obb.position;
+//
+//    for (UINT i = 0; i < 3; i++)
+//    {
+//        float length = obb.axis[i].Dot(collider->WorldPos() - obb.position);
+//
+//        float mult = (length < 0.0f) ? -1.0f : 1.0f;
+//
+//        length = min(abs(length), size[i]);
+//        pos += obb.axis[i] * length * mult;
+//
+//    }
+//
+//    float distance = (collider->WorldPos() - pos).Length();
+//    
+//    return distance <= collider->Radius();
+//}
 
 Obb BoxCollider::GetObb()
 {

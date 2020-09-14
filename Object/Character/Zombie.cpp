@@ -17,22 +17,33 @@ Zombie::Zombie()
 	offset.rotation.y = XM_PI;
 	offset.UpdateWorld();
 	parent = offset.GetWorld();
+
+	attackCollider = new SphereCollider();
+	attackCollider->scale = { 10, 10, 10 };
+
+	leftHandBone = GetBoneByName("Zombie:LeftHand");
+	attackCollider->SetParent(&boneWorld);
 }
 
 Zombie::~Zombie()
 {
+	delete attackCollider;
 }
 
 void Zombie::Update()
 {
 	Move();
 	Attack();
+
+	SetAttackCollider();
+
 	ModelAnimator::Update();
 }
 
 void Zombie::Render()
 {
 	ModelAnimator::Render();
+	attackCollider->Render();
 }
 
 void Zombie::Move()
@@ -71,7 +82,7 @@ void Zombie::SetAnimation(AnimState state)
 	if (this->state != state)
 	{
 		this->state = state;
-		PlayClip(state);
+		PlayClip(state, 1.0f, 0.1f);
 	}
 }
 
@@ -84,4 +95,11 @@ void Zombie::Attack()
 void Zombie::AttackEnd()
 {
 	SetAnimation(IDLE);
+}
+
+void Zombie::SetAttackCollider()
+{
+	boneWorld = GetCurBoneMatrix(leftHandBone->index);
+
+	boneWorld = leftHandBone->transform * boneWorld * world;
 }
