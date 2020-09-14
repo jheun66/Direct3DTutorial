@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithm\AStar.h" />
+    <ClInclude Include="Algorithm\Node.h" />
     <ClInclude Include="DX3D_2007.h" />
     <ClInclude Include="Environment\Camera\FollowCamera.h" />
     <ClInclude Include="Environment\Environment.h" />
@@ -200,6 +202,7 @@
     <ClInclude Include="Object\Basic\Cube.h" />
     <ClInclude Include="Object\Basic\Quad.h" />
     <ClInclude Include="Object\Basic\Sphere.h" />
+    <ClInclude Include="Object\Character\Medea.h" />
     <ClInclude Include="Object\Character\Zombie.h" />
     <ClInclude Include="Object\LandScape\SkyBox.h" />
     <ClInclude Include="Object\LandScape\Terrain.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="Object\Model\ModelRender.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scene\AStarScene.h" />
     <ClInclude Include="Scene\CollisionScene.h" />
     <ClInclude Include="Scene\ComputeScene.h" />
     <ClInclude Include="Scene\CubeScene.h" />
@@ -225,6 +229,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithm\AStar.cpp" />
+    <ClCompile Include="Algorithm\Node.cpp" />
     <ClCompile Include="DX3D_2007.cpp" />
     <ClCompile Include="Environment\Camera\Camera.cpp" />
     <ClCompile Include="Environment\Camera\FollowCamera.cpp" />
@@ -266,6 +272,7 @@
     <ClCompile Include="Object\Basic\Cube.cpp" />
     <ClCompile Include="Object\Basic\Quad.cpp" />
     <ClCompile Include="Object\Basic\Sphere.cpp" />
+    <ClCompile Include="Object\Character\Medea.cpp" />
     <ClCompile Include="Object\Character\Zombie.cpp" />
     <ClCompile Include="Object\LandScape\SkyBox.cpp" />
     <ClCompile Include="Object\LandScape\Terrain.cpp" />
@@ -277,6 +284,7 @@
     <ClCompile Include="Object\Model\ModelMeshPart.cpp" />
     <ClCompile Include="Object\Model\ModelRender.cpp" />
     <ClCompile Include="Program\Program.cpp" />
+    <ClCompile Include="Scene\AStarScene.cpp" />
     <ClCompile Include="Scene\CollisionScene.cpp" />
     <ClCompile Include="Scene\ComputeScene.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />

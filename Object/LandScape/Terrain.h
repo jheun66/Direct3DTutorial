@@ -49,7 +49,7 @@ public:
 	
 	bool ComputePicking(OUT Vector3* position);
 
-
+	Float2 GetSize() { return Float2(width, height); }
 private:
 	void CreateData();
 	void CreateNormal();

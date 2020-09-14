@@ -2,7 +2,7 @@
 
 SkyBox::SkyBox()
 {
-	sphere = new Sphere(L"SkyBox", 5.0f);
+	sphere = new Sphere(L"SkyBox");
 	sphere->GetFillMode()->FrontCounterClockWise(true);
 
 	cubeMap = Texture::Add(L"Textures/Landscape/NightMoon.dds");

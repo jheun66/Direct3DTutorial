@@ -141,6 +141,10 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 
 #include "Environment/Environment.h"
 
+#include "Algorithm/Node.h"
+#include "Algorithm/AStar.h"
+
+
 using namespace GameMath;
 using namespace Utility;
 
@@ -161,6 +165,7 @@ using namespace Utility;
 #include "Object/LandScape/SkyBox.h"
 
 #include "Object/Character/Zombie.h"
+#include "Object/Character/Medea.h"
 
 // Program Header
 #include "Scene/Scene.h"

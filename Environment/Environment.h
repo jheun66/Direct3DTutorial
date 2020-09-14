@@ -32,6 +32,7 @@ public:
 	LightBuffer* GetLight() { return lightBuffer; }
 	Matrix GetPerspective() { return perspective; }
 
+	void ChangeCameraMode(bool isFollowCamera);
 private:
 	void CreateViewort();
 	void CreatePerspective();

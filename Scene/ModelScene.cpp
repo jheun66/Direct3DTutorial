@@ -3,9 +3,9 @@
 
 ModelScene::ModelScene()
 {
-	string name = "Zombie/Zombie";
+	string name = "Medea/Medea";
 	modelReader = new ModelReader();
-	modelReader->ReadFile("ModelData/Models/zombie.fbx");
+	modelReader->ReadFile("ModelData/Models/Medea.fbx");
 	modelReader->ExportMaterial(name);
 	modelReader->ExportMesh(name);
 

@@ -78,7 +78,7 @@ public:
 	void Update();
 	void Render();
 
-	void PlayClip(UINT clip, float speed = 1.0f, float takeTime = 1.0f);
+	void PlayClip(UINT clip, float speed = 1.0f, float takeTime = 0.2f);
 	void ReadClip(string file);
 
 	void SetEndEvent(UINT clip, function<void()> value) { EndEvent[clip] = value; }

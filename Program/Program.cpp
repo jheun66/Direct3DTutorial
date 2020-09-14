@@ -9,6 +9,7 @@
 #include "Scene/ModelScene.h"
 #include "Scene/ModelAnimationScene.h"
 #include "Scene/CollisionScene.h"
+#include "Scene/AStarScene.h"
 
 Program::Program()
 {
@@ -19,8 +20,9 @@ Program::Program()
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
-	scene = new ModelAnimationScene();
+	//scene = new ModelAnimationScene();
 	//scene = new CollisionScene();
+	scene = new AStarScene();
 }
 
 Program::~Program()

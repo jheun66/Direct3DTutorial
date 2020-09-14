@@ -8,8 +8,8 @@ Environment::Environment()
 	CreatePerspective();
     CreateSamplerState();
 
-    mainCamera = new FreeCamera();
-    //mainCamera = new FollowCamera();
+    //mainCamera = new FreeCamera();
+    mainCamera = new FollowCamera();
     lightBuffer = new LightBuffer();
 }
 
@@ -30,6 +30,16 @@ void Environment::PostRender()
     ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
     ImGui::SliderFloat("LightSpecularExp", (float*)&lightBuffer->data.specularExp, 1, 100);
     ImGui::ColorEdit4 ("LightAmbient", (float*)&lightBuffer->data.ambient);
+}
+
+void Environment::ChangeCameraMode(bool isFollowCamera)
+{
+    delete mainCamera;
+
+    if (isFollowCamera)
+        mainCamera = new FollowCamera();
+    else
+        mainCamera = new FreeCamera();
 }
 
 void Environment::CreateViewort()
