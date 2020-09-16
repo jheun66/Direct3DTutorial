@@ -55,3 +55,16 @@ void Node::AddEdge(Node* node)
 
 	edges.emplace_back(edge);
 }
+
+BoxCollider* Node::SetObstacle()
+{
+	state = OBSTACLE;
+
+	Vector3 min = { -interval.x * 0.5f, -10.0f, -interval.y * 0.5f };
+	Vector3 max = min * -1.0f;
+
+	BoxCollider* box = new BoxCollider(min, max);
+	box->position = collider->position;
+
+	return box;
+}

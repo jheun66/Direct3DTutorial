@@ -18,8 +18,10 @@ private:
 	Vector3 velocity;
 
 	Vector3 destPos;
+	vector<Vector3> path;
 
 	Terrain* terrain;
+	AStar* aStar;
 public:
 	Medea();
 	~Medea();
@@ -28,10 +30,11 @@ public:
 	void Render();
 
 	void SetTerrain(Terrain* value) { terrain = value; };
-
+	void SetAStar(AStar* value) { aStar = value; }
 private:
 	void Input();
 	void Move();
+	void MovePath();
 	void Rotate();
 
 	void SetAnimation(AnimState value);

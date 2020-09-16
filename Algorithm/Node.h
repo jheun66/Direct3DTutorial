@@ -4,6 +4,7 @@ class Node
 {
 private:
 	friend class AStar;
+	friend class Heap;
 
 	struct EdgeInfo
 	{
@@ -41,5 +42,5 @@ private:
 
 	void AddEdge(Node* node);
 
-
+	BoxCollider* SetObstacle();
 };

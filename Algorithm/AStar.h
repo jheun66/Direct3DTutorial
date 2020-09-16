@@ -6,9 +6,12 @@ private:
 	UINT width, height;
 
 	vector<Node*> nodes;
-	vector<int> openNodes;
+	//vector<int> openNodes;
+	Heap* heap;
 
 	Float2 interval;
+
+	vector<BoxCollider*> obstacles;
 
 public:
 	AStar(UINT width = 20, UINT height = 20);
@@ -24,6 +27,7 @@ public:
 
 	void Reset();
 
+	bool isCollisionObstacle(Ray ray, float destDistance);
 private:
 	float GetDistance(int curIndex, int end);
 

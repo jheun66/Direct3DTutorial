@@ -3,13 +3,18 @@
 AStar::AStar(UINT width, UINT height)
 	:width(width), height(height)
 {
+	heap = new Heap();
 }
 
 AStar::~AStar()
 {
 	for (Node* node : nodes)
 		delete node;
-
+	
+	for (BoxCollider* obstacle : obstacles)
+		delete obstacle;
+	
+	delete heap;
 }
 
 void AStar::Setup(Terrain* terrain)
@@ -44,6 +49,18 @@ void AStar::Setup(Terrain* terrain)
 			nodes[i + 0]->AddEdge(nodes[i + width]);
 			nodes[i + width]->AddEdge(nodes[i + 0]);
 		}
+
+		if (i < nodes.size() - width && i % width != width - 1)
+		{
+			nodes[i + 0]->AddEdge(nodes[i + width + 1]);
+			nodes[i + width + 1]->AddEdge(nodes[i + 0]);
+		}
+
+		if (i < nodes.size() - width && i % width != 0)
+		{
+			nodes[i + 0]->AddEdge(nodes[i + width - 1]);
+			nodes[i + width - 1]->AddEdge(nodes[i + 0]);
+		}
 	}
 }
 
@@ -57,7 +74,8 @@ void AStar::Update()
 		{
 			if (node->collider->IsCollision(ray))
 			{
-				node->state = Node::OBSTACLE;
+				//node->state = Node::OBSTACLE;
+				obstacles.emplace_back(node->SetObstacle());
 				break;
 			}
 		}
@@ -68,6 +86,9 @@ void AStar::Render()
 {
 	for (Node* node : nodes)
 		node->Render();
+
+	for (BoxCollider* obstacle : obstacles)
+		obstacle->Render();
 }
 
 int AStar::FindCloseNode(Vector3 pos)
@@ -94,6 +115,7 @@ int AStar::FindCloseNode(Vector3 pos)
 
 vector<Vector3> AStar::FindPath(int start, int end)
 {
+	// 1. 시작 노드 초기화
 	float G = 0.0f;
 	float H = GetDistance(start, end);
 
@@ -103,15 +125,18 @@ vector<Vector3> AStar::FindPath(int start, int end)
 	nodes[start]->via = start;
 	nodes[start]->state = Node::OPEN;
 
-	openNodes.emplace_back(start);
+	//openNodes.emplace_back(start);
+	heap->Insert(nodes[start]);
 
 	while (nodes[end]->state != Node::CLOSED)
 	{
-		int curIndex = GetMinNode();
-		Extend(curIndex, end);
-		nodes[curIndex]->state = Node::CLOSED;
+		int curIndex = GetMinNode();	// 2. 오픈 노드 중에서 효율이 가장 좋은 노드 찾기
+		Extend(curIndex, end);			// 3. Min 노드가 갈 수 있는 노드를 Open 노드에 추가
+		nodes[curIndex]->state = Node::CLOSED;	// 4. 사용한 노드는 Close
 	}
+	// 완료
 
+	// 5. 경로는 백트랙킹으로 추적
 	vector<Vector3> path;
 	
 	int curIndex = end;
@@ -125,8 +150,9 @@ vector<Vector3> AStar::FindPath(int start, int end)
 	nodes[curIndex]->state = Node::USING;
 	path.emplace_back(nodes[curIndex]->pos);
 
-	openNodes.clear();
-
+	//openNodes.clear();
+	heap->Clear();
+	
 	return path;
 }
 
@@ -139,15 +165,35 @@ void AStar::Reset()
 	}
 }
 
+bool AStar::isCollisionObstacle(Ray ray, float destDistance)
+{
+	for (BoxCollider* obstacle : obstacles)
+	{
+		Contact contact;
+		if (obstacle->IsCollision(ray, &contact))
+		{
+			if (contact.distance < destDistance)
+				return true;
+		}
+	}
+	return false;
+}
+
 float AStar::GetDistance(int curIndex, int end)
 {
-	// ManhattanDistance
+	//// Manhattan Distance
+	//Vector3 startPos = nodes[curIndex]->pos;
+	//Vector3 endPos = nodes[end]->pos;
+
+	//Vector3 temp = startPos - endPos;
+
+	//return abs(temp.x) + abs(temp.z);
+
+	// 유클리드
 	Vector3 startPos = nodes[curIndex]->pos;
 	Vector3 endPos = nodes[end]->pos;
 
-	Vector3 temp = startPos - endPos;
-
-	return abs(temp.x) + abs(temp.z);
+	return Distance(startPos, endPos);
 }
 
 void AStar::Extend(int center, int end)
@@ -183,24 +229,36 @@ void AStar::Extend(int center, int end)
 			nodes[index]->via = center;
 			nodes[index]->state = Node::OPEN;
 
-			openNodes.emplace_back(index);
+			//openNodes.emplace_back(index);
+			heap->Insert(nodes[index]);
 		}
 	}
 }
 
 int AStar::GetMinNode()
 {
+	/*
+	int openIndex = 0;
+	int nodeIndex = openNodes[openIndex];
 	float minCost = nodes[openNodes.front()]->f;
-	float index = openNodes.front();
+	
 
-	for (int i = 1; i < openNodes.size(); i++)
+	for (size_t i = 1; i < openNodes.size(); i++)
 	{
-		if (nodes[openNodes[i]]->f < minCost)
+		nodeIndex = openNodes[i];
+
+		if (nodes[nodeIndex]->f < minCost)
 		{
-			minCost = nodes[openNodes[i]]->f;
-			index = openNodes[i];
+			minCost = nodes[nodeIndex]->f;
+			openIndex = i;
 		}
 	}
 
-	return index;
+	nodeIndex = openNodes[openIndex];
+	openNodes.erase(openNodes.begin() + openIndex);
+	
+
+	return nodeIndex;
+	*/
+	return heap->DeleteRoot()->index;
 }

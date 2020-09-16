@@ -37,12 +37,31 @@ void Medea::Input()
 	if (KEY_DOWN(VK_LBUTTON))
 	{
 		terrain->ComputePicking(&destPos);
+
+		Ray ray;
+		ray.position = position;
+		ray.direction = (destPos - position).Normal();
+
+		float distance = Distance(position, destPos);
+		if (aStar->isCollisionObstacle(ray, distance))
+		{
+			int startIndex = aStar->FindCloseNode(position);
+			int endIndex = aStar->FindCloseNode(destPos);
+
+			aStar->Reset();
+
+			path = aStar->FindPath(startIndex, endIndex);
+		}
+
+		// AStar에서 넣어줄 수 있을 듯
+		path.insert(path.begin(), destPos);
 	}
 }
 
 void Medea::Move()
 {
-	velocity = destPos - position;
+	MovePath();
+	//velocity = destPos - position;
 
 	if (velocity.Length() > 0.1f)
 	{
@@ -58,12 +77,25 @@ void Medea::Move()
 	}
 }
 
+void Medea::MovePath()
+{
+	if (path.empty())
+		return;
+
+	Vector3 dest = path.back();
+
+	velocity = dest - position;
+	
+	if (velocity.Length() < 0.1f)
+		path.pop_back();
+}
+
 void Medea::Rotate()
 {
 	if (velocity.Length() < 0.1f)
 		return;
 
-	Vector3 start = Forward();
+	Vector3 start = Forward() * -1;
 	Vector3 end = velocity.Normal();
 
 	float cosValue = start.Dot(end);
@@ -75,9 +107,9 @@ void Medea::Rotate()
 	Vector3 cross = start.Cross(end);
 
 	if (cross.y > 0.0f)
-		rotation.y -= rotSpeed * DELTA;
-	else
 		rotation.y += rotSpeed * DELTA;
+	else
+		rotation.y -= rotSpeed * DELTA;
 }
 
 void Medea::SetAnimation(AnimState value)

@@ -142,6 +142,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Environment/Environment.h"
 
 #include "Algorithm/Node.h"
+#include "Algorithm/Heap.h"
 #include "Algorithm/AStar.h"
 
 

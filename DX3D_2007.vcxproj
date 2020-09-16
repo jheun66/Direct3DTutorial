@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Algorithm\AStar.h" />
+    <ClInclude Include="Algorithm\Heap.h" />
     <ClInclude Include="Algorithm\Node.h" />
     <ClInclude Include="DX3D_2007.h" />
     <ClInclude Include="Environment\Camera\FollowCamera.h" />
@@ -230,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algorithm\AStar.cpp" />
+    <ClCompile Include="Algorithm\Heap.cpp" />
     <ClCompile Include="Algorithm\Node.cpp" />
     <ClCompile Include="DX3D_2007.cpp" />
     <ClCompile Include="Environment\Camera\Camera.cpp" />
