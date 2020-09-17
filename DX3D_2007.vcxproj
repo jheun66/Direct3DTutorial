@@ -179,6 +179,7 @@
     <ClInclude Include="Frameworks\Math\Vector3.h" />
     <ClInclude Include="Frameworks\Render\ComputeShader.h" />
     <ClInclude Include="Frameworks\Render\ConstBuffer.h" />
+    <ClInclude Include="Frameworks\Render\GeometryShader.h" />
     <ClInclude Include="Frameworks\Render\GlobalBuffer.h" />
     <ClInclude Include="Frameworks\Render\IndexBuffer.h" />
     <ClInclude Include="Frameworks\Render\Material.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Frameworks\Render\VertexBuffer.h" />
     <ClInclude Include="Frameworks\Render\VertexLayouts.h" />
     <ClInclude Include="Frameworks\Render\VertexShader.h" />
+    <ClInclude Include="Frameworks\State\BlendState.h" />
     <ClInclude Include="Frameworks\State\DepthStencilState.h" />
     <ClInclude Include="Frameworks\State\RasterizerState.h" />
     <ClInclude Include="Frameworks\State\SamplerState.h" />
@@ -215,6 +217,8 @@
     <ClInclude Include="Object\Model\ModelMesh.h" />
     <ClInclude Include="Object\Model\ModelMeshPart.h" />
     <ClInclude Include="Object\Model\ModelRender.h" />
+    <ClInclude Include="Object\Particle\Particle.h" />
+    <ClInclude Include="Object\Particle\Spark.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\AStarScene.h" />
@@ -254,6 +258,7 @@
     <ClCompile Include="Frameworks\Math\Vector3.cpp" />
     <ClCompile Include="Frameworks\Render\ComputeShader.cpp" />
     <ClCompile Include="Frameworks\Render\ConstBuffer.cpp" />
+    <ClCompile Include="Frameworks\Render\GeometryShader.cpp" />
     <ClCompile Include="Frameworks\Render\IndexBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\Material.cpp" />
     <ClCompile Include="Frameworks\Render\Mesh.cpp" />
@@ -264,6 +269,7 @@
     <ClCompile Include="Frameworks\Render\Texture.cpp" />
     <ClCompile Include="Frameworks\Render\VertexBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\VertexShader.cpp" />
+    <ClCompile Include="Frameworks\State\BlendState.cpp" />
     <ClCompile Include="Frameworks\State\DepthStencilState.cpp" />
     <ClCompile Include="Frameworks\State\RasterizerState.cpp" />
     <ClCompile Include="Frameworks\State\SamplerState.cpp" />
@@ -288,6 +294,8 @@
     <ClCompile Include="Object\Model\ModelMesh.cpp" />
     <ClCompile Include="Object\Model\ModelMeshPart.cpp" />
     <ClCompile Include="Object\Model\ModelRender.cpp" />
+    <ClCompile Include="Object\Particle\Particle.cpp" />
+    <ClCompile Include="Object\Particle\Spark.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\AStarScene.cpp" />
     <ClCompile Include="Scene\BillboardScene.cpp" />
@@ -332,6 +340,17 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\GeometryShaders\GeometryBillboard.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Shaders\GeometryShaders\GeometrySpark.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
@@ -471,6 +490,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexSkyBox.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexSpark.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

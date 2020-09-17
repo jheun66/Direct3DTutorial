@@ -6,7 +6,17 @@ class BillboardScene : public Scene
 private:
 	Terrain* terrain;
 
-	vector<Billboard*> trees;
+	//vector<Billboard*> trees;
+	Material* material;
+	GeometryShader* geometryShader;
+
+	VertexBuffer* vertexBuffer;
+	UINT count;
+
+	BlendState* blendState[2];
+
+	Spark* spark;
+
 public:
 	BillboardScene();
 	~BillboardScene();

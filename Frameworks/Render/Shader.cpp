@@ -33,6 +33,16 @@ ComputeShader* Shader::AddCS(wstring file, string csName)
     return (ComputeShader*)totalShader[file];
 }
 
+GeometryShader* Shader::AddGS(wstring file, string gsName)
+{
+    if (totalShader.count(file) > 0)
+        return (GeometryShader*)totalShader[file];
+
+    totalShader[file] = new GeometryShader(file, gsName);
+
+    return (GeometryShader*)totalShader[file];
+}
+
 void Shader::Delete()
 {
     for (auto shader : totalShader)

@@ -102,6 +102,8 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Render/VertexShader.h"
 #include "Frameworks/Render/PixelShader.h"
 #include "Frameworks/Render/ComputeShader.h"
+#include "Frameworks/Render/GeometryShader.h"
+
 #include "Frameworks/Render/VertexBuffer.h"
 #include "Frameworks/Render/IndexBuffer.h"
 #include "Frameworks/Render/ConstBuffer.h"
@@ -109,6 +111,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Render/StructuredBuffer.h"
 #include "Frameworks/Render/VertexLayouts.h"
 #include "Frameworks/Render/GlobalBuffer.h"
+
 #include "Frameworks/Render/Texture.h"
 #include "Frameworks/Render/Material.h"
 #include "Frameworks/Render/Mesh.h"
@@ -127,6 +130,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"
 #include "Frameworks/State/DepthStencilState.h"
+#include "Frameworks/State/BlendState.h"
 
 #include "Frameworks/Assimp/ModelTypes.h"
 #include "Frameworks/Assimp/ModelReader.h"
@@ -167,6 +171,9 @@ using namespace Utility;
 
 #include "Object/Character/Zombie.h"
 #include "Object/Character/Medea.h"
+
+#include "Object/Particle/Particle.h"
+#include "Object/Particle/Spark.h"
 
 // Program Header
 #include "Scene/Scene.h"

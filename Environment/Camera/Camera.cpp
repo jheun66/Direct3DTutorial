@@ -56,6 +56,11 @@ void Camera::VSSet(UINT slot)
 	viewBuffer->SetVSBuffer(slot);
 }
 
+void Camera::GSSet(UINT slot)
+{
+	viewBuffer->SetGSBuffer(slot);
+}
+
 Ray Camera::ScreenPointToRay(Vector3 pos)
 {
 	Float2 screenSize(WIN_WIDTH, WIN_HEIGHT);

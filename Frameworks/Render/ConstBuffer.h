@@ -19,4 +19,5 @@ public:
 	void SetVSBuffer(UINT slot);
 	void SetPSBuffer(UINT slot);
 	void SetCSBuffer(UINT slot);
+	void SetGSBuffer(UINT slot);
 };

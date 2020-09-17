@@ -38,6 +38,12 @@ void DepthStencilState::DepthEnable(bool value)
 	Changed();
 }
 
+void DepthStencilState::DepthWriteMask(D3D11_DEPTH_WRITE_MASK value)
+{
+	desc.DepthWriteMask = value;
+	Changed();
+}
+
 void DepthStencilState::Changed()
 {
 	if (state != nullptr)
