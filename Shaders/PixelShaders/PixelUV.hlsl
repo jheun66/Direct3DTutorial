@@ -1,5 +1,4 @@
-Texture2D map : register(t0);
-SamplerState samp : register(s0);
+#include "PixelHeader.hlsli"
 
 struct PixelInput
 {
@@ -7,8 +6,8 @@ struct PixelInput
     float2 uv : UV;
 };
 
-//                          ¹ÝÈ¯°ªÀÇ ½Ã¸àÆ½ ³×ÀÓ(SV : system value)
+
 float4 PS(PixelInput input) : SV_Target
 {
-    return map.Sample(samp, input.uv);
+    return diffuseMap.Sample(samp, input.uv) * mDiffuse;
 }

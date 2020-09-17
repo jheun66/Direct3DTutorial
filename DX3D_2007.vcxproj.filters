@@ -222,6 +222,12 @@
     <ClInclude Include="Algorithm\Heap.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\BillboardScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\LandScape\Billboard.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -413,6 +419,12 @@
     <ClCompile Include="Algorithm\Heap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\BillboardScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\LandScape\Billboard.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -453,6 +465,8 @@
     <FxCompile Include="Shaders\VertexShaders\VertexModelAnimation.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelSkyBox.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexSkyBox.hlsl" />
+    <FxCompile Include="Shaders\GeometryShaders\GeometryBillboard.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexBillboard.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

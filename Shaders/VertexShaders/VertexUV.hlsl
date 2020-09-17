@@ -1,24 +1,4 @@
-cbuffer W : register(b0)
-{
-    matrix world;
-}
-
-cbuffer V : register(b1)
-{
-    matrix view;
-}
-cbuffer P : register(b2)
-{
-    matrix projection;
-}
-
-
-struct VertexInput
-{
-	//          ½Ã¸àÆ½ ³×ÀÓ
-    float4 pos : Position;
-    float2 uv : UV;
-};
+#include "VertexHeader.hlsli"
 
 struct PixelInput
 {
@@ -27,7 +7,7 @@ struct PixelInput
 };
 
 
-PixelInput VS(VertexInput input)
+PixelInput VS(VertexUV input)
 {
     PixelInput output;
 	

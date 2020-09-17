@@ -51,10 +51,43 @@ void Medea::Input()
 			aStar->Reset();
 
 			path = aStar->FindPath(startIndex, endIndex);
-		}
 
-		// AStar에서 넣어줄 수 있을 듯
-		path.insert(path.begin(), destPos);
+			aStar->MakeDirectPath(position, destPos, path);
+		
+			path.insert(path.begin(), destPos);
+		
+			size_t pathSize = path.size();
+
+			while (path.size() > 2)
+			{
+				vector<Vector3> tempPath;
+				for (size_t i = 1; i < path.size() - 1; i++)
+					tempPath.emplace_back(path[i]);
+
+				Vector3 start = path.back();
+				Vector3 end = path.front();
+		
+				aStar->MakeDirectPath(start, end, tempPath);
+
+				path.clear();
+				path.emplace_back(end);
+
+				for (Vector3 temp : tempPath)
+					path.emplace_back(temp);
+
+				path.push_back(start);
+
+				if (pathSize == path.size())
+					break;
+				else
+					pathSize = path.size();
+			}
+
+		}
+		else
+		{
+			path.insert(path.begin(), destPos);
+		}
 	}
 }
 

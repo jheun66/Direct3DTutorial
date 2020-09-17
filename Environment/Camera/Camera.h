@@ -35,6 +35,7 @@ public:
 
 	Matrix GetView() { return matView; }
 	Vector3 GetPos() { return position; }
+	Vector3 GetRot() { return rotation; }
 
 	void SetPosition(float x, float y, float z) { position = { x,y,z }; }
 };

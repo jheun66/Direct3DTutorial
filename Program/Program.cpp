@@ -10,6 +10,7 @@
 #include "Scene/ModelAnimationScene.h"
 #include "Scene/CollisionScene.h"
 #include "Scene/AStarScene.h"
+#include "Scene/BillboardScene.h"
 
 Program::Program()
 {
@@ -22,7 +23,8 @@ Program::Program()
 	//scene = new ModelScene();
 	//scene = new ModelAnimationScene();
 	//scene = new CollisionScene();
-	scene = new AStarScene();
+	//scene = new AStarScene();
+	scene = new BillboardScene();
 }
 
 Program::~Program()

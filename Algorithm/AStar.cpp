@@ -156,6 +156,52 @@ vector<Vector3> AStar::FindPath(int start, int end)
 	return path;
 }
 
+void AStar::MakeDirectPath(IN Vector3 start, IN Vector3 end, OUT vector<Vector3>& path)
+{
+	int cutNodeNum = 0;
+	Ray ray;
+	ray.position = start;
+	
+	for (size_t i = 0; i < path.size(); i++)
+	{
+		ray.direction = path[i] - ray.position;
+		float distance = ray.direction.Length();
+
+		ray.direction.Normalize();
+
+		if (!isCollisionObstacle(ray, distance))
+		{
+			cutNodeNum = path.size() - i - 1;
+			break;
+		}
+	}
+
+	for (int i = 0; i < cutNodeNum; i++)
+		path.pop_back();
+	
+	cutNodeNum = 0;
+	ray.position = end;
+
+	for (size_t i = 0; i < path.size(); i++)
+	{
+		ray.direction = path[path.size() - i -1] - ray.position;
+		float distance = ray.direction.Length();
+
+		ray.direction.Normalize();
+
+		if (!isCollisionObstacle(ray, distance))
+		{
+			cutNodeNum = path.size() - i - 1;
+			break;
+		}
+	}
+
+	for (int i = 0; i < cutNodeNum; i++)
+	{
+		path.erase(path.begin());
+	}
+}
+
 void AStar::Reset()
 {
 	for (Node* node : nodes)

@@ -205,6 +205,7 @@
     <ClInclude Include="Object\Basic\Sphere.h" />
     <ClInclude Include="Object\Character\Medea.h" />
     <ClInclude Include="Object\Character\Zombie.h" />
+    <ClInclude Include="Object\LandScape\Billboard.h" />
     <ClInclude Include="Object\LandScape\SkyBox.h" />
     <ClInclude Include="Object\LandScape\Terrain.h" />
     <ClInclude Include="Object\LandScape\TerrainEditor.h" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\AStarScene.h" />
+    <ClInclude Include="Scene\BillboardScene.h" />
     <ClInclude Include="Scene\CollisionScene.h" />
     <ClInclude Include="Scene\ComputeScene.h" />
     <ClInclude Include="Scene\CubeScene.h" />
@@ -276,6 +278,7 @@
     <ClCompile Include="Object\Basic\Sphere.cpp" />
     <ClCompile Include="Object\Character\Medea.cpp" />
     <ClCompile Include="Object\Character\Zombie.cpp" />
+    <ClCompile Include="Object\LandScape\Billboard.cpp" />
     <ClCompile Include="Object\LandScape\SkyBox.cpp" />
     <ClCompile Include="Object\LandScape\Terrain.cpp" />
     <ClCompile Include="Object\LandScape\TerrainEditor.cpp" />
@@ -287,6 +290,7 @@
     <ClCompile Include="Object\Model\ModelRender.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\AStarScene.cpp" />
+    <ClCompile Include="Scene\BillboardScene.cpp" />
     <ClCompile Include="Scene\CollisionScene.cpp" />
     <ClCompile Include="Scene\ComputeScene.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
@@ -326,6 +330,17 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Shaders\GeometryShaders\GeometryBillboard.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\Pixel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -407,6 +422,12 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\Vertex.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexBillboard.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

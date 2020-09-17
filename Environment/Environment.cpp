@@ -8,8 +8,8 @@ Environment::Environment()
 	CreatePerspective();
     CreateSamplerState();
 
-    //mainCamera = new FreeCamera();
-    mainCamera = new FollowCamera();
+    mainCamera = new FreeCamera();
+
     lightBuffer = new LightBuffer();
 }
 
