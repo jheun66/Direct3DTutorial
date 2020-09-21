@@ -3,6 +3,8 @@
 class Particle :public Transform
 {
 protected:
+	const UINT MAX_COUNT = 1000;
+
 	Material* material;
 	GeometryShader* geometryShader;
 
@@ -21,6 +23,8 @@ public:
 	virtual void Update() = 0;
 
 	virtual void Render();
+
+	virtual void PostRender() = 0;
 
 	virtual void Play(Vector3 position);
 	virtual void Stop();

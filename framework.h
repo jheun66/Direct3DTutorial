@@ -174,6 +174,7 @@ using namespace Utility;
 
 #include "Object/Particle/Particle.h"
 #include "Object/Particle/Spark.h"
+#include "Object/Particle/Rain.h"
 
 // Program Header
 #include "Scene/Scene.h"

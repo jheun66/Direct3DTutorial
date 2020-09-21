@@ -2,9 +2,9 @@
 
 cbuffer Spark : register(b10)
 {
+    float3 direction;
     float duration;
     float time;
-    float gravity;
 }
 
 struct VertexInput
@@ -28,6 +28,8 @@ VertexOutput VS(VertexInput input)
     VertexOutput output;
 	
     output.time = time / duration;
+    
+    input.velocity += direction * time;
     
     input.pos = mul(input.pos, world);
     output.pos = input.pos.xyz + input.velocity * time;

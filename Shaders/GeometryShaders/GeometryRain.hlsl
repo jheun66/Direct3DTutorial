@@ -11,16 +11,19 @@ cbuffer P : register(b2)
 
 struct VertexOutput
 {
-    float3 pos : POSITION;
-    float2 size : SIZE;
-    float time : Time;
+    float3 pos : Position;
+    float2 size : Size;
+    float2 distance : Distance;
+    float4 color : Color;
+    float3 velocity : Velocity;
 };
 
 struct PixelInput
 {
     float4 pos : SV_POSITION;
     float2 uv : UV;
-    float time : Time;
+    float4 color : Color;
+    float alpha : Alpha;
 };
 
 static const float2 TEXCOORD[4] =
@@ -35,7 +38,7 @@ static const float2 TEXCOORD[4] =
 void GS(point VertexOutput input[1], inout TriangleStream<PixelInput> output)
 {
     float3 camPos = invView._41_42_43;
-    float3 up = invView._21_22_23;    
+    float3 up = normalize(-input[0].velocity);
     float3 forward = camPos - input[0].pos;
 
     forward = normalize(forward);
@@ -53,7 +56,8 @@ void GS(point VertexOutput input[1], inout TriangleStream<PixelInput> output)
 
     PixelInput pixelInput;
     
-    pixelInput.time = input[0].time;
+    pixelInput.color = input[0].color;
+    
     
     [unroll]
     for (int i = 0; i < 4; i++)
@@ -62,6 +66,9 @@ void GS(point VertexOutput input[1], inout TriangleStream<PixelInput> output)
         pixelInput.pos = mul(pixelInput.pos, projection);
         
         pixelInput.uv = TEXCOORD[i];
+        
+        pixelInput.alpha = 0.2f *
+        saturate(1 - pixelInput.pos.z / input[0].distance.x) * input[0].distance.y;
         
         output.Append(pixelInput);
     }
