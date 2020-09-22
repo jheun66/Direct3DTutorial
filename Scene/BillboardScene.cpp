@@ -64,9 +64,9 @@ BillboardScene::BillboardScene()
 	depthState[1] = new DepthStencilState();
 	depthState[1]->DepthWriteMask(D3D11_DEPTH_WRITE_MASK_ZERO);
 
-	breath = new Breath();
-	//rain = new Rain();
 	snow = new Snow();
+
+	ParticleManager::Create();
 }
 
 BillboardScene::~BillboardScene()
@@ -79,9 +79,9 @@ BillboardScene::~BillboardScene()
 	delete vertexBuffer;
 	delete material;
 
-	delete breath;
-	//delete rain;
 	delete snow;
+
+	ParticleManager::Delete();
 }
 
 void BillboardScene::Update()
@@ -91,15 +91,22 @@ void BillboardScene::Update()
 		Vector3 pickPos;
 		terrain->ComputePicking(&pickPos);
 
-		breath->Play(pickPos);
+		ParticleManager::Get()->Play("spark", pickPos);
+	}
+	if (KEY_DOWN(VK_RBUTTON) && !ImGui::GetIO().WantCaptureMouse)
+	{
+		Vector3 pickPos;
+		terrain->ComputePicking(&pickPos);
+
+		ParticleManager::Get()->Play("breath", pickPos, Vector3(XM_PI, 0, 0));
 	}
 
 	terrain->Update();
 
 	//for (Billboard* tree : trees)
 		//tree->Update();
-	breath->Update();
-	//rain->Update();
+
+	ParticleManager::Get()->Update();
 	snow->Update();
 }
 
@@ -132,14 +139,12 @@ void BillboardScene::Render()
 	blendState[0]->SetState();
 	depthState[0]->SetState();
 
-	breath->Render();
-	//rain->Render();
+	ParticleManager::Get()->Render();
+
 	snow->Render();
 }
 
 void BillboardScene::PostRender()
 {
-	breath->PostRender();
-	//rain->PostRender();
 	snow->PostRender();
 }

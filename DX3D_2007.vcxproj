@@ -219,6 +219,7 @@
     <ClInclude Include="Object\Model\ModelRender.h" />
     <ClInclude Include="Object\Particle\Breath.h" />
     <ClInclude Include="Object\Particle\Particle.h" />
+    <ClInclude Include="Object\Particle\ParticleManager.h" />
     <ClInclude Include="Object\Particle\Rain.h" />
     <ClInclude Include="Object\Particle\Snow.h" />
     <ClInclude Include="Object\Particle\Spark.h" />
@@ -230,6 +231,7 @@
     <ClInclude Include="Scene\ComputeScene.h" />
     <ClInclude Include="Scene\CubeScene.h" />
     <ClInclude Include="Scene\GridScene.h" />
+    <ClInclude Include="Scene\LightScene.h" />
     <ClInclude Include="Scene\ModelAnimationScene.h" />
     <ClInclude Include="Scene\ModelScene.h" />
     <ClInclude Include="Scene\Scene.h" />
@@ -299,6 +301,7 @@
     <ClCompile Include="Object\Model\ModelRender.cpp" />
     <ClCompile Include="Object\Particle\Breath.cpp" />
     <ClCompile Include="Object\Particle\Particle.cpp" />
+    <ClCompile Include="Object\Particle\ParticleManager.cpp" />
     <ClCompile Include="Object\Particle\Rain.cpp" />
     <ClCompile Include="Object\Particle\Snow.cpp" />
     <ClCompile Include="Object\Particle\Spark.cpp" />
@@ -309,6 +312,7 @@
     <ClCompile Include="Scene\ComputeScene.cpp" />
     <ClCompile Include="Scene\CubeScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp" />
+    <ClCompile Include="Scene\LightScene.cpp" />
     <ClCompile Include="Scene\ModelAnimationScene.cpp" />
     <ClCompile Include="Scene\ModelScene.cpp" />
     <ClCompile Include="Scene\TerrainEditorScene.cpp" />
@@ -436,6 +440,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelLighting.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelNormalMapping.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -539,6 +550,12 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexDiffuse.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexLighting.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

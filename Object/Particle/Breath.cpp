@@ -52,13 +52,22 @@ void Breath::Create()
 
 void Breath::Update()
 {
+	if (!isPlay)
+		return;
+
 	breathBuffer->data.time += DELTA;
+
+	if (breathBuffer->data.time > breathBuffer->data.lifeTime)
+		Stop();
 
 	UpdateWorld();
 }
 
 void Breath::Render()
 {
+	if (!isPlay)
+		return;
+
 	breathBuffer->SetVSBuffer(10);
 
 	Particle::Render();
@@ -70,10 +79,10 @@ void Breath::PostRender()
 	ImGui::SliderInt("Count", (int*)&particleCount, 1, 1000);
 	ImGui::SliderFloat3("Direction", (float*)&breathBuffer->data.direction, -10.0f, 10.0f);
 }
-void Breath::Play(Vector3 position)
+void Breath::Play(Vector3 position, Vector3 rotation)
 {
 	breathBuffer->data.time = 0.0f;
-	Particle::Play(position);
+	Particle::Play(position, rotation);
 
 	UpdateParticle();
 }

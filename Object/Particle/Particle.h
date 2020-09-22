@@ -27,6 +27,7 @@ public:
 	virtual void PostRender() = 0;
 
 	virtual void Play(Vector3 position);
+	virtual void Play(Vector3 position, Vector3 rotation);
 	virtual void Stop();
 
 	bool IsPlay() { return isPlay; }

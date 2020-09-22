@@ -9,6 +9,7 @@ cbuffer Light : register(b0)
     float3 lightDir;
     float specExp;
     float4 ambient;
+    float4 ambientCeil;
 }
 
 cbuffer Material : register(b1)
@@ -18,4 +19,13 @@ cbuffer Material : register(b1)
     float4 mAmbient;
     
     int4 hasMap;
+}
+
+float4 CalcAmbient(float3 normal, float4 color)
+{
+    float up = normal.y * 0.5f * 0.5f;
+    
+    float4 resultAmbient = ambient + up * ambientCeil;
+    
+    return resultAmbient * color;
 }

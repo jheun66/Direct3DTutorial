@@ -249,6 +249,12 @@
     <ClInclude Include="Object\Particle\Breath.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Particle\ParticleManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\LightScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -467,6 +473,12 @@
     <ClCompile Include="Object\Particle\Breath.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Particle\ParticleManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\LightScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -521,6 +533,8 @@
     <FxCompile Include="Shaders\VertexShaders\VertexBreath.hlsl" />
     <FxCompile Include="Shaders\GeometryShaders\GeometryBreath.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelBreath.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelLighting.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexLighting.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

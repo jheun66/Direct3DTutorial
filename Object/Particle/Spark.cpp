@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 Spark::Spark()
-	:Particle(L"Textures/Landscape/star.png", 200)
+	:Particle(L"Textures/Landscape/star.png", 1000)
 {
 	material->SetShader(L"Spark");
 	geometryShader = Shader::AddGS(L"GeometrySpark");

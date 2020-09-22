@@ -55,6 +55,13 @@ void Particle::Play(Vector3 position)
 	this->position = position;
 }
 
+void Particle::Play(Vector3 position, Vector3 rotation)
+{
+	isPlay = true;
+	this->position = position;
+	this->rotation = rotation;
+}
+
 void Particle::Stop()
 {
 	isPlay = false;

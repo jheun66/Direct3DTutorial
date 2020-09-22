@@ -29,7 +29,8 @@ void Environment::PostRender()
 
     ImGui::SliderFloat3("LightDir", (float*)&lightBuffer->data.direction, -100, 100);
     ImGui::SliderFloat("LightSpecularExp", (float*)&lightBuffer->data.specularExp, 1, 100);
-    ImGui::ColorEdit4 ("LightAmbient", (float*)&lightBuffer->data.ambient);
+    ImGui::ColorEdit4("Ambient", (float*)&lightBuffer->data.ambient);
+    ImGui::ColorEdit4("AmbientCeil", (float*)&lightBuffer->data.ambientCeil);
 }
 
 void Environment::ChangeCameraMode(bool isFollowCamera)

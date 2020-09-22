@@ -178,6 +178,8 @@ using namespace Utility;
 #include "Object/Particle/Snow.h"
 #include "Object/Particle/Breath.h"
 
+#include "Object/Particle/ParticleManager.h"
+
 // Program Header
 #include "Scene/Scene.h"
 #include "Program/Program.h"

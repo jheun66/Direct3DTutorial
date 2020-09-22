@@ -13,6 +13,7 @@ namespace Utility
 	string GetFileName(string path);
 	string GetFileNameWithoutExtension(string path);
 
-	void CreateFolders(string path);
+	bool ExistFile(string path);
 	bool ExistDirectory(string path);
+	void CreateFolders(string path);
 };

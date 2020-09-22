@@ -79,6 +79,13 @@ string Utility::GetFileNameWithoutExtension(string path)
     return fileName.substr(0, index);
 }
 
+bool Utility::ExistFile(string path)
+{
+    DWORD fileValue = GetFileAttributesA(path.c_str());
+
+    return fileValue < 0xffffffff;
+}
+
 bool Utility::ExistDirectory(string path)
 {
     DWORD fileValue = GetFileAttributesA(path.c_str());

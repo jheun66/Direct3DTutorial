@@ -54,7 +54,7 @@ public:
 	virtual void Render() override;
 	virtual void PostRender() override;
 
-	virtual void Play(Vector3 position) override;
+	virtual void Play(Vector3 position, Vector3 rotation) override;
 
 	void UpdateParticle();
 };

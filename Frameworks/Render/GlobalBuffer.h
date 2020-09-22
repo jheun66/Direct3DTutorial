@@ -48,13 +48,15 @@ public:
 		float specularExp;
 		// ¡÷∫Ø±§ ∫Ò¿≤
 		Float4 ambient;
+		Float4 ambientCeil;
 	}data;
 
 	LightBuffer() : ConstBuffer(&data, sizeof(Data))
 	{
 		data.direction = { 0, -1, 0 };
 		data.specularExp = 8;
-		data.ambient = { 0.1f, 0.1f, 0.1f, 0.0f };
+		data.ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
+		data.ambientCeil = { 0.1f, 0.1f, 0.1f, 1.0f };
 	}
 
 };

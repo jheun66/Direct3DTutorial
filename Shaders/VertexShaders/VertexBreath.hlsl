@@ -43,6 +43,9 @@ VertexOutput VS(VertexInput input)
 	//input.velocity += direction * time;
     
     input.pos = mul(input.pos, world);
+    
+    float3 velocity = mul(input.velocity, (float3x3) world);
+    
     output.pos = input.pos.xyz + input.velocity * duration;
     
     output.size = input.size;
