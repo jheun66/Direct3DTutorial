@@ -175,6 +175,8 @@ using namespace Utility;
 #include "Object/Particle/Particle.h"
 #include "Object/Particle/Spark.h"
 #include "Object/Particle/Rain.h"
+#include "Object/Particle/Snow.h"
+#include "Object/Particle/Breath.h"
 
 // Program Header
 #include "Scene/Scene.h"

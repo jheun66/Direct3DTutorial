@@ -243,6 +243,12 @@
     <ClInclude Include="Object\Particle\Rain.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Particle\Snow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Particle\Breath.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -455,6 +461,12 @@
     <ClCompile Include="Object\Particle\Rain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Particle\Snow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Particle\Breath.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -503,6 +515,12 @@
     <FxCompile Include="Shaders\VertexShaders\VertexRain.hlsl" />
     <FxCompile Include="Shaders\GeometryShaders\GeometryRain.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelRain.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexSnow.hlsl" />
+    <FxCompile Include="Shaders\GeometryShaders\GeometrySnow.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelSnow.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexBreath.hlsl" />
+    <FxCompile Include="Shaders\GeometryShaders\GeometryBreath.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelBreath.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

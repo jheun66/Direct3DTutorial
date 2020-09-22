@@ -2,11 +2,11 @@
 #include "BillboardScene.h"
 
 BillboardScene::BillboardScene()
-	:count(1000)
+	: count(1000)
 {
 	terrain = new Terrain();
-
-	/*for (UINT i = 0; i < 1000; i++)
+	/*
+	for (UINT i = 0; i < 1000; i++)
 	{
 		Billboard* tree = new Billboard(L"Textures/Landscape/Tree.png");
 
@@ -27,10 +27,10 @@ BillboardScene::BillboardScene()
 		trees.emplace_back(tree);
 	}*/
 
-	VertexSize* vertices = new VertexSize[1000];
+	VertexSize* vertices = new VertexSize[count];
+
 	for (UINT i = 0; i < 1000; i++)
 	{
-
 		Vector3 pos;
 		pos.x = Random(0.0f, 255.0f);
 		pos.z = Random(0.0f, 255.0f);
@@ -57,43 +57,50 @@ BillboardScene::BillboardScene()
 
 	blendState[0] = new BlendState();
 	blendState[1] = new BlendState();
-	//blendState[1]->Alpha(true);
-	blendState[1]->AlphaToCoverage(true);
-	//blendState[1]->Additvie();
+	//blendState[1]->Additive();
+	blendState[1]->Alpha(true);
 
-	spark = new Spark();
-	rain = new Rain();
+	depthState[0] = new DepthStencilState();
+	depthState[1] = new DepthStencilState();
+	depthState[1]->DepthWriteMask(D3D11_DEPTH_WRITE_MASK_ZERO);
+
+	breath = new Breath();
+	//rain = new Rain();
+	snow = new Snow();
 }
 
 BillboardScene::~BillboardScene()
 {
 	delete terrain;
 
+	//for (Billboard* tree : trees)
+		//delete tree;
+
 	delete vertexBuffer;
 	delete material;
 
-	delete spark;
-	delete rain;
-	//for (Billboard* tree : trees)
-	//	delete tree;
+	delete breath;
+	//delete rain;
+	delete snow;
 }
 
 void BillboardScene::Update()
 {
-	if (KEY_DOWN(VK_LBUTTON))
+	if (KEY_DOWN(VK_LBUTTON) && !ImGui::GetIO().WantCaptureMouse)
 	{
 		Vector3 pickPos;
 		terrain->ComputePicking(&pickPos);
 
-		spark->Play(pickPos);
+		breath->Play(pickPos);
 	}
 
 	terrain->Update();
 
-	spark->Update();
-	rain->Update();
 	//for (Billboard* tree : trees)
-	//	tree->Update();
+		//tree->Update();
+	breath->Update();
+	//rain->Update();
+	snow->Update();
 }
 
 void BillboardScene::PreRender()
@@ -105,9 +112,9 @@ void BillboardScene::Render()
 	terrain->Render();
 
 	//for (Billboard* tree : trees)
-	//	tree->Render();
-
+		//tree->Render();
 	blendState[1]->SetState();
+	depthState[1]->SetState();
 
 	vertexBuffer->IASet();
 	IASetPT(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -123,13 +130,16 @@ void BillboardScene::Render()
 	DC->GSSetShader(nullptr, nullptr, 0);
 
 	blendState[0]->SetState();
-	
-	spark->Render();
-	rain->Render();
+	depthState[0]->SetState();
+
+	breath->Render();
+	//rain->Render();
+	snow->Render();
 }
 
 void BillboardScene::PostRender()
 {
-	spark->PostRender();
-	rain->PostRender();
+	breath->PostRender();
+	//rain->PostRender();
+	snow->PostRender();
 }

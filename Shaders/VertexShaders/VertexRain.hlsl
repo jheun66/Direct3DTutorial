@@ -2,7 +2,7 @@
 
 cbuffer Rain : register(b10)
 {
-    float3 velecity;
+    float3 velocity;
     float drawDistance;
     
     float4 color;
@@ -27,7 +27,7 @@ VertexOutput VS(VertexSize input)
 {
     VertexOutput output;
 	
-    float3 v = velecity;
+    float3 v = velocity;
     v.xz /= input.size.y * 0.1f;
     output.velocity = v;
     
