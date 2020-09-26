@@ -171,6 +171,7 @@
     <ClInclude Include="Frameworks\Assimp\ModelReader.h" />
     <ClInclude Include="Frameworks\Assimp\ModelTypes.h" />
     <ClInclude Include="Frameworks\Collision\BoxCollider.h" />
+    <ClInclude Include="Frameworks\Collision\CapsuleCollider.h" />
     <ClInclude Include="Frameworks\Collision\Collider.h" />
     <ClInclude Include="Frameworks\Collision\SphereCollider.h" />
     <ClInclude Include="Frameworks\Device\Device.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Object\Particle\Rain.h" />
     <ClInclude Include="Object\Particle\Snow.h" />
     <ClInclude Include="Object\Particle\Spark.h" />
+    <ClInclude Include="Object\SpriteEffect.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\AStarScene.h" />
@@ -255,6 +257,7 @@
     </ClCompile>
     <ClCompile Include="Frameworks\Assimp\ModelReader.cpp" />
     <ClCompile Include="Frameworks\Collision\BoxCollider.cpp" />
+    <ClCompile Include="Frameworks\Collision\CapsuleCollider.cpp" />
     <ClCompile Include="Frameworks\Collision\Collider.cpp" />
     <ClCompile Include="Frameworks\Collision\SphereCollider.cpp" />
     <ClCompile Include="Frameworks\Device\Device.cpp" />
@@ -305,6 +308,7 @@
     <ClCompile Include="Object\Particle\Rain.cpp" />
     <ClCompile Include="Object\Particle\Snow.cpp" />
     <ClCompile Include="Object\Particle\Spark.cpp" />
+    <ClCompile Include="Object\SpriteEffect.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\AStarScene.cpp" />
     <ClCompile Include="Scene\BillboardScene.cpp" />
@@ -497,6 +501,13 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelSplatting.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelSprite.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

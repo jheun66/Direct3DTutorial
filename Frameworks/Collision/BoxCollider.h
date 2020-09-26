@@ -30,6 +30,7 @@ public:
 	Vector3 GetMin();
 	Vector3 GetMax();
 
+	virtual bool IsSphereCollision(Vector3 center, float radius);
 
 private:
 	virtual void CreateMesh() override;

@@ -18,6 +18,13 @@ class SphereCollider;
 class Collider : public Transform
 {
 protected:
+	enum Type
+	{
+		BOX,
+		SPHERE,
+		CAPSULE
+	}type;
+
 
 	Material* material;
 	Mesh* mesh;

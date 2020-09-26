@@ -23,10 +23,10 @@ Program::Program()
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
 	//scene = new ModelAnimationScene();
-	//scene = new CollisionScene();
+	scene = new CollisionScene();
 	//scene = new AStarScene();
 	//scene = new BillboardScene();
-	scene = new LightScene();
+	//scene = new LightScene();
 }
 
 Program::~Program()

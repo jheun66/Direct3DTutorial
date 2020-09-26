@@ -138,6 +138,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Collision/Collider.h"
 #include "Frameworks/Collision/BoxCollider.h"
 #include "Frameworks/Collision/SphereCollider.h"
+#include "Frameworks/Collision/CapsuleCollider.h"
 
 #include "Environment/Camera/Camera.h"
 #include "Environment/Camera/FreeCamera.h"
@@ -178,6 +179,7 @@ using namespace Utility;
 #include "Object/Particle/Snow.h"
 #include "Object/Particle/Breath.h"
 
+#include "Object/SpriteEffect.h"
 #include "Object/Particle/ParticleManager.h"
 
 // Program Header

@@ -3,6 +3,7 @@
 SphereCollider::SphereCollider(float radius, UINT stackCount, UINT sliceCount)
     :radius(radius), stackCount(stackCount), sliceCount(sliceCount)
 {
+    type = SPHERE;
     CreateMesh();
 }
 

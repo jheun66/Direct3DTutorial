@@ -91,14 +91,15 @@ void BillboardScene::Update()
 		Vector3 pickPos;
 		terrain->ComputePicking(&pickPos);
 
-		ParticleManager::Get()->Play("spark", pickPos);
+		ParticleManager::Get()->Play("fire", pickPos);
 	}
 	if (KEY_DOWN(VK_RBUTTON) && !ImGui::GetIO().WantCaptureMouse)
 	{
 		Vector3 pickPos;
 		terrain->ComputePicking(&pickPos);
 
-		ParticleManager::Get()->Play("breath", pickPos, Vector3(XM_PI, 0, 0));
+		ParticleManager::Get()->Play("hit", pickPos);
+		//ParticleManager::Get()->Play("breath", pickPos, Vector3(XM_PI, 0, 0));
 	}
 
 	terrain->Update();

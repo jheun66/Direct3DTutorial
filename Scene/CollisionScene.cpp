@@ -3,7 +3,7 @@
 
 CollisionScene::CollisionScene()
 {
-	colliders.emplace_back(new BoxCollider());
+	colliders.emplace_back(new CapsuleCollider());
 	colliders.emplace_back(new SphereCollider());
 }
 
@@ -57,9 +57,9 @@ void CollisionScene::Render()
 
 void CollisionScene::PostRender()
 {
-	ImGui::SliderFloat3("ColPos0", (float*)&colliders[0]->position, -10, 10);
-	ImGui::SliderFloat3("ColRot0", (float*)&colliders[0]->rotation, -10, 10);
-	ImGui::SliderFloat3("ColWorldRot0", (float*)&colliders[0]->WorldRot(), -10, 10);
+	ImGui::SliderFloat3("ColPos0", (float*)&colliders[0]->position, -5, 5);
+	ImGui::SliderFloat3("ColRot0", (float*)&colliders[0]->rotation, 0, XM_PI);
+	//ImGui::SliderFloat3("ColWorldRot0", (float*)&colliders[0]->WorldRot(), -10, 10);
 
 	ImGui::SliderFloat("ContactDistance", &contact.distance, 0, 100);
 	ImGui::SliderFloat3("ContactPoint", (float*)&contact.hitPoint, 0, 100);

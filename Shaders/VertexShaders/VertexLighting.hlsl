@@ -15,8 +15,8 @@ struct PixelInput
     float4 pos : SV_Position;
     float2 uv : UV;
     float3 normal : NORMAL;
-    float4 worldPos : Position0;
-    float3 cameraPos : Position1;
+    float3 worldPos : Position0;
+    float3 camPos : Position1;
 };
 
 
@@ -27,10 +27,9 @@ PixelInput VS(VertexInput input)
     matrix boneWorld = mul(bones[index], world);
     
     output.pos = mul(input.pos, boneWorld);
-    output.worldPos = output.pos;
     
-    float3 camPos = invView._41_42_43;
-    output.cameraPos = camPos;
+    output.worldPos = output.pos.xyz;
+    output.camPos = invView._41_42_43;
     
     output.pos = mul(output.pos, view);
     output.pos = mul(output.pos, projection);

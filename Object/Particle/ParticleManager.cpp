@@ -6,6 +6,8 @@ ParticleManager::ParticleManager()
 {
 	CreateSpark();
 	CreateBreath();
+	CreateSpriteEffect("fire", L"Textures/Effects/fire_8x2.png", Float2(8, 2), 30);
+	CreateSpriteEffect("hit", L"Textures/Effects/hit_4x2.png", Float2(4, 2), 30);
 }
 
 ParticleManager::~ParticleManager()
@@ -97,4 +99,15 @@ void ParticleManager::CreateBreath()
 	}
 
 	totalParticle["breath"] = particles;
+}
+
+void ParticleManager::CreateSpriteEffect(string key, wstring diffuseFile, Float2 maxFrame, UINT poolCount)
+{
+	vector<Particle*> particles;
+	for (UINT i = 0; i < poolCount; i++)
+	{
+		particles.emplace_back(new SpriteEffect(diffuseFile, maxFrame));
+	}
+
+	totalParticle[key] = particles;
 }
