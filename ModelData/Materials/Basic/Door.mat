@@ -1,0 +1,11 @@
+<Materials>
+    <Material>
+        <Name>Dungeon_02_Mat</Name>
+        <DiffuseFile>Dungeon_02_PS.png</DiffuseFile>
+        <SpecularFile></SpecularFile>
+        <NormalFile></NormalFile>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.80000001" G="0.80000001" B="0.80000001" A="25"/>
+    </Material>
+</Materials>

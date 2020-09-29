@@ -261,6 +261,18 @@
     <ClInclude Include="Frameworks\Collision\CapsuleCollider.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\RenderTargetScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\RenderTarget.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\DepthStencil.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\UI\Render2D.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -491,6 +503,18 @@
     <ClCompile Include="Frameworks\Collision\CapsuleCollider.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\RenderTargetScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\RenderTarget.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\DepthStencil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\UI\Render2D.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -548,6 +572,9 @@
     <FxCompile Include="Shaders\PixelShaders\PixelLighting.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexLighting.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelSprite.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelGrayscale.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelSepia.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelFilter.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

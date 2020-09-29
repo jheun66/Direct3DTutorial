@@ -180,6 +180,7 @@
     <ClInclude Include="Frameworks\Math\Vector3.h" />
     <ClInclude Include="Frameworks\Render\ComputeShader.h" />
     <ClInclude Include="Frameworks\Render\ConstBuffer.h" />
+    <ClInclude Include="Frameworks\Render\DepthStencil.h" />
     <ClInclude Include="Frameworks\Render\GeometryShader.h" />
     <ClInclude Include="Frameworks\Render\GlobalBuffer.h" />
     <ClInclude Include="Frameworks\Render\IndexBuffer.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Frameworks\Render\Mesh.h" />
     <ClInclude Include="Frameworks\Render\PixelShader.h" />
     <ClInclude Include="Frameworks\Render\RawBuffer.h" />
+    <ClInclude Include="Frameworks\Render\RenderTarget.h" />
     <ClInclude Include="Frameworks\Render\Shader.h" />
     <ClInclude Include="Frameworks\Render\StructuredBuffer.h" />
     <ClInclude Include="Frameworks\Render\Texture.h" />
@@ -225,6 +227,7 @@
     <ClInclude Include="Object\Particle\Snow.h" />
     <ClInclude Include="Object\Particle\Spark.h" />
     <ClInclude Include="Object\SpriteEffect.h" />
+    <ClInclude Include="Object\UI\Render2D.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene\AStarScene.h" />
@@ -236,6 +239,7 @@
     <ClInclude Include="Scene\LightScene.h" />
     <ClInclude Include="Scene\ModelAnimationScene.h" />
     <ClInclude Include="Scene\ModelScene.h" />
+    <ClInclude Include="Scene\RenderTargetScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Scene\TerrainEditorScene.h" />
     <ClInclude Include="Scene\TerrainScene.h" />
@@ -266,12 +270,14 @@
     <ClCompile Include="Frameworks\Math\Vector3.cpp" />
     <ClCompile Include="Frameworks\Render\ComputeShader.cpp" />
     <ClCompile Include="Frameworks\Render\ConstBuffer.cpp" />
+    <ClCompile Include="Frameworks\Render\DepthStencil.cpp" />
     <ClCompile Include="Frameworks\Render\GeometryShader.cpp" />
     <ClCompile Include="Frameworks\Render\IndexBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\Material.cpp" />
     <ClCompile Include="Frameworks\Render\Mesh.cpp" />
     <ClCompile Include="Frameworks\Render\PixelShader.cpp" />
     <ClCompile Include="Frameworks\Render\RawBuffer.cpp" />
+    <ClCompile Include="Frameworks\Render\RenderTarget.cpp" />
     <ClCompile Include="Frameworks\Render\Shader.cpp" />
     <ClCompile Include="Frameworks\Render\StructuredBuffer.cpp" />
     <ClCompile Include="Frameworks\Render\Texture.cpp" />
@@ -309,6 +315,7 @@
     <ClCompile Include="Object\Particle\Snow.cpp" />
     <ClCompile Include="Object\Particle\Spark.cpp" />
     <ClCompile Include="Object\SpriteEffect.cpp" />
+    <ClCompile Include="Object\UI\Render2D.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scene\AStarScene.cpp" />
     <ClCompile Include="Scene\BillboardScene.cpp" />
@@ -319,6 +326,7 @@
     <ClCompile Include="Scene\LightScene.cpp" />
     <ClCompile Include="Scene\ModelAnimationScene.cpp" />
     <ClCompile Include="Scene\ModelScene.cpp" />
+    <ClCompile Include="Scene\RenderTargetScene.cpp" />
     <ClCompile Include="Scene\TerrainEditorScene.cpp" />
     <ClCompile Include="Scene\TerrainScene.cpp" />
     <ClCompile Include="Scene\TextureScene.cpp" />
@@ -444,6 +452,20 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelFilter.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelGrayscale.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelLighting.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -459,6 +481,13 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
     </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelRain.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelSepia.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

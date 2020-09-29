@@ -73,7 +73,7 @@ private:
 	map<UINT, function<void()>> EndEvent;
 public:
 	ModelAnimator(string file);
-	~ModelAnimator();
+	virtual ~ModelAnimator();
 
 	void Update();
 	void Render();

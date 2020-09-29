@@ -13,7 +13,7 @@ protected:
 public:
 	Model();
 	Model(string file);
-	~Model();
+	virtual ~Model();
 
 	void Update();
 	void Render();
@@ -26,6 +26,9 @@ public:
 
 	void SetShader(wstring file);
 	void SetShader(wstring vsFile, wstring psFile);
+	void SetDiffuseMap(wstring file);
+	void SetSpecularMap(wstring file);
+	void SetNormalMap(wstring file);
 
 	ModelBone* GetBoneByName(string name);
 };

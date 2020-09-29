@@ -116,6 +116,9 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Render/Material.h"
 #include "Frameworks/Render/Mesh.h"
 
+#include "Frameworks/Render/DepthStencil.h"
+#include "Frameworks/Render/RenderTarget.h"
+
 #include "Frameworks/Math/Vector3.h"
 #include "Frameworks/Math/Transform.h"
 #include "Frameworks/Math/Math.h"
@@ -181,6 +184,8 @@ using namespace Utility;
 
 #include "Object/SpriteEffect.h"
 #include "Object/Particle/ParticleManager.h"
+
+#include "Object/UI/Render2D.h"
 
 // Program Header
 #include "Scene/Scene.h"

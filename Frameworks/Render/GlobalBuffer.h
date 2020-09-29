@@ -157,7 +157,7 @@ class SettingBuffer : public ConstBuffer
 public:
 	struct Data
 	{
-		int option[16];
+		int option[4];
 		
 		Data() :option{}
 		{}
@@ -165,6 +165,23 @@ public:
 
 	SettingBuffer() : ConstBuffer(&data, sizeof(Data))
 	{
+	}
+
+};
+
+class SizeBuffer : public ConstBuffer
+{
+public:
+	struct Data
+	{
+		Float2 size;
+		Float2 padding;
+
+	}data;
+
+	SizeBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+		data.size = { 0, 0 };
 	}
 
 };

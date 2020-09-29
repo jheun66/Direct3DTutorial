@@ -49,6 +49,7 @@ private:
 
 	ModelRender* bunny;
 	ModelRender* plane;
+	ModelRender* door;
 
 	//PointBuffer* pointBuffer;
 	//SpotBuffer* spotBuffer;

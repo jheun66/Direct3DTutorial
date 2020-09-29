@@ -51,6 +51,11 @@ bool SphereCollider::IsSphereCollision(SphereCollider* collider)
     return distnace <= (radius + collider->radius);
 }
 
+bool SphereCollider::IsCapsuleCollision(CapsuleCollider* collider)
+{
+    return collider->IsSphereCollision(this);
+}
+
 void SphereCollider::CreateMesh()
 {
     float phiStep = XM_PI / stackCount;

@@ -14,6 +14,7 @@ struct Contact
 
 class BoxCollider;
 class SphereCollider;
+class CapsuleCollider;
 
 class Collider : public Transform
 {
@@ -40,6 +41,7 @@ public:
 	virtual bool IsCollision(IN Ray ray, OUT Contact* contact = nullptr) = 0;
 	virtual bool IsBoxCollision(BoxCollider* collider) = 0;
 	virtual bool IsSphereCollision(SphereCollider* collider) = 0;
+	virtual bool IsCapsuleCollision(CapsuleCollider* collider) = 0;
 
 	virtual void CreateMesh() = 0;
 

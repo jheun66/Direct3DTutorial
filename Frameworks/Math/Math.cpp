@@ -22,3 +22,12 @@ float GameMath::Distance(const Vector3& v1, const Vector3& v2)
     return (v2-v1).Length();
 }
 
+Vector3 GameMath::ClosestPointOnLineSegment(const Vector3& A, const Vector3& B, const Vector3& point)
+{
+    Vector3 AB = B - A;
+    float t = AB.Dot(point - A) / AB.Dot(AB);
+
+    t = Saturate(t);
+
+    return A + t * AB;
+}

@@ -9,6 +9,7 @@ private:
 	IndexBuffer* indexBuffer;
 
 	Texture* texture;
+	ID3D11ShaderResourceView *srv;
 	
 	RasterizerState* rasterizerState[2];
 
@@ -19,7 +20,9 @@ public:
 	void Update();
 	void Render();
 
+	void SetTexure(wstring file);
+	void SetSRV(ID3D11ShaderResourceView* srv) { this->srv = srv; }
+
+private:
 	void Create();
-
-
 };

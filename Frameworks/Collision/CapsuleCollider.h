@@ -18,7 +18,8 @@ public:
 	virtual bool IsCollision(IN Ray ray, OUT Contact* contact = nullptr) override;
 	virtual bool IsBoxCollision(BoxCollider* collider) override;
 	virtual bool IsSphereCollision(SphereCollider* collider) override;
-	
+	virtual bool IsCapsuleCollision(CapsuleCollider* collider) override;
+
 private:
 	virtual void CreateMesh() override;
 

@@ -24,6 +24,7 @@ bool Collider::IsCollision(Collider* collider)
         return IsSphereCollision(static_cast<SphereCollider*>(collider));
         break;
     case Collider::CAPSULE:
+        return IsCapsuleCollision(static_cast<CapsuleCollider*>(collider));
         break;
     default:
         break;

@@ -122,6 +122,11 @@ bool BoxCollider::IsSphereCollision(SphereCollider* collider)
     return temp.Length() <= collider->Radius();
 }
 
+bool BoxCollider::IsCapsuleCollision(CapsuleCollider* collider)
+{
+    return collider->IsBoxCollision(this);
+}
+
 
 //bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 //{

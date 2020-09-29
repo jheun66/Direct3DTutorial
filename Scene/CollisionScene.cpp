@@ -4,7 +4,7 @@
 CollisionScene::CollisionScene()
 {
 	colliders.emplace_back(new CapsuleCollider());
-	colliders.emplace_back(new SphereCollider());
+	colliders.emplace_back(new CapsuleCollider());
 }
 
 CollisionScene::~CollisionScene()

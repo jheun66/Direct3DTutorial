@@ -22,4 +22,6 @@ public:
 
 	UINT GetWidth() { return image.GetMetadata().width; }
 	UINT GetHeight() { return image.GetMetadata().height; }
+
+	ID3D11ShaderResourceView* GetSRV() { return srv; }
 };

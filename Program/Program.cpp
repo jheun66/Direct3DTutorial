@@ -12,6 +12,7 @@
 #include "Scene/AStarScene.h"
 #include "Scene/BillboardScene.h"
 #include "Scene/LightScene.h"
+#include "Scene/RenderTargetScene.h"
 
 Program::Program()
 {
@@ -23,10 +24,11 @@ Program::Program()
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
 	//scene = new ModelAnimationScene();
-	scene = new CollisionScene();
+	//scene = new CollisionScene();
 	//scene = new AStarScene();
 	//scene = new BillboardScene();
 	//scene = new LightScene();
+	scene = new RenderTargetScene();
 }
 
 Program::~Program()
@@ -48,14 +50,20 @@ void Program::Update()
 
 void Program::PreRender()
 {
+	Environment::Get()->MainCamera()->VSSet(1);
+	Environment::Get()->GetProjection()->SetVSBuffer(2);
+	Environment::Get()->GetLight()->SetPSBuffer(0);
+
 	scene->PreRender();
 }
 
 void Program::Render()
 {
-	Environment::Get()->MainCamera()->VSSet(1);
-	Environment::Get()->GetProjection()->SetVSBuffer(2);
-	Environment::Get()->GetLight()->SetPSBuffer(0);
+	Device::Get()->SetRenderTarget();
+
+	//Environment::Get()->MainCamera()->VSSet(1);
+	//Environment::Get()->GetProjection()->SetVSBuffer(2);
+	//Environment::Get()->GetLight()->SetPSBuffer(0);
 
 	scene->Render();
 }

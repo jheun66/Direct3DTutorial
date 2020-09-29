@@ -1,14 +1,12 @@
 #include "Framework.h"
 
 Quad::Quad()
+	: texture(nullptr), srv(nullptr)
 {
 	vertexShader = Shader::AddVS(L"VertexUV");
 	pixelShader = Shader::AddPS(L"PixelUV");
 
 	Create();
-	
-	texture = Texture::Add(L"sana.jpeg");
-
 	
 	rasterizerState[0] = new RasterizerState();
 	rasterizerState[1] = new RasterizerState();
@@ -33,7 +31,7 @@ void Quad::Update()
 
 void Quad::Render()
 {
-	rasterizerState[1]->SetState();
+	//rasterizerState[1]->SetState();
 
 	vertexBuffer->IASet();
 	indexBuffer->IASet();
@@ -41,14 +39,21 @@ void Quad::Render()
 
 	SetWorldBuffer();
 
-	texture->PSSet(0);
+	if (srv != nullptr)
+		DC->PSSetShaderResources(0, 1, &srv);
 
 	vertexShader->Set();
 	pixelShader->Set();
 
 	DC->DrawIndexed(6, 0, 0);
 
-	rasterizerState[0]->SetState();
+	//rasterizerState[0]->SetState();
+}
+
+void Quad::SetTexure(wstring file)
+{
+	Texture* texture = Texture::Add(file);
+	srv = texture->GetSRV();
 }
 
 void Quad::Create()

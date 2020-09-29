@@ -240,6 +240,24 @@ void Model::SetShader(wstring vsFile, wstring psFile)
 		material.second->SetShader(vsFile, psFile);
 }
 
+void Model::SetDiffuseMap(wstring file)
+{
+	for (auto material : materials)
+		material.second->SetDiffuseMap(file);
+}
+
+void Model::SetSpecularMap(wstring file)
+{
+	for (auto material : materials)
+		material.second->SetSpecularMap(file);
+}
+
+void Model::SetNormalMap(wstring file)
+{
+	for (auto material : materials)
+		material.second->SetNormalMap(file);
+}
+
 ModelBone* Model::GetBoneByName(string name)
 {
 	for (ModelBone* bone : bones)

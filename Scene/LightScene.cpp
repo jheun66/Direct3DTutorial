@@ -6,16 +6,22 @@ LightScene::LightScene()
 	CAMERA->SetPosition(0, 3, -10);
 
 	string name = "StanfordBunny";
-	Export(name);
+	//Export(name);
 	bunny = new ModelRender("Basic/" + name);
 	bunny->scale = { 0.01f, 0.01f, 0.01f };
 	bunny->position.y = 2.35f;
 	bunny->SetShader(L"Lighting");
 
 	name = "Plane";
-	Export(name);
+	//Export(name);
 	plane = new ModelRender("Basic/" + name);
 	plane->SetShader(L"Lighting");
+
+	name = "Door";
+	//Export(name);
+	door = new ModelRender("Basic/" + name);
+	door->SetShader(L"Lighting");
+	door->SetDiffuseMap(L"ModelData/Materials/Basic/Door.tga");
 
 	lightBuffer = new LightInfoBuffer();
 	//pointBuffer = new PointBuffer();
@@ -56,6 +62,7 @@ void LightScene::Update()
 {
 	bunny->Update();
 	plane->Update();
+	door->Update();
 }
 
 void LightScene::PreRender()
@@ -70,6 +77,8 @@ void LightScene::Render()
 
 	bunny->Render();
 	plane->Render();
+	door->Render();
+
 }
 
 void LightScene::PostRender()
