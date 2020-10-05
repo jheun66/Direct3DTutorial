@@ -37,29 +37,6 @@ public:
 
 };
 
-class LightBuffer : public ConstBuffer
-{
-public:
-	struct Data
-	{
-		Float3 direction;
-
-		// Exp 지수
-		float specularExp;
-		// 주변광 비율
-		Float4 ambient;
-		Float4 ambientCeil;
-	}data;
-
-	LightBuffer() : ConstBuffer(&data, sizeof(Data))
-	{
-		data.direction = { 0, -1, 0 };
-		data.specularExp = 8;
-		data.ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
-		data.ambientCeil = { 0.1f, 0.1f, 0.1f, 1.0f };
-	}
-
-};
 
 #define MAX_LIGHT 10
 struct LightInfo
@@ -100,7 +77,7 @@ struct LightInfo
 
 };
 
-class LightInfoBuffer : public ConstBuffer
+class LightBuffer : public ConstBuffer
 {
 public:
 	struct Data
@@ -109,11 +86,17 @@ public:
 
 		UINT lightCount;
 		float padding[3];
+
+		Float4 ambient;
+		Float4 ambientCeil;
 	}data;
 
-	LightInfoBuffer() : ConstBuffer(&data, sizeof(Data))
+	LightBuffer() : ConstBuffer(&data, sizeof(Data))
 	{
 		data.lightCount = 0;
+
+		data.ambient = { 0.1f,0.1f,0.1f,1.0f };
+		data.ambientCeil = { 0.1f,0.1f,0.1f,1.0f };
 	}
 
 	void Add(LightInfo light)

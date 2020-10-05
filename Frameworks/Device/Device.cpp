@@ -117,7 +117,7 @@ void Device::Clear(Float4 color, ID3D11RenderTargetView* rtv, ID3D11DepthStencil
         dsv = depthStencilView;
     
 
-    deviceContext->ClearRenderTargetView(renderTargetView, (float*)&color);
+    deviceContext->ClearRenderTargetView(rtv, (float*)&color);
     deviceContext->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 

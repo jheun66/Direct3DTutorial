@@ -1,18 +1,19 @@
 #include "Framework.h"
 
-#include "Scene/CubeScene.h"
-#include "Scene/TextureScene.h"
-#include "Scene/GridScene.h"
-#include "Scene/TerrainScene.h"
-#include "Scene/ComputeScene.h"
-#include "Scene/TerrainEditorScene.h"
-#include "Scene/ModelScene.h"
-#include "Scene/ModelAnimationScene.h"
-#include "Scene/CollisionScene.h"
-#include "Scene/AStarScene.h"
-#include "Scene/BillboardScene.h"
-#include "Scene/LightScene.h"
-#include "Scene/RenderTargetScene.h"
+//#include "Scene/CubeScene.h"
+//#include "Scene/TextureScene.h"
+//#include "Scene/GridScene.h"
+//#include "Scene/TerrainScene.h"
+//#include "Scene/ComputeScene.h"
+//#include "Scene/TerrainEditorScene.h"
+//#include "Scene/ModelScene.h"
+//#include "Scene/ModelAnimationScene.h"
+//#include "Scene/CollisionScene.h"
+//#include "Scene/AStarScene.h"
+//#include "Scene/BillboardScene.h"
+//#include "Scene/LightScene.h"
+//#include "Scene/RenderTargetScene.h"
+#include "Scene/OutlineScene.h"
 
 Program::Program()
 {
@@ -28,7 +29,8 @@ Program::Program()
 	//scene = new AStarScene();
 	//scene = new BillboardScene();
 	//scene = new LightScene();
-	scene = new RenderTargetScene();
+	//scene = new RenderTargetScene();
+	scene = new OutlineScene();
 }
 
 Program::~Program()

@@ -31,7 +31,8 @@ struct PixelInput
     float3 normal : NORMAL;
     float3 tangent : TANGENT;
     float3 binormal : BINORMAL;
-    float3 viewDir : VIEWDIR;
+    float3 worldPos : POSITION0;
+    float3 camPos : POSITION1;
 };
 
 
@@ -41,8 +42,8 @@ PixelInput VS(VertexInput input)
     
     output.pos = mul(input.pos, world);
     
-    float3 camPos = invView._41_42_43;
-    output.viewDir = normalize(output.pos.xyz - camPos);
+    output.worldPos = output.pos;
+    output.camPos = invView._41_42_43;
     
     output.pos = mul(output.pos, view);
     output.pos = mul(output.pos, projection);

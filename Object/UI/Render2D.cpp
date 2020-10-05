@@ -44,8 +44,10 @@ void Render2D::Render()
 	material->Set();
 
 	depthState[1]->SetState();
+	blendState[1]->SetState();
 	DC->DrawIndexed(6, 0, 0);
 	depthState[0]->SetState();
+	blendState[0]->SetState();
 }
 
 void Render2D::Create()
@@ -64,6 +66,10 @@ void Render2D::Create()
 	depthState[0] = new DepthStencilState();
 	depthState[1] = new DepthStencilState();
 	depthState[1]->DepthEnable(false);
+
+	blendState[0] = new BlendState();
+	blendState[1] = new BlendState();
+	blendState[1]->Alpha(true);
 
 	VertexUV vertices[4];
 	vertices[0].position = { -0.5f, -0.5f, 0.0f };
