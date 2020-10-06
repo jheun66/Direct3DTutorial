@@ -13,6 +13,8 @@ public:
 
 	void Set(DepthStencil* depthStencil);
 
+	static void Sets(RenderTarget** targets, UINT count, DepthStencil* depthStencil);
+
 	ID3D11ShaderResourceView* GetSRV() { return srv; }
 	ID3D11RenderTargetView* GetRTV() { return rtv; }
 

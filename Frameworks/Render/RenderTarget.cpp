@@ -48,3 +48,20 @@ void RenderTarget::Set(DepthStencil* depthStencil)
 	Device::Get()->SetRenderTarget(rtv, depthStencil->GetDSV());
 	Device::Get()->Clear(Float4(0, 0, 0, 0), rtv, depthStencil->GetDSV());
 }
+
+void RenderTarget::Sets(RenderTarget** targets, UINT count, DepthStencil* depthStencil)
+{
+	vector<ID3D11RenderTargetView*> rtvs;
+
+	float color[4] = { 0, 0, 0, 0 };
+	for (UINT i = 0; i < count; i++)
+	{
+		rtvs.emplace_back(targets[i]->GetRTV());
+		DC->ClearRenderTargetView(targets[i]->GetRTV(), color);
+	}
+
+	DC->ClearDepthStencilView(depthStencil->GetDSV(),
+		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+
+	DC->OMSetRenderTargets(rtvs.size(), rtvs.data(), depthStencil->GetDSV());
+}

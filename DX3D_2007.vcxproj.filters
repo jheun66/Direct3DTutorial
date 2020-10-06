@@ -279,6 +279,12 @@
     <ClInclude Include="Object\UI\Outline.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\MultiRenderTargetScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ShadowScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -527,6 +533,12 @@
     <ClCompile Include="Object\UI\Outline.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\MultiRenderTargetScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ShadowScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -570,6 +582,10 @@
     <FxCompile Include="Shaders\GeometryShaders\GeometryBreath.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexLighting.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelOutline.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelMRT.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelUV.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexDepthMap.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelDepthMap.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

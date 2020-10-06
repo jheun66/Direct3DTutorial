@@ -48,12 +48,12 @@ void Environment::PostRender()
         {
             ImGui::SliderInt("Type", (int*)&lightBuffer->data.lights[i].type, 0, 3);
             ImGui::SliderFloat3("Position", (float*)&lightBuffer->data.lights[i].position, -100, 100);
-            ImGui::SliderFloat("Range", &lightBuffer->data.lights[i].range, 0, 100);
+            ImGui::SliderFloat("Range", &lightBuffer->data.lights[i].range, 0, 1000);
             ImGui::ColorEdit4("Color", (float*)&lightBuffer->data.lights[i].color);
             ImGui::SliderFloat3("Direction", (float*)&lightBuffer->data.lights[i].direction, -1, 1);
             ImGui::SliderFloat("Outer", &lightBuffer->data.lights[i].outer, 0, 180);
             // 90 넘으면 반전
-            ImGui::SliderFloat("Inner", &lightBuffer->data.lights[i].inner, 0, 90);
+            ImGui::SliderFloat("Inner", &lightBuffer->data.lights[i].inner, 0, 89);
             ImGui::SliderFloat("Length", &lightBuffer->data.lights[i].length, 0, 100);
             ImGui::Checkbox("Active", (bool*)&lightBuffer->data.lights[i].active);
 

@@ -14,6 +14,8 @@
 //#include "Scene/LightScene.h"
 //#include "Scene/RenderTargetScene.h"
 #include "Scene/OutlineScene.h"
+#include "Scene/MultiRenderTargetScene.h"
+#include "Scene/ShadowScene.h"
 
 Program::Program()
 {
@@ -30,7 +32,10 @@ Program::Program()
 	//scene = new BillboardScene();
 	//scene = new LightScene();
 	//scene = new RenderTargetScene();
-	scene = new OutlineScene();
+	//scene = new OutlineScene();
+	//scene = new MultiRenderTargetScene();
+	scene = new ShadowScene();
+
 }
 
 Program::~Program()
@@ -63,9 +68,9 @@ void Program::Render()
 {
 	Device::Get()->SetRenderTarget();
 
-	//Environment::Get()->MainCamera()->VSSet(1);
-	//Environment::Get()->GetProjection()->SetVSBuffer(2);
-	//Environment::Get()->GetLight()->SetPSBuffer(0);
+	Environment::Get()->MainCamera()->VSSet(1);
+	Environment::Get()->GetProjection()->SetVSBuffer(2);
+	Environment::Get()->GetLight()->SetPSBuffer(0);
 
 	scene->Render();
 }

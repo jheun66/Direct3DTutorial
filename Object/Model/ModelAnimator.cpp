@@ -101,8 +101,10 @@ void ModelAnimator::Render()
 	if (texture == nullptr)
 		CreateTexture();
 
-	frameBuffer->SetVSBuffer(10);
-	DC->VSSetShaderResources(10, 1, &srv);
+	// 프레임은 4번
+	frameBuffer->SetVSBuffer(4);
+	// texture는 0번
+	DC->VSSetShaderResources(0, 1, &srv);
 
 	Model::Render();
 }
