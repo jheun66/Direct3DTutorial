@@ -285,6 +285,9 @@
     <ClInclude Include="Scene\ShadowScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Environment\Shadow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -539,6 +542,9 @@
     <ClCompile Include="Scene\ShadowScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Environment\Shadow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -586,6 +592,8 @@
     <FxCompile Include="Shaders\PixelShaders\PixelUV.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexDepthMap.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelDepthMap.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexShadow.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelShadow.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

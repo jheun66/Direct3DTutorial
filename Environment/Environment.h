@@ -16,6 +16,7 @@ private:
 
 	SamplerState* samplerState;
 
+	D3D11_VIEWPORT viewport;
 
 	static Environment* instance;
 	Environment();
@@ -33,6 +34,8 @@ public:
 	Matrix GetPerspective() { return perspective; }
 
 	void ChangeCameraMode(bool isFollowCamera);
+
+	void SetViewport(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
 private:
 	void CreateViewort();
 	void CreatePerspective();

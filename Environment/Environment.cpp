@@ -13,8 +13,9 @@ Environment::Environment()
     lightBuffer = new LightBuffer();
 
     LightInfo lightInfo;
-    lightInfo.type = LightInfo::DIRECTION;
-    lightInfo.direction = { 0,-1, 1 };
+    lightInfo.type = LightInfo::POINT;
+    lightInfo.position = { 0, 30, -10 };
+    //lightInfo.direction = { 0,-1, 1 };
 
     lightBuffer->Add(lightInfo);
 }
@@ -72,16 +73,23 @@ void Environment::ChangeCameraMode(bool isFollowCamera)
         mainCamera = new FreeCamera();
 }
 
+void Environment::SetViewport(UINT width, UINT height)
+{
+    viewport.Width = width;
+    viewport.Height = height;
+
+    DC->RSSetViewports(1, &viewport);
+}
+
 void Environment::CreateViewort()
 {
-    D3D11_VIEWPORT vp;
-    vp.Width = WIN_WIDTH;
-    vp.Height = WIN_HEIGHT;
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
-    DC->RSSetViewports(1, &vp);
+    viewport.Width = WIN_WIDTH;
+    viewport.Height = WIN_HEIGHT;
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    DC->RSSetViewports(1, &viewport);
 }
 
 void Environment::CreatePerspective()

@@ -148,6 +148,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Environment/Camera/FollowCamera.h"
 
 #include "Environment/Environment.h"
+#include "Environment/Shadow.h"
 
 #include "Algorithm/Node.h"
 #include "Algorithm/Heap.h"

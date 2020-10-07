@@ -6,17 +6,9 @@ private:
 	ModelRender* plane;
 	ModelAnimator* medea;
 
-	RenderTarget* renderTarget;
-	DepthStencil* depthStencil;
-
-	Render2D* depthMap;
-	
-	MatrixBuffer* viewBuffer;
-	MatrixBuffer* projectionBuffer;
-
 	SettingBuffer* settingBuffer;
 
-	float radius;
+	Shadow* shadow;
 public:
 	ShadowScene();
 	~ShadowScene();
@@ -27,5 +19,4 @@ public:
 	virtual void Render() override;
 	virtual void PostRender() override;
 
-	void SetViewProjection();
 };
