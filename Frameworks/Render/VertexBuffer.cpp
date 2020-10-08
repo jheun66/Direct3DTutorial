@@ -19,9 +19,9 @@ VertexBuffer::~VertexBuffer()
     buffer->Release();
 }
 
-void VertexBuffer::IASet()
+void VertexBuffer::IASet(UINT slot)
 {
-    DC->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
+    DC->IASetVertexBuffers(slot, 1, &buffer, &stride, &offset);
 }
 
 void VertexBuffer::Update(void* data, UINT count)

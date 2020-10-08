@@ -12,8 +12,9 @@ public:
 	VertexBuffer(void* data, UINT stride, UINT count);
 	~VertexBuffer();
 
-	void IASet();
+	void IASet(UINT slot = 0);
 
 	void Update(void* data, UINT count);
 
+	ID3D11Buffer* GetBuffer() { return buffer; }
 };

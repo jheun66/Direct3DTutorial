@@ -214,8 +214,10 @@ void ModelReader::ReadMesh(aiNode* node, int bone)
 		UINT index = node->mMeshes[i];
 		aiMesh* srcMesh = scene->mMeshes[index];
 
+		aiMaterial* material = scene->mMaterials[srcMesh->mMaterialIndex];
+		mesh->materialName = material->GetName().C_Str();
+
 		UINT startVertex = mesh->vertices.size();
-		UINT startIndex = mesh->indices.size();
 
 		for (UINT v = 0; v < srcMesh->mNumVertices; v++)
 		{
@@ -244,20 +246,6 @@ void ModelReader::ReadMesh(aiNode* node, int bone)
 				mesh->indices.back() += startVertex;
 			}
 		}//Indices
-
-		aiMaterial* material = scene->mMaterials[srcMesh->mMaterialIndex];
-
-		MeshPartData* meshPart = new MeshPartData();
-		meshPart->name = srcMesh->mName.C_Str();
-		meshPart->materialName = material->GetName().C_Str();
-		meshPart->startVertex = startVertex;
-		meshPart->startIndex = startIndex;
-		meshPart->vertexCount = srcMesh->mNumVertices;
-		meshPart->indexCount = srcMesh->mNumFaces * srcMesh->mFaces->mNumIndices;
-
-		mesh->meshParts.emplace_back(meshPart);
-		
-	
 	}//Mesh
 
 	meshes.emplace_back(mesh);
@@ -339,27 +327,13 @@ void ModelReader::WriteMesh(string savePath)
 		w->String(mesh->name);
 		w->Int(mesh->boneIndex);
 
+		w->String(mesh->materialName);
+
 		w->UInt(mesh->vertices.size());
 		w->Byte(mesh->vertices.data(), sizeof(ModelVertex) * mesh->vertices.size());
 
 		w->UInt(mesh->indices.size());
 		w->Byte(mesh->indices.data(), sizeof(UINT) * mesh->indices.size());
-
-		w->UInt(mesh->meshParts.size());
-		for (MeshPartData* part : mesh->meshParts)
-		{
-			w->String(part->name);
-			w->String(part->materialName);
-
-			w->UInt(part->startVertex);
-			w->UInt(part->vertexCount);
-
-			w->UInt(part->startIndex);
-			w->UInt(part->indexCount);
-
-			delete part;
-		}
-		mesh->meshParts.clear();
 
 		delete mesh;
 	}

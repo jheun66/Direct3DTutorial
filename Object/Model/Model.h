@@ -8,7 +8,6 @@ protected:
 	map<string, Material*> materials;
 	vector<ModelMesh*> meshes;
 	vector<ModelBone*> bones;
-	
 
 public:
 	Model();

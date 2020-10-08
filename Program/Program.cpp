@@ -16,6 +16,7 @@
 #include "Scene/OutlineScene.h"
 #include "Scene/MultiRenderTargetScene.h"
 #include "Scene/ShadowScene.h"
+#include "Scene/InstancingScene.h"
 
 Program::Program()
 {
@@ -34,8 +35,8 @@ Program::Program()
 	//scene = new RenderTargetScene();
 	//scene = new OutlineScene();
 	//scene = new MultiRenderTargetScene();
-	scene = new ShadowScene();
-
+	//scene = new ShadowScene();
+	scene = new InstancingScene();
 }
 
 Program::~Program()

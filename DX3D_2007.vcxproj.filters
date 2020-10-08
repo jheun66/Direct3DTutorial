@@ -168,9 +168,6 @@
     <ClInclude Include="Object\Model\Model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Model\ModelMeshPart.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\ModelAnimationScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -286,6 +283,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Environment\Shadow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\InstancingScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ModelInstancingScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Model\ModelBone.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -425,9 +431,6 @@
     <ClCompile Include="Object\Model\Model.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Model\ModelMeshPart.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\ModelAnimationScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -545,6 +548,12 @@
     <ClCompile Include="Environment\Shadow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\InstancingScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ModelInstancingScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -594,6 +603,8 @@
     <FxCompile Include="Shaders\PixelShaders\PixelDepthMap.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexShadow.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelShadow.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexInstancing.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

@@ -144,6 +144,9 @@ void Model::ReadMesh(string file)
 		mesh->name = r->String();
 		mesh->boneIndex = r->Int();
 
+		mesh->materialName = r->String();
+		mesh->material = materials[mesh->materialName];
+
 		{//Vertices
 			UINT count = r->UInt();
 
@@ -162,25 +165,6 @@ void Model::ReadMesh(string file)
 
 			void* ptr = (void*)mesh->indices;
 			r->Byte(&ptr, sizeof(UINT) * count);
-		}
-
-		UINT partCount = r->UInt();
-		for (UINT k = 0; k < partCount; k++)
-		{
-			ModelMeshPart* meshPart = new ModelMeshPart();
-			meshPart->mesh = mesh;
-			meshPart->name = r->String();
-			meshPart->materialName = r->String();
-
-			meshPart->material = materials[meshPart->materialName];
-
-			meshPart->startVertex = r->UInt();
-			meshPart->vertexCount = r->UInt();
-		
-			meshPart->startIndex = r->UInt();
-			meshPart->indexCount = r->UInt();
-
-			mesh->meshParts.emplace_back(meshPart);
 		}
 	
 		mesh->CreateMesh();

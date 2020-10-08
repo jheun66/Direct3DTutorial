@@ -26,18 +26,6 @@ struct BoneData
 	Matrix transform;
 };
 
-struct MeshPartData
-{
-	string name;
-	string materialName;
-
-	UINT startVertex;
-	UINT vertexCount;
-
-	UINT startIndex;
-	UINT indexCount;
-};
-
 struct MeshData
 {
 	string name;
@@ -45,10 +33,10 @@ struct MeshData
 
 	aiMesh* mesh;
 
+	string materialName;
+
 	vector<ModelVertex> vertices;
 	vector<UINT> indices;
-
-	vector<MeshPartData*> meshParts;
 };
 
 

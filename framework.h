@@ -16,8 +16,9 @@
 #define WIN_START_Y 100
 
 // 본 개수 제한
-#define MAX_MODEL_BONE 256
+#define MAX_MODEL_BONE 500
 #define MAX_ANIM_KEY 500
+#define MAX_MODEL_INSTANCE 500
 
 // 디버그 아니면 무시
 #ifdef NDEBUG
@@ -163,7 +164,7 @@ using namespace Utility;
 #include "Object/Basic/Cube.h"
 #include "Object/Basic/Sphere.h"
 
-#include "Object/Model/ModelMeshPart.h"
+#include "Object/Model/ModelBone.h"
 #include "Object/Model/ModelMesh.h"
 #include "Object/Model/ModelClip.h"
 #include "Object/Model/Model.h"

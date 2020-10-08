@@ -9,9 +9,6 @@ ModelMesh::~ModelMesh()
 	delete[] vertices;
 	delete[] indices;
 	delete mesh;
-
-	for (ModelMeshPart* part : meshParts)
-		delete part;
 }
 
 void ModelMesh::CreateMesh()
@@ -22,20 +19,13 @@ void ModelMesh::CreateMesh()
 
 void ModelMesh::Update()
 {
-	for (ModelMeshPart* part : meshParts)
-		part->Update();
 }
 
-void ModelMesh::Render()
+void ModelMesh::Render(UINT drawCount)
 {
 	mesh->Set();
 
-	for (ModelMeshPart* part : meshParts)
-		part->Render();
-}
+	material->Set();
 
-void ModelMesh::SetTransforms(Matrix* transforms)
-{
-	for (ModelMeshPart* part : meshParts)
-		part->SetTransforms(transforms);
+	DC->DrawIndexedInstanced(indexCount, drawCount, 0, 0, 0);
 }

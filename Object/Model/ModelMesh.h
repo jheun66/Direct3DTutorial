@@ -10,7 +10,8 @@ private:
 	int boneIndex;
 	ModelBone* bone;
 
-	vector<ModelMeshPart*> meshParts;
+	string materialName;
+	Material* material;
 
 	Mesh* mesh;
 
@@ -27,9 +28,7 @@ public:
 
 
 	void Update();
-	void Render();
-
-	void SetTransforms(Matrix* transforms);
+	void Render(UINT drawCount = 1);
 
 	int BoneIndex() { return boneIndex; }
 };
