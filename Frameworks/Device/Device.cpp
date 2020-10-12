@@ -44,9 +44,31 @@ void Device::CreateDevcieAndSwapChain()
     // 창모드
     sd.Windowed = true;
 
+    vector<IDXGIAdapter1*> adpaters = EnumerateAdpater();
+
+    UINT maxVideoMemory = 0;
+    UINT selectedAdapterIndex = 0;
+    string gpuName;
+    wstring gpuDesc;
+    for (int i = 0; i < adpaters.size(); i++)
+    {
+        DXGI_ADAPTER_DESC1 desc;
+        adpaters[i]->GetDesc1(&desc);
+        if (desc.DedicatedVideoMemory > maxVideoMemory)
+        {
+            maxVideoMemory = desc.DedicatedVideoMemory;
+            selectedAdapterIndex = i;
+            gpuDesc = desc.Description;
+        }
+    }
+
+    // 그래픽 카드 이름 확인
+    gpuName.assign(gpuDesc.begin(), gpuDesc.end());
+
+
     V(D3D11CreateDeviceAndSwapChain(
-        nullptr,
-        D3D_DRIVER_TYPE_HARDWARE,
+        adpaters[selectedAdapterIndex],
+        D3D_DRIVER_TYPE_UNKNOWN,
         0,
         D3D11_CREATE_DEVICE_DEBUG,
         nullptr,
@@ -124,4 +146,34 @@ void Device::Clear(Float4 color, ID3D11RenderTargetView* rtv, ID3D11DepthStencil
 void Device::Present()
 {
     swapChain->Present(0, 0);
+}
+
+vector<IDXGIAdapter1*> Device::EnumerateAdpater()
+{
+    IDXGIAdapter1* pAdapter;
+    vector<IDXGIAdapter1*> vAdapters;
+    IDXGIFactory1* pFactory = NULL;
+
+
+    // Create a DXGIFactory object.
+    if (FAILED(CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)&pFactory)))
+    {
+        return vAdapters;
+    }
+
+
+    for (UINT i = 0;
+        pFactory->EnumAdapters1(i, &pAdapter) != DXGI_ERROR_NOT_FOUND;
+        ++i)
+    {
+        vAdapters.push_back(pAdapter);
+    }
+
+
+    if (pFactory)
+    {
+        pFactory->Release();
+    }
+
+    return vAdapters;
 }

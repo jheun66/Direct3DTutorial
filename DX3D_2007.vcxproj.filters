@@ -605,6 +605,8 @@
     <FxCompile Include="Shaders\PixelShaders\PixelShadow.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexInstancing.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelInstancing.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexModelInstancing.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexModelAnimationInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

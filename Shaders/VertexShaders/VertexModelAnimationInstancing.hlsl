@@ -8,6 +8,9 @@ struct VertexInput
     float3 tangent : Tangent;
     float4 indices : BlendIndices;
     float4 weights : BlendWeights;
+    
+    matrix transform : Instance;
+    uint instanceID : SV_InstanceID;
 };
 
 struct PixelInput
@@ -26,8 +29,8 @@ PixelInput VS(VertexInput input)
 {
     PixelInput output;
     
-    matrix boneWorld = SkinWorld(0, input.indices, input.weights);
-    boneWorld = mul(boneWorld, world);
+    matrix transform = SkinWorld(input.instanceID, input.indices, input.weights);
+    matrix boneWorld = mul(transform, input.transform);
     
     output.pos = mul(input.pos, boneWorld);
     

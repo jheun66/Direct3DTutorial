@@ -7,7 +7,7 @@
 //#include "Scene/ComputeScene.h"
 //#include "Scene/TerrainEditorScene.h"
 //#include "Scene/ModelScene.h"
-//#include "Scene/ModelAnimationScene.h"
+#include "Scene/ModelAnimationScene.h"
 //#include "Scene/CollisionScene.h"
 //#include "Scene/AStarScene.h"
 //#include "Scene/BillboardScene.h"
@@ -17,6 +17,7 @@
 #include "Scene/MultiRenderTargetScene.h"
 #include "Scene/ShadowScene.h"
 #include "Scene/InstancingScene.h"
+#include "Scene/ModelInstancingScene.h"
 
 Program::Program()
 {
@@ -36,7 +37,8 @@ Program::Program()
 	//scene = new OutlineScene();
 	//scene = new MultiRenderTargetScene();
 	//scene = new ShadowScene();
-	scene = new InstancingScene();
+	//scene = new InstancingScene();
+	scene = new ModelInstancingScene();
 }
 
 Program::~Program()

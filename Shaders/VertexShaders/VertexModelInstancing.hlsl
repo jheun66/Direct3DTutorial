@@ -6,8 +6,10 @@ struct VertexInput
     float2 uv : UV;
     float3 normal : Normal;
     float3 tangent : Tangent;
-    float4 indices : BlendIndices;
-    float4 weights : BlendWeights;
+    
+    matrix transform : Instance;
+    // 자동으로 넘어감
+    uint instanceID : SV_InstanceID;
 };
 
 struct PixelInput
@@ -25,12 +27,10 @@ struct PixelInput
 PixelInput VS(VertexInput input)
 {
     PixelInput output;
-    
-    matrix boneWorld = SkinWorld(0, input.indices, input.weights);
-    boneWorld = mul(boneWorld, world);
+	
+    matrix boneWorld = input.transform;
     
     output.pos = mul(input.pos, boneWorld);
-    
     output.worldPos = output.pos;
     output.camPos = invView._41_42_43;
     

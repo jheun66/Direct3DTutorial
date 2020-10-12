@@ -60,6 +60,7 @@
 #include <DirectXCollision.h>
 
 // 프로젝트 속성 - 링커 - 입력 - 추가 종속성에서 추가해 줘도 된다.
+#pragma comment(lib,"dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 // interface id 있는 라이브러리 

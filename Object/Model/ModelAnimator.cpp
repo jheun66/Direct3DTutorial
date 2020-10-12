@@ -9,6 +9,11 @@ ModelAnimator::ModelAnimator(string file)
 	SetShader(L"VertexModelAnimation", L"PixelNormalMapping");
 
 	frameBuffer = new FrameBuffer();
+
+	for (UINT i = 0; i < MAX_MODEL_INSTANCE; i++)
+		worlds[i] = XMMatrixIdentity();
+
+	instanceBuffer = new VertexBuffer(worlds, sizeof(Matrix), MAX_MODEL_INSTANCE);
 }
 
 ModelAnimator::~ModelAnimator()
@@ -21,79 +26,88 @@ ModelAnimator::~ModelAnimator()
 
 	for (ModelClip* clip : clips)
 		delete clip;
+
+	for (Transform* transform : transforms)
+		delete transform;
+
+	delete instanceBuffer;
 }
 
 void ModelAnimator::Update()
 {
-	{// 현재 애니메이션
-		KeyFrameDesc& desc = frameBuffer->data.cur;
-		ModelClip* clip = clips[desc.clip];
+	for (UINT i = 0; i < transforms.size(); i++)
+	{
+		TweenDesc& tweenDesc = frameBuffer->data.tweenDesc[i];
 
-		float time = 1.0f / clip->frameRate / desc.speed;
-		desc.runningTime += DELTA;
 
-		if (desc.time >= 1.0f)	// 다음 프레임으로 넘기는 조건
-		{
-			// 현재 애니메이션이 끝나는 조건 (프레임 끝에 도달)
-			if (desc.curFrame + desc.time >= clip->frameCount)
-			{
-				if (EndEvent.count(desc.clip) > 0)
-					EndEvent[desc.clip]();
-			}
-			
-			desc.runningTime = 0.0f;
-
-			//									루프 돌게
-			desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
-			desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
-		}
-
-		desc.time = desc.runningTime / time;
-	}
-
-	{// 다음 애니메이션
-		KeyFrameDesc& desc = frameBuffer->data.next;
-
-		if (desc.clip > -1)
-		{
+		{// 현재 애니메이션
+			KeyFrameDesc& desc = tweenDesc.cur;
 			ModelClip* clip = clips[desc.clip];
 
-			frameBuffer->data.runningTime += DELTA;
-			frameBuffer->data.tweenTime = frameBuffer->data.runningTime / frameBuffer->data.takeTime;
+			float time = 1.0f / clip->frameRate / desc.speed;
+			desc.runningTime += DELTA;
 
-			if (frameBuffer->data.tweenTime >= 1.0f)
+			if (desc.time >= 1.0f)	// 다음 프레임으로 넘기는 조건
 			{
-				frameBuffer->data.cur = desc;
-				frameBuffer->data.runningTime = 0.0f;
-				frameBuffer->data.tweenTime = 0.0f;
+				// 현재 애니메이션이 끝나는 조건 (프레임 끝에 도달)
+				if (desc.curFrame + desc.time >= clip->frameCount)
+				{
+					if (EndEvent.count(desc.clip) > 0)
+						EndEvent[desc.clip]();
+				}
 
 				desc.runningTime = 0.0f;
-				desc.curFrame = 0;
-				desc.nextFrame = 0;
-				desc.time = 0.0f;
-				desc.clip = -1;
+
+				//									루프 돌게
+				desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
+				desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
 			}
-			else
+
+			desc.time = desc.runningTime / time;
+		}
+
+		{// 다음 애니메이션
+			KeyFrameDesc& desc = tweenDesc.next;
+
+			if (desc.clip > -1)
 			{
-				float time = 1.0f / clip->frameRate / desc.speed;
-				desc.runningTime += DELTA;
+				ModelClip* clip = clips[desc.clip];
 
-				if (desc.time >= 1.0f)
+				tweenDesc.runningTime += DELTA;
+				tweenDesc.tweenTime = tweenDesc.runningTime / tweenDesc.takeTime;
+
+				if (tweenDesc.tweenTime >= 1.0f)
 				{
+					tweenDesc.cur = desc;
+					tweenDesc.runningTime = 0.0f;
+					tweenDesc.tweenTime = 0.0f;
+
 					desc.runningTime = 0.0f;
-
-					desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
-
-					desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
+					desc.curFrame = 0;
+					desc.nextFrame = 0;
+					desc.time = 0.0f;
+					desc.clip = -1;
 				}
-				desc.time = desc.runningTime / time;
+				else
+				{
+					float time = 1.0f / clip->frameRate / desc.speed;
+					desc.runningTime += DELTA;
+
+					if (desc.time >= 1.0f)
+					{
+						desc.runningTime = 0.0f;
+
+						desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
+
+						desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
+					}
+					desc.time = desc.runningTime / time;
+				}
 			}
 		}
 	}
 
-	Model::Update();
-	
-
+	UpdateTransforms();
 }
 
 void ModelAnimator::Render()
@@ -101,19 +115,42 @@ void ModelAnimator::Render()
 	if (texture == nullptr)
 		CreateTexture();
 
+	instanceBuffer->IASet(1);
+
 	// 프레임은 4번
 	frameBuffer->SetVSBuffer(4);
 	// texture는 0번
 	DC->VSSetShaderResources(0, 1, &srv);
 
-	Model::Render();
+	for (ModelMesh* mesh : meshes)
+		mesh->Render(transforms.size());
 }
 
-void ModelAnimator::PlayClip(UINT clip, float speed, float takeTime)
+void ModelAnimator::UpdateTransforms()
 {
-	frameBuffer->data.takeTime = takeTime;
-	frameBuffer->data.next.clip = clip;
-	frameBuffer->data.next.speed = speed;
+	for (UINT i = 0; i < transforms.size(); i++)
+	{
+		transforms[i]->UpdateWorld();
+		Matrix temp = XMMatrixTranspose(*transforms[i]->GetWorld());
+		memcpy(&worlds[i], &temp, sizeof(Matrix));
+	}
+
+	instanceBuffer->Update(worlds, MAX_MODEL_INSTANCE);
+}
+
+Transform* ModelAnimator::AddTransform()
+{
+	Transform* transform = new Transform();
+	transforms.emplace_back(transform);
+
+	return transform;
+}
+
+void ModelAnimator::PlayClip(UINT instance, UINT clip, float speed, float takeTime)
+{
+	frameBuffer->data.tweenDesc[instance].takeTime = takeTime;
+	frameBuffer->data.tweenDesc[instance].next.clip = clip;
+	frameBuffer->data.tweenDesc[instance].next.speed = speed;
 }
 
 void ModelAnimator::ReadClip(string file)
@@ -155,7 +192,10 @@ Matrix ModelAnimator::GetCurBoneMatrix(UINT boneIndex)
 	if (clipTransform == nullptr)
 		return XMMatrixIdentity();
 
-	return clipTransform[frameBuffer->data.cur.clip].transform[frameBuffer->data.cur.curFrame][boneIndex];
+	UINT curClip = frameBuffer->data.tweenDesc[0].cur.clip;
+	UINT curFrame = frameBuffer->data.tweenDesc[0].cur.curFrame;
+
+	return clipTransform[curClip].transform[curFrame][boneIndex];
 }
 
 void ModelAnimator::CreateTexture()

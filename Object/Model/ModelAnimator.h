@@ -18,25 +18,39 @@ private:
 		float padding[2];
 	};
 
+	struct TweenDesc
+	{
+		float takeTime;
+		float tweenTime;
+		float runningTime;
+		float padding;
+
+		KeyFrameDesc cur;
+		KeyFrameDesc next;
+
+		TweenDesc()
+		{
+			takeTime = 0.5f;
+			tweenTime = 0.0f;
+			runningTime = 0.0f;
+
+			cur.clip = 0;
+			next.clip = 1;
+		}
+
+	};
+
+
 	class FrameBuffer : public ConstBuffer
 	{
 	public:
 		struct Data
 		{
-			float takeTime;
-			float tweenTime;
-			float runningTime;
-			float padding;
-
-			KeyFrameDesc cur;
-			KeyFrameDesc next;
+			TweenDesc tweenDesc[MAX_MODEL_INSTANCE];
 		}data;
 
 		FrameBuffer() : ConstBuffer(&data, sizeof(Data))
 		{
-			data.takeTime = 0.0f;
-			data.tweenTime = 0.0f;
-			data.runningTime = 0.0f;
 		}
 	};
 
@@ -70,6 +84,11 @@ private:
 
 	vector<ModelClip*> clips;
 
+	vector<Transform*> transforms;
+	Matrix worlds[MAX_MODEL_INSTANCE];
+
+	VertexBuffer* instanceBuffer;
+
 	map<UINT, function<void()>> EndEvent;
 public:
 	ModelAnimator(string file);
@@ -78,7 +97,11 @@ public:
 	void Update();
 	void Render();
 
-	void PlayClip(UINT clip, float speed = 1.0f, float takeTime = 0.2f);
+	void UpdateTransforms();
+
+	Transform* AddTransform();
+
+	void PlayClip(UINT instance, UINT clip, float speed = 1.0f, float takeTime = 0.2f);
 	void ReadClip(string file);
 
 	void SetEndEvent(UINT clip, function<void()> value) { EndEvent[clip] = value; }

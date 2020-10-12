@@ -18,52 +18,41 @@ ModelRender::~ModelRender()
 	for (Transform* transform : transforms)
 		delete transform;
 
-	texture->Release();
-	srv->Release();
-
 	delete instanceBuffer;
 }
 
 void ModelRender::Update()
 {
-	UpdateTransform();
+	UpdateTransforms();
 
 	Model::Update();
 }
 
 void ModelRender::Render()
 {
-	if (texture == nullptr)
-		CreateTexture();
 
 	instanceBuffer->IASet(1);
 
-	Model::Render();
+	for (ModelMesh* mesh : meshes)
+		mesh->Render(transforms.size());
 }
 
-void ModelRender::UpdateTransform()
-{	
-	//// 전치행렬로 바꿔서 넘겨주기
-	//for (UINT i = 0; i < bones.size(); i++)
-	//	transforms[i] = XMMatrixTranspose(bones[i]->transform);
-
-	//for (ModelMesh* mesh : meshes)
-	//	mesh->SetTransforms(transforms);
-}
-
-void ModelRender::UpdateTransform(UINT instanceID, UINT boneIndex, Transform& transform)
+void ModelRender::UpdateTransforms()
 {
+	for (UINT i = 0; i < transforms.size(); i++)
+	{
+		transforms[i]->UpdateWorld();
+		Matrix temp = XMMatrixTranspose(*transforms[i]->GetWorld());
+		memcpy(&worlds[i], &temp, sizeof(Matrix));
+	}
+
+	instanceBuffer->Update(worlds, MAX_MODEL_INSTANCE);
 }
 
 Transform* ModelRender::AddTransform()
 {
-	return nullptr;
-}
+	Transform* transform = new Transform();
+	transforms.emplace_back(transform);
 
-void ModelRender::UpdateBones(ModelBone* bone, Matrix& matrix)
-{
-}
-
-void ModelRender::CreateTexture()
-{
+	return transform;
 }

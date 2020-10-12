@@ -9,7 +9,7 @@ Medea::Medea()
 	ReadClip("Medea/Idle");
 	ReadClip("Medea/Running");
 
-	PlayClip(0);
+	PlayClip(0, 0);
 }
 
 Medea::~Medea()
@@ -150,6 +150,6 @@ void Medea::SetAnimation(AnimState value)
 	if (state != value)
 	{
 		state = value;
-		PlayClip(value);
+		PlayClip(0, value);
 	}
 }

@@ -6,7 +6,7 @@ ShadowScene::ShadowScene()
 	plane = new ModelRender("Basic/Plane");
 	medea = new ModelAnimator("Medea/Medea");
 	medea->ReadClip("Medea/Running");
-	medea->PlayClip(0);
+	medea->PlayClip(0, 0);
 
 	medea->scale = { 0.1f,0.1f,0.1f };
 

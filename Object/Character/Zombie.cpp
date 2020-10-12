@@ -11,7 +11,7 @@ Zombie::Zombie()
 
 	SetEndEvent(ATTACK, bind(&Zombie::AttackEnd, this));
 
-	PlayClip(0);
+	PlayClip(0, 0);
 
 	// offset을 부모 행렬로, 마치 빈 오브젝트에 담는거 처럼 
 	offset.rotation.y = XM_PI;
@@ -82,7 +82,7 @@ void Zombie::SetAnimation(AnimState state)
 	if (this->state != state)
 	{
 		this->state = state;
-		PlayClip(state, 1.0f, 0.1f);
+		PlayClip(0, state, 1.0f, 0.1f);
 	}
 }
 

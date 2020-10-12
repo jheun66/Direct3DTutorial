@@ -48,7 +48,10 @@ PixelInput VS(VertexInput input)
     if (type == 1)
         boneWorld = mul(bones[index], world);
     else if (type == 2)
-        boneWorld = SkinWorld(input.indices, input.weights);
+    {
+        boneWorld = SkinWorld(0, input.indices, input.weights);
+        boneWorld = mul(boneWorld, world);
+    }
     
     output.pos = mul(input.pos, boneWorld);
     
