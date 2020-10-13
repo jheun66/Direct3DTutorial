@@ -18,6 +18,8 @@
 #include "Scene/ShadowScene.h"
 #include "Scene/InstancingScene.h"
 #include "Scene/ModelInstancingScene.h"
+#include "Scene/FrustumScene.h"
+#include "Scene/QuadTreeScene.h"
 
 Program::Program()
 {
@@ -38,7 +40,9 @@ Program::Program()
 	//scene = new MultiRenderTargetScene();
 	//scene = new ShadowScene();
 	//scene = new InstancingScene();
-	scene = new ModelInstancingScene();
+	//scene = new ModelInstancingScene();
+	//scene = new FrustumScene();
+	scene = new QuadTreeScene();
 }
 
 Program::~Program()

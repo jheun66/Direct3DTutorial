@@ -165,6 +165,7 @@
     <ClInclude Include="DX3D_2007.h" />
     <ClInclude Include="Environment\Camera\FollowCamera.h" />
     <ClInclude Include="Environment\Environment.h" />
+    <ClInclude Include="Environment\Frustum.h" />
     <ClInclude Include="Environment\Shadow.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Environment\Camera\Camera.h" />
@@ -212,8 +213,10 @@
     <ClInclude Include="Object\Character\Medea.h" />
     <ClInclude Include="Object\Character\Zombie.h" />
     <ClInclude Include="Object\LandScape\Billboard.h" />
+    <ClInclude Include="Object\LandScape\QuadTreeTerrain.h" />
     <ClInclude Include="Object\LandScape\SkyBox.h" />
     <ClInclude Include="Object\LandScape\Terrain.h" />
+    <ClInclude Include="Object\LandScape\TerrainData.h" />
     <ClInclude Include="Object\LandScape\TerrainEditor.h" />
     <ClInclude Include="Object\Model\Model.h" />
     <ClInclude Include="Object\Model\ModelAnimator.h" />
@@ -252,6 +255,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Scene\FrustumScene.h" />
     <ClInclude Include="Scene\GridScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -275,6 +279,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Scene\QuadTreeScene.h" />
     <ClInclude Include="Scene\RenderTargetScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -307,6 +312,7 @@
     <ClCompile Include="Environment\Camera\FollowCamera.cpp" />
     <ClCompile Include="Environment\Camera\FreeCamera.cpp" />
     <ClCompile Include="Environment\Environment.cpp" />
+    <ClCompile Include="Environment\Frustum.cpp" />
     <ClCompile Include="Environment\Shadow.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -352,8 +358,10 @@
     <ClCompile Include="Object\Character\Medea.cpp" />
     <ClCompile Include="Object\Character\Zombie.cpp" />
     <ClCompile Include="Object\LandScape\Billboard.cpp" />
+    <ClCompile Include="Object\LandScape\QuadTreeTerrain.cpp" />
     <ClCompile Include="Object\LandScape\SkyBox.cpp" />
     <ClCompile Include="Object\LandScape\Terrain.cpp" />
+    <ClCompile Include="Object\LandScape\TerrainData.cpp" />
     <ClCompile Include="Object\LandScape\TerrainEditor.cpp" />
     <ClCompile Include="Object\Model\Model.cpp" />
     <ClCompile Include="Object\Model\ModelAnimator.cpp" />
@@ -390,6 +398,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Scene\FrustumScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -413,6 +422,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Scene\QuadTreeScene.cpp" />
     <ClCompile Include="Scene\RenderTargetScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
