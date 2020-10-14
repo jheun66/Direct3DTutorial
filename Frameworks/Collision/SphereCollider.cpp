@@ -48,7 +48,7 @@ bool SphereCollider::IsSphereCollision(SphereCollider* collider)
 {
     float distnace = (WorldPos() - collider->WorldPos()).Length();
 
-    return distnace <= (radius + collider->radius);
+    return distnace <= (Radius() + collider->Radius());
 }
 
 bool SphereCollider::IsCapsuleCollision(CapsuleCollider* collider)

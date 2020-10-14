@@ -1,6 +1,7 @@
 #include "Framework.h"
 
 Collider::Collider()
+    : pushSpeed(1)
 {
     material = new Material(L"");
     material->GetBuffer()->data.diffuse = { 0,1,0,1 };
@@ -37,6 +38,16 @@ bool Collider::IsCollision(Collider* collider)
     //    return IsBoxCollision(coll);
 
     //return IsSphereCollision(static_cast<SphereCollider*>(collider));
+}
+
+void Collider::PushCollision(Collider* collider)
+{
+    if (!IsCollision(collider))
+        return;
+
+    Vector3 direction = collider->position - position;
+
+    collider->position += direction * pushSpeed * DELTA;
 }
 
 void Collider::Render()

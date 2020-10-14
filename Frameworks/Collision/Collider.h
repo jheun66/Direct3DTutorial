@@ -33,6 +33,8 @@ protected:
 	vector<Vertex> vertices;
 	vector<UINT> indices;
 
+	float pushSpeed;
+
 public:
 	Collider();
 	virtual ~Collider();
@@ -42,6 +44,9 @@ public:
 	virtual bool IsBoxCollision(BoxCollider* collider) = 0;
 	virtual bool IsSphereCollision(SphereCollider* collider) = 0;
 	virtual bool IsCapsuleCollision(CapsuleCollider* collider) = 0;
+
+	// Collider??
+	void PushCollision(Collider* collider);
 
 	virtual void CreateMesh() = 0;
 

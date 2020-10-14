@@ -15,13 +15,13 @@ bool CapsuleCollider::IsCollision(IN Ray ray, OUT Contact* contact)
 {
     Vector3 direction = Up();
 
-    Vector3 pa = WorldPos() - direction * height * 0.5f;
-    Vector3 pb = WorldPos() + direction * height * 0.5f;
+    Vector3 pa = WorldPos() - direction * Height() * 0.5f;
+    Vector3 pb = WorldPos() + direction * Height() * 0.5f;
 
     Vector3 ro = ray.position;
     Vector3 rd = ray.direction;
 
-    float r = radius;
+    float r = Radius();
 
     Vector3 ba = pb - pa;
     Vector3 oa = ro - pa;
@@ -71,48 +71,48 @@ bool CapsuleCollider::IsCollision(IN Ray ray, OUT Contact* contact)
 bool CapsuleCollider::IsBoxCollision(BoxCollider* collider)
 {
     Vector3 direction = Up();
-    Vector3 startPos = WorldPos() - direction * height * 0.5f;
+    Vector3 startPos = WorldPos() - direction * Height() * 0.5f;
 
     Vector3 A = collider->WorldPos() - startPos;
 
     float t = A.Dot(direction);
     t = max(0, t);
-    t = min(height, t);
+    t = min(Height(), t);
 
     Vector3 pointOnLine = startPos + direction * t;
 
-    return collider->IsSphereCollision(pointOnLine, radius);
+    return collider->IsSphereCollision(pointOnLine, Radius());
 }
 
 bool CapsuleCollider::IsSphereCollision(SphereCollider* collider)
 {
     Vector3 direction = Up();
-    Vector3 startPos = WorldPos() - direction * height * 0.5f;
+    Vector3 startPos = WorldPos() - direction * Height() * 0.5f;
     
     Vector3 A = collider->WorldPos() - startPos;
 
     float t = A.Dot(direction);
     t = max(0, t);
-    t = min(height, t);
+    t = min(Height(), t);
 
     Vector3 pointOnLine = startPos + direction * t;
 
     float distance = Distance(pointOnLine, collider->WorldPos());
 
-    return distance <= (radius + collider->Radius());
+    return distance <= (Radius() + collider->Radius());
 }
 
 bool CapsuleCollider::IsCapsuleCollision(CapsuleCollider* collider)
 {
     Vector3 aDirection = Up();
 
-    Vector3 aA = WorldPos() - aDirection * height * 0.5f;
-    Vector3 aB = WorldPos() + aDirection * height * 0.5f;
+    Vector3 aA = WorldPos() - aDirection * Height() * 0.5f;
+    Vector3 aB = WorldPos() + aDirection * Height() * 0.5f;
 
     Vector3 bDirection = collider->Up();
 
-    Vector3 bA = collider->WorldPos() - bDirection * collider->height * 0.5f;
-    Vector3 bB = collider->WorldPos() + bDirection * collider->height * 0.5f;
+    Vector3 bA = collider->WorldPos() - bDirection * collider->Height() * 0.5f;
+    Vector3 bB = collider->WorldPos() + bDirection * collider->Height() * 0.5f;
 
     Vector3 v0 = bA - aA;
     Vector3 v1 = bB - aA;
@@ -136,7 +136,7 @@ bool CapsuleCollider::IsCapsuleCollision(CapsuleCollider* collider)
 
     float distance = Distance(bestA, bestB);
 
-    return distance <= (radius + collider->radius);
+    return distance <= (Radius() + collider->Radius());
 }
 
 void CapsuleCollider::CreateMesh()

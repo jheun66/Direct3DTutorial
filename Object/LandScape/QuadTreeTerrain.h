@@ -14,7 +14,7 @@ private:
 
 		Mesh* mesh;
 
-		Node* chlidren[4];
+		Node* children[4];
 	};
 
 	UINT triangleCount, drawCount;

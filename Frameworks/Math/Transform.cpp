@@ -56,30 +56,30 @@ Vector3 Transform::WorldPos()
 	return globalPosition;
 }
 
-Vector3 Transform::WorldRot()
+Vector4 Transform::WorldRot()
 {
-	float q0 = globalRotation.w;
-	float q1 = globalRotation.x;
-	float q2 = globalRotation.y;
-	float q3 = globalRotation.z;
-	
-	Vector3 rot;
-	rot.x = atan2(2 * (q0 * q1 + q2 * q3), 1 - 2 * (q1 * q1 + q2 * q2));
-	
-	
-	float sinp= asin(2.0f * (q0 * q2 - q3 * q1));
-	if (std::abs(sinp) >= 1)
-		rot.y = std::copysign(XM_PI / 2, sinp); // use 90 degrees if out of range
-	else
-		rot.y = std::asin(sinp);
+	//float q0 = globalRotation.w;
+	//float q1 = globalRotation.x;
+	//float q2 = globalRotation.y;
+	//float q3 = globalRotation.z;
+	//
+	//Vector3 rot;
+	//rot.x = atan2(2 * (q0 * q1 + q2 * q3), 1 - 2 * (q1 * q1 + q2 * q2));
+	//
+	//
+	//float sinp= asin(2.0f * (q0 * q2 - q3 * q1));
+	//if (std::abs(sinp) >= 1)
+	//	rot.y = std::copysign(XM_PI / 2, sinp); // use 90 degrees if out of range
+	//else
+	//	rot.y = std::asin(sinp);
 
-	float siny_cosp = 2 * (q0 * q3 + q1 * q2);
-	float cosy_cosp = 1 - 2 * (q2 * q2 + q3 * q3);
-	rot.z = atan2(siny_cosp, cosy_cosp);
+	//float siny_cosp = 2 * (q0 * q3 + q1 * q2);
+	//float cosy_cosp = 1 - 2 * (q2 * q2 + q3 * q3);
+	//rot.z = atan2(siny_cosp, cosy_cosp);
 
 
-	return rot;
-	//return globalRotation.data;
+	//return rot;
+	return globalRotation.data;
 }
 
 Vector3 Transform::WorldScale()

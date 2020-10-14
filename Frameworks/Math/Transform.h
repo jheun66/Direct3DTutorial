@@ -36,6 +36,6 @@ public:
 	Vector3 Right();
 
 	Vector3 WorldPos();
-	Vector3 WorldRot();
+	Vector4 WorldRot();
 	Vector3 WorldScale();
 };

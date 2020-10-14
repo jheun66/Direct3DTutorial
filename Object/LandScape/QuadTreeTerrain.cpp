@@ -31,26 +31,73 @@ QuadTreeTerrain::QuadTreeTerrain(TerrainData* terrainData)
 
 QuadTreeTerrain::~QuadTreeTerrain()
 {
+    DeleteNode(root);
+    delete root;
+
+    delete material;
+
+    delete frustum;
+    delete[] vertices;
 }
 
 void QuadTreeTerrain::Update()
 {
+    frustum->Update();
+    UpdateWorld();
 }
 
 void QuadTreeTerrain::Render()
 {
+    drawCount = 0;
+    RenderNode(root);
 }
 
 void QuadTreeTerrain::PostRender()
 {
+    ImGui::Text("DrawCount : %d", drawCount);
 }
 
 void QuadTreeTerrain::RenderNode(Node* node)
 {
+    Vector3 center(node->x, 0.0f, node->z);
+    float radius = node->width * 0.5f;
+
+    if (!frustum->ContainCube(center, radius))
+        return;
+
+    UINT count = 0;
+    for (UINT i = 0; i < 4; i++)
+    {
+        if (node->children[i] != nullptr)
+        {
+            count++;
+            RenderNode(node->children[i]);
+        }
+    }
+
+    if (count != 0)
+        return;
+
+    node->mesh->Set();
+    SetWorldBuffer();
+    material->Set();
+    UINT indexCount = node->triangleCount * 3;
+    DC->DrawIndexed(indexCount, 0, 0);
+
+    drawCount += node->triangleCount;
 }
 
 void QuadTreeTerrain::DeleteNode(Node* node)
 {
+    for (UINT i = 0; i < 4; i++)
+    {
+        if (node->children[i] != nullptr)
+        {
+            DeleteNode(node->children[i]);
+            delete node->children[i];
+        }
+    }
+    delete node->mesh;
 }
 
 void QuadTreeTerrain::CalcMeshDimensions(UINT vertexCount, float& centerX, float& centerZ, float& width)
@@ -97,7 +144,7 @@ void QuadTreeTerrain::CreateTreeNode(Node* node, float positionX, float position
     node->mesh = nullptr;
 
     for (UINT i = 0; i < 4; i++)
-        node->chlidren[i] = nullptr;
+        node->children[i] = nullptr;
 
     UINT triangles = ContainTriangleCount(positionX, positionZ, width);
 
@@ -116,8 +163,8 @@ void QuadTreeTerrain::CreateTreeNode(Node* node, float positionX, float position
 
             if (count > 0)
             {
-                node->chlidren[i] = new Node();
-                CreateTreeNode(node->chlidren[i], (positionX + offsetX),
+                node->children[i] = new Node();
+                CreateTreeNode(node->children[i], (positionX + offsetX),
                     (positionZ + offsetZ), (width * 0.5f));
             }
         }
@@ -160,10 +207,49 @@ void QuadTreeTerrain::CreateTreeNode(Node* node, float positionX, float position
 
 UINT QuadTreeTerrain::ContainTriangleCount(float positionX, float positionZ, float width)
 {
-    return 0;
+    UINT count = 0;
+
+    for (UINT i = 0; i < triangleCount; i++)
+    {
+        if (IsTriangleContained(i, positionX, positionZ, width))
+            count++;
+    }
+
+    return count;
 }
 
 bool QuadTreeTerrain::IsTriangleContained(UINT index, float positionX, float positionZ, float width)
 {
-    return false;
+    float radius = width / 2.0f;
+
+    UINT vertexIndex = index * 3;
+
+    float x1 = vertices[vertexIndex].position.x;
+    float z1 = vertices[vertexIndex].position.z;
+    vertexIndex++;
+
+    float x2 = vertices[vertexIndex].position.x;
+    float z2 = vertices[vertexIndex].position.z;
+    vertexIndex++;
+
+    float x3 = vertices[vertexIndex].position.x;
+    float z3 = vertices[vertexIndex].position.z;
+
+    float minX = min(x1, min(x2, x3));
+    if (minX > (positionX + radius))
+        return false;
+
+    float minZ = min(z1, min(z2, z3));
+    if (minZ > (positionZ + radius))
+        return false;
+
+    float maxX = max(x1, max(x2, x3));
+    if (maxX < (positionX - radius))
+        return false;
+
+    float maxZ = max(z1, max(z2, z3));
+    if (maxZ < (positionZ - radius))
+        return false;
+
+    return true;
 }

@@ -106,16 +106,23 @@ bool BoxCollider::IsBoxCollision(BoxCollider* collider)
     return true;
 }
 
+
 bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 {
-    Matrix invWorld = XMMatrixInverse(nullptr, world);
+    Matrix T = XMMatrixTranslation(WorldPos().x, WorldPos().y, WorldPos().z);
+    Matrix R = XMMatrixRotationQuaternion(WorldRot());
+
+    Matrix invWorld = XMMatrixInverse(nullptr, R * T);
 
     Vector3 spherePos = XMVector3TransformCoord(collider->WorldPos().data, invWorld);
 
+    Vector3 tempMin = minBox * scale;
+    Vector3 tempMax = maxBox * scale;
+
     Vector3 temp;
-    temp.x = max(minBox.x, min(spherePos.x, maxBox.x));
-    temp.y = max(minBox.y, min(spherePos.y, maxBox.y));
-    temp.z = max(minBox.z, min(spherePos.z, maxBox.z));
+    temp.x = max(tempMin.x, min(spherePos.x, tempMax.x));
+    temp.y = max(tempMin.y, min(spherePos.y, tempMax.y));
+    temp.z = max(tempMin.z, min(spherePos.z, tempMax.z));
 
     temp -= spherePos;
 
