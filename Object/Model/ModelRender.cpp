@@ -5,7 +5,7 @@ ModelRender::ModelRender(string file)
 	ReadMaterial(file);
 	ReadMesh(file);
 
-	SetShader(L"VertexModel", L"PixelNormalMapping");
+	SetShader(L"VertexModelInstancing", L"PixelNormalMapping");
 
 	for (UINT i = 0; i < MAX_MODEL_INSTANCE; i++)
 		worlds[i] = XMMatrixIdentity();
@@ -30,8 +30,9 @@ void ModelRender::Update()
 
 void ModelRender::Render()
 {
-
 	instanceBuffer->IASet(1);
+	typeBuffer->SetVSBuffer(5);
+
 
 	for (ModelMesh* mesh : meshes)
 		mesh->Render(transforms.size());

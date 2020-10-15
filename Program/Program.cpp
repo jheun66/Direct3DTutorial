@@ -21,6 +21,7 @@
 #include "Scene/FrustumScene.h"
 #include "Scene/QuadTreeScene.h"
 #include "Scene/PushCollisionScene.h"
+#include "Scene/ReflectionScene.h"
 
 Program::Program()
 {
@@ -44,7 +45,8 @@ Program::Program()
 	//scene = new ModelInstancingScene();
 	//scene = new FrustumScene();
 	//scene = new QuadTreeScene();
-	scene = new PushCollisionScene();
+	//scene = new PushCollisionScene();
+	scene = new ReflectionScene();
 }
 
 Program::~Program()

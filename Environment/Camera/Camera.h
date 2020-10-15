@@ -39,4 +39,7 @@ public:
 	Vector3 GetRot() { return rotation; }
 
 	void SetPosition(float x, float y, float z) { position = { x,y,z }; }
+	void SetPosition(Vector3 value) { position = value; }
+	void SetRotation(Vector3 value) { rotation = value; }
+	void SetView(Matrix view) { matView = view; }
 };

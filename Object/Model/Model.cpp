@@ -2,10 +2,13 @@
 
 Model::Model()
 {
+	typeBuffer = new SettingBuffer;
 }
 
 Model::Model(string file)
 {
+	typeBuffer = new SettingBuffer;
+
 	ReadMaterial(file);
 	ReadMesh(file);
 }
@@ -21,6 +24,7 @@ Model::~Model()
 	for (ModelBone* bone : bones)
 		delete bone;
 
+	delete typeBuffer;
 }
 
 void Model::Update()

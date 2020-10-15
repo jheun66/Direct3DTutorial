@@ -54,6 +54,11 @@ cbuffer Frame : register(b4)
     TweenFrame tweenFrame[MAX_MODEL_INSTANCE];
 }
 
+cbuffer Type : register(b5)
+{
+    int modelType;
+}
+
 Texture2DArray transformMap : register(t0);
 
 //////////////////////////////////////////////////////////////////////

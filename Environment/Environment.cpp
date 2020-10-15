@@ -13,9 +13,9 @@ Environment::Environment()
     lightBuffer = new LightBuffer();
 
     LightInfo lightInfo;
-    lightInfo.type = LightInfo::POINT;
-    lightInfo.position = { 0, 30, -10 };
-    //lightInfo.direction = { 0,-1, 1 };
+    lightInfo.type = LightInfo::DIRECTION;
+    //lightInfo.position = { 0, 30, -10 };
+    lightInfo.direction = { 0,-1, 1 };
 
     lightBuffer->Add(lightInfo);
 }

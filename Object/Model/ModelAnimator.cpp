@@ -6,7 +6,7 @@ ModelAnimator::ModelAnimator(string file)
 	ReadMaterial(file);
 	ReadMesh(file);
 
-	SetShader(L"VertexModelAnimation", L"PixelNormalMapping");
+	SetShader(L"VertexModelAnimationInstancing", L"PixelNormalMapping");
 
 	frameBuffer = new FrameBuffer();
 
@@ -14,6 +14,8 @@ ModelAnimator::ModelAnimator(string file)
 		worlds[i] = XMMatrixIdentity();
 
 	instanceBuffer = new VertexBuffer(worlds, sizeof(Matrix), MAX_MODEL_INSTANCE);
+
+	typeBuffer->data.option[0] = 1;
 }
 
 ModelAnimator::~ModelAnimator()
@@ -119,6 +121,8 @@ void ModelAnimator::Render()
 
 	// 프레임은 4번
 	frameBuffer->SetVSBuffer(4);
+	typeBuffer->SetVSBuffer(5);
+
 	// texture는 0번
 	DC->VSSetShaderResources(0, 1, &srv);
 

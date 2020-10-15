@@ -1,10 +1,5 @@
 #include "VertexHeader.hlsli"
 
-cbuffer Type : register(b10)
-{
-    int type;
-}
-
 struct VertexInput
 {
     float4 pos : Position;
@@ -28,9 +23,9 @@ PixelInput VS(VertexInput input)
     matrix boneWorld = world;
     
     [flatten]
-    if(type == 1)
+    if (modelType == 0)
         boneWorld = mul(bones[index], world);
-    else if(type ==2)
+    else if (modelType == 1)
     {
         boneWorld = SkinWorld(0, input.indices, input.weights);
         boneWorld = mul(boneWorld, world);

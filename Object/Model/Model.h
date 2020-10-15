@@ -9,6 +9,7 @@ protected:
 	vector<ModelMesh*> meshes;
 	vector<ModelBone*> bones;
 
+	SettingBuffer* typeBuffer;
 public:
 	Model();
 	Model(string file);

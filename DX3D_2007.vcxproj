@@ -163,9 +163,11 @@
     <ClInclude Include="Algorithm\Heap.h" />
     <ClInclude Include="Algorithm\Node.h" />
     <ClInclude Include="DX3D_2007.h" />
+    <ClInclude Include="Environment\Camera\FixityCamera.h" />
     <ClInclude Include="Environment\Camera\FollowCamera.h" />
     <ClInclude Include="Environment\Environment.h" />
     <ClInclude Include="Environment\Frustum.h" />
+    <ClInclude Include="Environment\Reflection.h" />
     <ClInclude Include="Environment\Shadow.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Environment\Camera\Camera.h" />
@@ -281,6 +283,7 @@
     </ClInclude>
     <ClInclude Include="Scene\PushCollisionScene.h" />
     <ClInclude Include="Scene\QuadTreeScene.h" />
+    <ClInclude Include="Scene\ReflectionScene.h" />
     <ClInclude Include="Scene\RenderTargetScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -310,10 +313,12 @@
     <ClCompile Include="Algorithm\Node.cpp" />
     <ClCompile Include="DX3D_2007.cpp" />
     <ClCompile Include="Environment\Camera\Camera.cpp" />
+    <ClCompile Include="Environment\Camera\FixityCamera.cpp" />
     <ClCompile Include="Environment\Camera\FollowCamera.cpp" />
     <ClCompile Include="Environment\Camera\FreeCamera.cpp" />
     <ClCompile Include="Environment\Environment.cpp" />
     <ClCompile Include="Environment\Frustum.cpp" />
+    <ClCompile Include="Environment\Reflection.cpp" />
     <ClCompile Include="Environment\Shadow.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -425,6 +430,7 @@
     </ClCompile>
     <ClCompile Include="Scene\PushCollisionScene.cpp" />
     <ClCompile Include="Scene\QuadTreeScene.cpp" />
+    <ClCompile Include="Scene\ReflectionScene.cpp" />
     <ClCompile Include="Scene\RenderTargetScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -564,6 +570,13 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
     </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\PixelReflection.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+    </FxCompile>
     <FxCompile Include="Shaders\PixelShaders\PixelShadow.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -669,6 +682,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\VertexShaders\VertexRain.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\VertexShaders\VertexReflection.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

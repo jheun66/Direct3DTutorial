@@ -3,7 +3,7 @@
 
 ModelInstancingScene::ModelInstancingScene()
 {
-	string name = "medea";
+	string name = "plane";
 
 	Export(name);
 
