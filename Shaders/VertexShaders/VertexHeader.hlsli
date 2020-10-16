@@ -106,6 +106,19 @@ struct VertexUVNormalTangentBlend
     float4 weights : BlendWeight;
 };
 
+struct VertexInstance
+{
+    float4 pos : Position;
+    float2 uv : UV;
+    float3 normal : Normal;
+    float3 tangent : Tangent;
+    float4 indices : BlendIndices;
+    float4 weights : BlendWeights;
+    
+    matrix transform : Instance;
+    uint instanceID : SV_InstanceID;
+};
+
 matrix SkinWorld(int instanceID, float4 indices, float4 weights)
 {
     matrix boneWorld = 0;

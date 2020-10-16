@@ -152,6 +152,25 @@ public:
 
 };
 
+class TimeBuffer : public ConstBuffer
+{
+public:
+	struct Data
+	{
+		float time;
+
+		Float3 padding;
+
+		Data() : time(0)
+		{}
+	}data;
+
+	TimeBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+	}
+
+};
+
 class SizeBuffer : public ConstBuffer
 {
 public:

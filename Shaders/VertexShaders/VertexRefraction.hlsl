@@ -1,15 +1,12 @@
 #include "VertexHeader.hlsli"
 
-cbuffer Reflection : register(b10)
-{
-    matrix reflection;
-}
-
 struct PixelInput
 {
     float4 pos : SV_Position;
-    
-    float4 wvpPositionSub : Position;
+    float2 uv : UV;
+    float3 normal : Normal;
+    float3 viewDir : ViewDir;
+    float4 wvpPos : Position;
 };
 
 
@@ -29,12 +26,17 @@ PixelInput VS(VertexInstance input)
         transform = input.transform;
 	
     output.pos = mul(input.pos, transform);
-    
-    output.wvpPositionSub = mul(output.pos, reflection);
-    output.wvpPositionSub = mul(output.wvpPositionSub, projection);
-    
+   
+    output.viewDir = normalize(output.pos.xyz - invView._41_42_43);
+   
     output.pos = mul(output.pos, view);
     output.pos = mul(output.pos, projection);
     
+    output.uv = input.uv;
+    
+    output.wvpPos = output.pos;
+    
+    output.normal = normalize(mul(input.normal, (float3x3)transform));
+ 
     return output;
 }

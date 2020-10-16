@@ -22,6 +22,8 @@
 #include "Scene/QuadTreeScene.h"
 #include "Scene/PushCollisionScene.h"
 #include "Scene/ReflectionScene.h"
+#include "Scene/RefractionScene.h"
+#include "Scene/WaterScene.h"
 
 Program::Program()
 {
@@ -46,7 +48,9 @@ Program::Program()
 	//scene = new FrustumScene();
 	//scene = new QuadTreeScene();
 	//scene = new PushCollisionScene();
-	scene = new ReflectionScene();
+	//scene = new ReflectionScene();
+	scene = new RefractionScene();
+	//scene = new WaterScene();
 }
 
 Program::~Program()

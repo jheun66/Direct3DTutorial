@@ -1,18 +1,5 @@
 #include "VertexHeader.hlsli"
 
-struct VertexInput
-{
-    float4 pos : Position;
-    float2 uv : UV;
-    float3 normal : Normal;
-    float3 tangent : Tangent;
-    float4 indices : BlendIndices;
-    float4 weights : BlendWeights;
-    
-    matrix transform : Instance;
-    uint instanceID : SV_InstanceID;
-};
-
 struct PixelInput
 {
     float4 pos : SV_Position;
@@ -25,7 +12,7 @@ struct PixelInput
 };
 
 
-PixelInput VS(VertexInput input)
+PixelInput VS(VertexInstance input)
 {
     PixelInput output;
     

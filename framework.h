@@ -154,6 +154,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Environment/Shadow.h"
 #include "Environment/Frustum.h"
 #include "Environment/Reflection.h"
+#include "Environment/Refraction.h"
 
 #include "Algorithm/Node.h"
 #include "Algorithm/Heap.h"
@@ -180,6 +181,7 @@ using namespace Utility;
 #include "Object/LandScape/TerrainData.h"
 #include "Object/LandScape/QuadTreeTerrain.h"
 #include "Object/LandScape/SkyBox.h"
+#include "Object/LandScape/Water.h"
 
 #include "Object/Character/Zombie.h"
 #include "Object/Character/Medea.h"
