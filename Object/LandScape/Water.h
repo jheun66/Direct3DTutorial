@@ -47,6 +47,7 @@ private:
 	Reflection* reflection;
 	Refraction* refraction;
 
+	BlendState* blendState[2];
 
 public:
 	Water(float radius = 30.0f);
@@ -54,7 +55,8 @@ public:
 
 	void Update();
 
-	void PreRender();
+	void SetReflection();
+	void SetRefraction();
 	void Render();
 	void PostRender();
 

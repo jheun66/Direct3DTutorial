@@ -4,9 +4,9 @@ class WaterScene : public Scene
 {
 private:
 	SkyBox* skyBox;
-	ModelRender* plane;
 	ModelAnimator* medea;
 
+	Water* water;
 
 public:
 	WaterScene();

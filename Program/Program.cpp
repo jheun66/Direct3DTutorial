@@ -49,8 +49,8 @@ Program::Program()
 	//scene = new QuadTreeScene();
 	//scene = new PushCollisionScene();
 	//scene = new ReflectionScene();
-	scene = new RefractionScene();
-	//scene = new WaterScene();
+	//scene = new RefractionScene();
+	scene = new WaterScene();
 }
 
 Program::~Program()

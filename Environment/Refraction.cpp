@@ -37,7 +37,7 @@ void Refraction::PreRender()
 
 void Refraction::Render()
 {
-	timeBuffer->SetPSBuffer(10);
+	//timeBuffer->SetPSBuffer(10);
 	normalMap->PSSet(2);
 	DC->PSSetShaderResources(11, 1, &renderTarget->GetSRV());
 

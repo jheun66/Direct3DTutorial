@@ -4,33 +4,39 @@
 WaterScene::WaterScene()
 {
 	skyBox = new SkyBox();
-	plane = new ModelRender("Basic/Plane");
-	plane->AddTransform();
-	plane->SetShader(L"Refraction");
-
+	
 	medea = new ModelAnimator("Medea/Medea");
 	medea->ReadClip("Medea/Running");
-	medea->AddTransform()->scale = { 0.1f, 0.1f, 0.1f };
+	Transform* transform = medea->AddTransform();
+	transform->scale = { 0.1f, 0.1f, 0.1f };
+	transform->position.y = -1.0f;
 	medea->PlayClip(0, 0);
+
+	water = new Water();
 }
 
 WaterScene::~WaterScene()
 {
 	delete skyBox;
-	delete plane;
 	delete medea;
+
+	delete water;
 }
 
 void WaterScene::Update()
 {
-	plane->Update();
+	water->Update();
 	medea->Update();
 
 }
 
 void WaterScene::PreRender()
 {
+	water->SetRefraction();
+	skyBox->Render();
+	medea->Render();
 
+	water->SetReflection();
 	skyBox->Render();
 	medea->Render();
 }
@@ -39,11 +45,11 @@ void WaterScene::Render()
 {
 	skyBox->Render();
 
-	plane->Render();
 	medea->Render();
+	water->Render();
 }
 
 void WaterScene::PostRender()
 {
-
+	water->PostRender();
 }

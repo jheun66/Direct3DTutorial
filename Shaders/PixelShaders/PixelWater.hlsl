@@ -21,7 +21,7 @@ struct PixelInput
     float2 uv : UV;
 
     float4 worldPos : Postion0;
-    float4 viewDir : ViewDir;
+    float3 viewDir : ViewDir;
     float4 reflectionPos : Position1;
     float4 refractionPos : Position2;
 };
@@ -29,6 +29,7 @@ struct PixelInput
 
 float4 PS(PixelInput input) : SV_Target
 {
+  
     // 전체적인 uv 세팅
     input.uv += waveTranslation;
     
@@ -46,10 +47,37 @@ float4 PS(PixelInput input) : SV_Target
     refraction += normal.xy * waveScale;
     float4 refractionColor = refractionMap.Sample(samp, refraction);
     
-    float3 heightView = input.viewDir.yyy;
+    float3 heightView = -input.viewDir.yyy;
     float r = (1.2f - 1.0f) / (1.2f / 1.0f);
     float fresnel = saturate(min(1, r + (1 - r) * pow(1 - dot(normal, heightView), 2)));
-    float4 diffuse = lerp(reflectionColor, refractionColor, fresnel) * waterColor;
+    float4 diffuse = lerp(refractionColor, reflectionColor, fresnel) * waterColor;
  
+    
+    
+    float3 light = lights[0].direction;
+    light.y *= -1.0f;
+    light.z *= -1.0f;
+    
+    float3 halfWay = normalize(input.viewDir + light);
+    float specularIntensity = saturate(dot(halfWay, normal));
+    
+    [flatten]
+    if(specularIntensity > 0.0f)
+    {
+        specularIntensity = pow(specularIntensity, waterShininess);
+        diffuse = saturate(diffuse + specularIntensity);
+    }
+    
+    //// 반사각
+    //float3 R = normalize(reflect(light, normal));
+    //float specular = saturate(dot(R, -input.viewDir));
+    
+    //[flatten]
+    //if(specular > 0.0f)
+    //{
+    //    specular = pow(specular, waterShininess);
+    //    diffuse = saturate(diffuse * specular);
+    //}
+    
     return float4(diffuse.rgb, waterAlpha);
 }

@@ -53,6 +53,7 @@ void Reflection::PreRender()
 {
 	renderTarget->Set(depthStencil);
 
+	// 카메라 위치를 바꿔버림
 	reflectionBuffer->SetVSBuffer(1);
 
 }

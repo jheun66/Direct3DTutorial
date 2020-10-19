@@ -11,7 +11,7 @@ struct PixelInput
     float2 uv : UV;
     
     float4 worldPos      : Postion0;
-    float4 viewDir : ViewDir;
+    float3 viewDir : ViewDir;
     float4 reflectionPos : Position1;
     float4 refractionPos : Position2;
 };

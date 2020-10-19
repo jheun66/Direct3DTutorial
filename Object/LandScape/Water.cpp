@@ -11,6 +11,10 @@ Water::Water(float radius)
 	refraction = new Refraction(L"Textures/Landscape/Wave.dds");
 
 	CreateMesh();
+
+	blendState[0] = new BlendState();
+	blendState[1] = new BlendState();
+	blendState[1]->Alpha(true);
 }
 
 Water::~Water()
@@ -22,22 +26,60 @@ Water::~Water()
 
 	delete reflection;
 	delete refraction;
+
+	delete blendState[0];
+	delete blendState[1];
 }
 
 void Water::Update()
 {
+	buffer->data.waveTranslation += buffer->data.waveSpeed * DELTA;
+	if (buffer->data.waveTranslation > 1.0f)
+		buffer->data.waveTranslation -= 1.0f;
+
+	reflection->Update();
+	refraction->Update();
+
+	UpdateWorld();
 }
 
-void Water::PreRender()
+void Water::SetReflection()
 {
+	reflection->PreRender();
+}
+
+void Water::SetRefraction()
+{
+	refraction->PreRender();
 }
 
 void Water::Render()
 {
+	mesh->Set();
+
+	SetWorldBuffer();
+
+	buffer->SetPSBuffer(10);
+
+	reflection->Render();
+	refraction->Render();
+
+	material->Set();
+
+
+	blendState[1]->SetState();
+	DC->DrawIndexed(indexCount, 0, 0);
+	blendState[0]->SetState();
 }
 
 void Water::PostRender()
 {
+	ImGui::Text("Water Option");
+	ImGui::ColorEdit4("Color", (float*)&buffer->data.color);
+	ImGui::SliderFloat("WaveScale", &buffer->data.waveScale, 0.0f, 10.0f);
+	ImGui::SliderFloat("WaveSpeed", &buffer->data.waveSpeed, 0.0f, 1.0f);
+	ImGui::SliderFloat("Alpha", &buffer->data.alpha, 0.0f, 1.0f);
+	ImGui::SliderFloat("Shininess", &buffer->data.shininess, 0.0f, 50.0f);
 }
 
 void Water::CreateMesh()

@@ -5,7 +5,7 @@ SkyBox::SkyBox()
 	sphere = new Sphere(L"SkyBox");
 	sphere->GetFillMode()->FrontCounterClockWise(true);
 
-	cubeMap = Texture::Add(L"Textures/Landscape/NightMoon.dds");
+	cubeMap = Texture::Add(L"Textures/Landscape/Snow_ENV.dds");
 
 	depthMode[0] = new DepthStencilState();
 	depthMode[1] = new DepthStencilState();
