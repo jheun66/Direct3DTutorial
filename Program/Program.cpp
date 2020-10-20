@@ -24,6 +24,7 @@
 #include "Scene/ReflectionScene.h"
 #include "Scene/RefractionScene.h"
 #include "Scene/WaterScene.h"
+#include "Scene/ScatteringScene.h"
 
 Program::Program()
 {
@@ -50,7 +51,8 @@ Program::Program()
 	//scene = new PushCollisionScene();
 	//scene = new ReflectionScene();
 	//scene = new RefractionScene();
-	scene = new WaterScene();
+	//scene = new WaterScene();
+	scene = new ScatteringScene();
 }
 
 Program::~Program()

@@ -182,6 +182,7 @@ using namespace Utility;
 #include "Object/LandScape/QuadTreeTerrain.h"
 #include "Object/LandScape/SkyBox.h"
 #include "Object/LandScape/Water.h"
+#include "Object/LandScape/Scattering.h"
 
 #include "Object/Character/Zombie.h"
 #include "Object/Character/Medea.h"

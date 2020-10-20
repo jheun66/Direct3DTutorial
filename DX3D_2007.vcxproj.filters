@@ -333,6 +333,12 @@
     <ClInclude Include="Object\LandScape\Water.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\ScatteringScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\LandScape\Scattering.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -632,6 +638,12 @@
     <ClCompile Include="Object\LandScape\Water.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\ScatteringScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\LandScape\Scattering.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -691,6 +703,10 @@
     <FxCompile Include="Shaders\PixelShaders\PixelRefraction.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexWater.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelWater.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexScatteringTarget.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelScatteringTarget.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexScattering.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelScattering.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />
