@@ -195,7 +195,7 @@ void Scattering::CreateSphere()
 
 	// 거꾸로 찍기
 	index = 0;
-	UINT* indices = new UINT[indexCount*3];
+	UINT* indices = new UINT[indexCount * 3];
 	for (UINT i = 0; i < longitude - 1; i++)
 	{
 		for (UINT j = 0; j < latitude - 1; j++)

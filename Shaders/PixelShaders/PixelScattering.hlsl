@@ -1,7 +1,7 @@
 #include "PixelHeader.hlsli"
 
-static const float g = -0.990f;
-static const float g2 = -0.990f * -0.990f;
+static const float g = -0.980f;
+static const float g2 = g * g;
 static const float Exposure = -2.0f;
 
 cbuffer Scatter : register(b10)
@@ -22,7 +22,7 @@ float GetMiePhase(float c, float c2)
     float3 result = 0;
     result.x = 1.5f * ((1.0f - g2) / (2.0f + g2));
     result.y = 1.0f + g2;
-    result.z = 2.0f + g;
+    result.z = 2.0f * g;
     return result.x * (1.0f + c2) / pow(result.y - result.z * c, 1.5f);
 }
 

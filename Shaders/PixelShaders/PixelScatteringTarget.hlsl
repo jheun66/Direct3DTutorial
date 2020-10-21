@@ -106,7 +106,7 @@ PixelOutput PS(PixelInput input)
     
     float3 pointP = pointPv;
     float sampleLength = farPvPa / sampleCount;
-    float scaleLength = sampleLength / Scale;
+    float scaleLength = sampleLength * Scale;
     float3 sampleRay = ray * sampleLength;
     pointP += sampleRay * 0.5f;
     
