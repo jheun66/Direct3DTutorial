@@ -207,3 +207,24 @@ public:
 	}
 
 };
+
+class BoneBuffer : public ConstBuffer
+{
+public:
+	struct Data
+	{
+		Matrix bones[MAX_MODEL_BONE];
+	}data;
+
+	BoneBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+		for (UINT i = 0; i < MAX_MODEL_BONE; i++)
+			data.bones[i] = XMMatrixIdentity();
+	}
+
+	void Add(Matrix matrix, UINT index)
+	{
+		//data.bones[index] = matrix;
+		data.bones[index] = XMMatrixTranspose(matrix);
+	}
+};

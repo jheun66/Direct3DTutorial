@@ -24,7 +24,7 @@ PixelInput VS(VertexInput input)
     
     [flatten]
     if (modelType == 0)
-        boneWorld = mul(bones[index], world);
+        boneWorld = BoneWorld(input.indices, input.weights);
     else if (modelType == 1)
     {
         boneWorld = SkinWorld(0, input.indices, input.weights);

@@ -273,6 +273,7 @@ void ModelAnimator::CreateTexture()
 // texture로 넣어줄수 있도록
 void ModelAnimator::CreateClipTransform(UINT index)
 {
+	/*
 	Matrix* boneTransforms = new Matrix[MAX_MODEL_BONE];
 
 	ModelClip* clip = clips[index];
@@ -313,4 +314,5 @@ void ModelAnimator::CreateClipTransform(UINT index)
 			clipTransform[index].transform[f][b] = invGlobal * boneTransforms[b];
 		}
 	}
+	*/
 }

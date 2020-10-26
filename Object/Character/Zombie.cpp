@@ -21,8 +21,6 @@ Zombie::Zombie()
 	attackCollider = new SphereCollider();
 	attackCollider->scale = { 10, 10, 10 };
 
-	leftHandBone = GetBoneByName("Zombie:LeftHand");
-	attackCollider->SetParent(&boneWorld);
 }
 
 Zombie::~Zombie()
@@ -34,8 +32,6 @@ void Zombie::Update()
 {
 	Move();
 	Attack();
-
-	SetAttackCollider();
 
 	ModelAnimator::Update();
 }
@@ -95,11 +91,4 @@ void Zombie::Attack()
 void Zombie::AttackEnd()
 {
 	SetAnimation(IDLE);
-}
-
-void Zombie::SetAttackCollider()
-{
-	boneWorld = GetCurBoneMatrix(leftHandBone->index);
-
-	boneWorld = leftHandBone->transform * boneWorld * world;
 }

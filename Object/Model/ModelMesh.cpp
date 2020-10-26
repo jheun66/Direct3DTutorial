@@ -27,5 +27,6 @@ void ModelMesh::Render(UINT drawCount)
 
 	material->Set();
 
-	DC->DrawIndexedInstanced(indexCount, drawCount, 0, 0, 0);
+	DC->DrawIndexed(indexCount, 0, 0);
+	//DC->DrawIndexedInstanced(indexCount, drawCount, 0, 0, 0);
 }

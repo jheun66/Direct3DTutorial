@@ -17,26 +17,62 @@ struct MaterialData
 	string normalFile;
 };
 
-struct BoneData
+struct NodeData
 {
 	int index;
 	string name;
-
 	int parent;
-	Matrix transform;
+	Float4x4 transform;
 };
+
+struct BoneData
+{
+	string name;
+	int index;
+	Float4x4 offset;
+};
+
 
 struct MeshData
 {
 	string name;
-	int boneIndex;
-
-	aiMesh* mesh;
-
 	string materialName;
 
 	vector<ModelVertex> vertices;
 	vector<UINT> indices;
+};
+
+struct VertexWeights
+{
+	UINT indices[4];
+	float weights[4];
+
+	VertexWeights() : indices{}, weights{}
+	{
+	}
+
+	void Add(const UINT& index, const float& weight)
+	{
+		for (UINT i = 0; i < 4; i++)
+		{
+			if (weights[i] == 0.0f)
+			{
+				indices[i] = index;
+				weights[i] = weight;
+				return;
+			}
+		}
+	}
+
+	void Normalize()
+	{
+		float sum = 0.0f;
+		for (UINT i = 0; i < 4; i++)
+			sum += weights[i];
+
+		for (UINT i = 0; i < 4; i++)
+			weights[i] /= sum;
+	}
 };
 
 
@@ -76,106 +112,3 @@ struct Clip
 	vector<KeyFrame*> keyFrame;
 };
 
-struct BlendWeight
-{
-	Float4 indices = Float4(0, 0, 0, 0);
-	Float4 weights = Float4(0, 0, 0, 0);
-
-	void Set(UINT index, UINT boneIndex, float weight)
-	{
-		float i = (float)boneIndex;
-		float w = weight;
-
-		switch (index)
-		{
-		case 0:
-			indices.x = i;
-			weights.x = w;
-			break;
-		case 1:
-			indices.y = i;
-			weights.y = w;
-			break;
-		case 2:
-			indices.z = i;
-			weights.z = w;
-			break;
-		case 3:
-			indices.w = i;
-			weights.w = w;
-			break;
-		default:
-			break;
-		}
-	}
-};
-
-struct BoneWeights
-{
-private:
-	typedef pair<int, float> Pair;
-	vector<Pair> boneWeights;
-
-public:
-	void AddWeights(UINT index, float weight)
-	{
-		if (weight <= 0.0f)
-			return;
-
-		bool isAdd = false;
-		vector<Pair>::iterator it = boneWeights.begin();
-		while (it != boneWeights.end())
-		{
-			if (weight < it->second)
-			{
-				boneWeights.insert(it, Pair(index, weight));
-				isAdd = true;
-				break;
-			}
-			it++;
-		}
-
-		if (!isAdd)
-			boneWeights.emplace_back(Pair(index, weight));
-	}
-
-	void GetBlendWeights(BlendWeight& blendWeight)
-	{
-		for (UINT i = 0; i < boneWeights.size(); i++)
-		{
-			if (i >= 4)
-				return;
-			blendWeight.Set(i, boneWeights[i].first, boneWeights[i].second);
-		}
-	}
-
-	void Normalize()
-	{
-		float totalWeight = 0.0f;
-
-		int i = 0;
-		vector<Pair>::iterator it = boneWeights.begin();
-
-		while(it!=boneWeights.end())
-		{
-			if (i < 4)
-			{
-				totalWeight += it->second;
-				i++;
-				it++;
-			}
-			else
-				it = boneWeights.erase(it);
-
-		}
-		float scale = 1.0f / totalWeight;
-
-		it = boneWeights.begin();
-		while (it != boneWeights.end())
-		{
-			it->second *= scale;
-			it++;
-		}
-	}
-
-};

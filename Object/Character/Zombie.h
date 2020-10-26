@@ -18,7 +18,6 @@ private:
 	Transform offset;
 
 	Collider* attackCollider;
-	ModelBone* leftHandBone;
 
 	Matrix boneWorld;
 public:
@@ -32,7 +31,6 @@ public:
 	void Attack();
 	void AttackEnd();
 
-	void SetAttackCollider();
 
 	void SetAnimation(AnimState state);
 	void SetTerrain(Terrain* terrain) { this->terrain = terrain; }

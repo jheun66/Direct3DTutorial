@@ -9,9 +9,12 @@ private:
 	const aiScene* scene;
 
 	vector<MaterialData*> materials;
+	vector<NodeData*> nodes;
 	vector<MeshData*> meshes;
 	vector<BoneData*> bones;
 
+	map<string, UINT> boneMap;
+	UINT boneCount;
 public:
 	ModelReader();
 	~ModelReader();
@@ -29,9 +32,9 @@ public:
 	//Mesh//////////////////////////////////////////////////
 	void ExportMesh(string savePath);
 
-	void ReadBone(aiNode* node, int index, int parent);
-	void ReadMesh(aiNode* node, int bone);
-	void ReadSkin();
+	void ReadNode(aiNode* node, int index, int parent);
+	void ReadMesh(aiNode* node);
+	void ReadBone(aiMesh* mesh, vector<VertexWeights>& vertexWeights);
 	void WriteMesh(string savePath);
 
 	////////////////////////////////////////////////////////

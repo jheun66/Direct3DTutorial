@@ -1,15 +1,5 @@
 #include "VertexHeader.hlsli"
 
-struct VertexInput
-{
-	//          ½Ã¸àÆ½ ³×ÀÓ
-    float4 pos : Position;
-    float2 uv : UV;
-    float3 normal : NORMAL;
-    // ¹ý¼± º¤ÅÍ
-    float3 tangent : TANGENT;
-};
-
 struct PixelInput
 {
     float4 pos : SV_Position;
@@ -21,11 +11,11 @@ struct PixelInput
 };
 
 
-PixelInput VS(VertexInput input)
+PixelInput VS(VertexUVNormalTangentBlend input)
 {
     PixelInput output;
     
-    matrix boneWorld = mul(bones[index], world);
+    matrix boneWorld = BoneWorld(input.indices, input.weights);
     
     output.pos = mul(input.pos, boneWorld);
     

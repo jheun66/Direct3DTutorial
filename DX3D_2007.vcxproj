@@ -302,7 +302,6 @@
     <ClInclude Include="Object\LandScape\Water.h" />
     <ClInclude Include="Object\Model\Model.h" />
     <ClInclude Include="Object\Model\ModelAnimator.h" />
-    <ClInclude Include="Object\Model\ModelBone.h" />
     <ClInclude Include="Object\Model\ModelClip.h" />
     <ClInclude Include="Object\Model\ModelMesh.h" />
     <ClInclude Include="Object\Model\ModelRender.h" />
@@ -353,7 +352,7 @@
     </ClInclude>
     <ClInclude Include="Scene\ModelInstancingScene.h" />
     <ClInclude Include="Scene\ModelScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Scene\MultiRenderTargetScene.h" />
@@ -506,7 +505,7 @@
     </ClCompile>
     <ClCompile Include="Scene\ModelInstancingScene.cpp" />
     <ClCompile Include="Scene\ModelScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Scene\MultiRenderTargetScene.cpp" />

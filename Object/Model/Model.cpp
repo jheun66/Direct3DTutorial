@@ -21,7 +21,10 @@ Model::~Model()
 	for (ModelMesh* mesh : meshes)
 		delete mesh;
 
-	for (ModelBone* bone : bones)
+	for (NodeData* node : nodes)
+		delete node;
+
+	for (BoneData* bone : bones)
 		delete bone;
 
 	delete typeBuffer;
@@ -130,27 +133,11 @@ void Model::ReadMesh(string file)
 
 	for (UINT i = 0; i < count; i++)
 	{
-		ModelBone* bone = new ModelBone();
-
-		bone->index = r->Int();
-		bone->name = r->String();
-		bone->parentIndex = r->Int();
-		bone->transform = XMLoadFloat4x4(&r->Float4x4());
-
-		bones.emplace_back(bone);
-	}
-
-	count = r->UInt();
-
-	for (UINT i = 0; i < count; i++)
-	{
 		ModelMesh* mesh = new ModelMesh();
 		mesh->name = r->String();
-		mesh->boneIndex = r->Int();
-
 		mesh->materialName = r->String();
-		mesh->material = materials[mesh->materialName];
 
+		mesh->material = materials[mesh->materialName];
 		{//Vertices
 			UINT count = r->UInt();
 
@@ -170,51 +157,42 @@ void Model::ReadMesh(string file)
 			void* ptr = (void*)mesh->indices;
 			r->Byte(&ptr, sizeof(UINT) * count);
 		}
-	
+
 		mesh->CreateMesh();
 
 		meshes.emplace_back(mesh);
 	}
 
+	count = r->UInt();
+
+	for (UINT i = 0; i < count; i++)
+	{
+		NodeData* node = new NodeData();
+		node->index = r->Int();
+		node->name = r->String();
+		node->parent = r->Int();
+		node->transform = r->Float4x4();
+
+		nodes.emplace_back(node);
+	}
+
+	count = r->UInt();
+
+	for (UINT i = 0; i < count; i++)
+	{
+		BoneData* bone = new BoneData();
+		bone->name = r->String();
+		bone->index = r->Int();
+		bone->offset = r->Float4x4();
+
+		boneMap[bone->name] = bone->index;
+
+		bones.emplace_back(bone);
+	}
+
 	delete r;
-
-	BindBone();
-	BindMesh();
 }
 
-void Model::BindBone()
-{
-	root = bones[0];
-
-	for (ModelBone* bone : bones)
-	{
-		if (bone->parentIndex > -1)
-		{
-			bone->parent = bones[bone->parentIndex];
-			bone->parent->children.emplace_back(bone);
-		}
-		else
-			bone->parent = nullptr;
-		
-	}
-}
-
-void Model::BindMesh()
-{
-	for (ModelMesh* mesh : meshes)
-	{
-		for (ModelBone* bone : bones)
-		{
-			if (mesh->boneIndex == bone->index)
-			{
-				mesh->bone = bone;
-				break;
-			}
-		}
-
-
-	}
-}
 
 void Model::SetShader(wstring file)
 {
@@ -245,15 +223,3 @@ void Model::SetNormalMap(wstring file)
 	for (auto material : materials)
 		material.second->SetNormalMap(file);
 }
-
-ModelBone* Model::GetBoneByName(string name)
-{
-	for (ModelBone* bone : bones)
-	{
-		if (bone->name == name)
-			return bone;
-	}
-
-	return nullptr;
-}
-

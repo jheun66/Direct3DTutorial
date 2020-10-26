@@ -291,9 +291,6 @@
     <ClInclude Include="Scene\ModelInstancingScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Model\ModelBone.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\FrustumScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

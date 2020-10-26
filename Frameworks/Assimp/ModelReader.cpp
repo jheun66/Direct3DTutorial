@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-ModelReader::ModelReader()
+ModelReader::ModelReader() : boneCount(0)
 {
 	importer = new Assimp::Importer();
 }
@@ -167,50 +167,36 @@ string ModelReader::WriteTexture(string savePath, string file)
 
 void ModelReader::ExportMesh(string savePath)
 {
-	ReadBone(scene->mRootNode, -1, -1);
-	ReadSkin();
+	ReadNode(scene->mRootNode, -1, -1);
+	ReadMesh(scene->mRootNode);
 	savePath = "ModelData/Meshes/" + savePath + ".mesh";
 	WriteMesh(savePath);
 }
 
-void ModelReader::ReadBone(aiNode* node, int index, int parent)
+void ModelReader::ReadNode(aiNode* node, int index, int parent)
 {
-	BoneData* bone = new BoneData();
-	bone->index = index;
-	bone->parent = parent;
-	bone->name = node->mName.C_Str();
+	NodeData* nodeData = new NodeData();
+	nodeData->index = index;
+	nodeData->parent = parent;
+	nodeData->name = node->mName.C_Str();
 
-	Matrix transform(node->mTransformation[0]);
-	bone->transform = XMMatrixTranspose(transform);
+	Matrix matrix(node->mTransformation[0]);
+	matrix = XMMatrixTranspose(matrix);
+	XMStoreFloat4x4(&nodeData->transform, matrix);
 
-	Matrix matParent;
-	// 부모 0보다 작으면 루트
-	if (parent < 0)
-		matParent = XMMatrixIdentity();
-	else
-		matParent = bones[parent]->transform;
-
-	bone->transform = bone->transform * matParent;
-	bones.emplace_back(bone);
-
-	ReadMesh(node, index);
+	nodes.emplace_back(nodeData);
 
 	for (UINT i = 0; i < node->mNumChildren; i++)
-		ReadBone(node->mChildren[i], bones.size(), index);
-	
+		ReadNode(node->mChildren[i], nodes.size(), index);
 }
 
-void ModelReader::ReadMesh(aiNode* node, int bone)
+void ModelReader::ReadMesh(aiNode* node)
 {
-	if (node->mNumMeshes < 1)
-		return;
-
-	MeshData* mesh = new MeshData();
-	mesh->name = node->mName.C_Str();
-	mesh->boneIndex = bone;
-
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
+		MeshData* mesh = new MeshData();
+		mesh->name = node->mName.C_Str();
+
 		UINT index = node->mMeshes[i];
 		aiMesh* srcMesh = scene->mMeshes[index];
 
@@ -218,6 +204,11 @@ void ModelReader::ReadMesh(aiNode* node, int bone)
 		mesh->materialName = material->GetName().C_Str();
 
 		UINT startVertex = mesh->vertices.size();
+
+		vector<VertexWeights> vertexWeights;
+		vertexWeights.resize(srcMesh->mNumVertices);
+
+		ReadBone(srcMesh, vertexWeights);
 
 		for (UINT v = 0; v < srcMesh->mNumVertices; v++)
 		{
@@ -233,6 +224,21 @@ void ModelReader::ReadMesh(aiNode* node, int bone)
 			if (srcMesh->HasTangentsAndBitangents())
 				memcpy(&vertex.tangent, &srcMesh->mTangents[v], sizeof(Float3));
 
+			if (!vertexWeights.empty())
+			{
+				vertexWeights[v].Normalize();
+
+				vertex.blendIndices.x = (float)vertexWeights[v].indices[0];
+				vertex.blendIndices.y = (float)vertexWeights[v].indices[1];
+				vertex.blendIndices.z = (float)vertexWeights[v].indices[2];
+				vertex.blendIndices.w = (float)vertexWeights[v].indices[3];
+
+				vertex.blendWeights.x = vertexWeights[v].weights[0];
+				vertex.blendWeights.y = vertexWeights[v].weights[1];
+				vertex.blendWeights.z = vertexWeights[v].weights[2];
+				vertex.blendWeights.w = vertexWeights[v].weights[3];
+			}
+
 			mesh->vertices.emplace_back(vertex);
 		}//Vertices
 
@@ -246,57 +252,47 @@ void ModelReader::ReadMesh(aiNode* node, int bone)
 				mesh->indices.back() += startVertex;
 			}
 		}//Indices
+
+		meshes.emplace_back(mesh);
 	}//Mesh
 
-	meshes.emplace_back(mesh);
+	for (UINT i = 0; i < node->mNumChildren; i++)
+		ReadMesh(node->mChildren[i]);
 }
 
-void ModelReader::ReadSkin()
-{
-	for (UINT i = 0; i < scene->mNumMeshes; i++)
+void ModelReader::ReadBone(aiMesh* mesh, vector<VertexWeights>& vertexWeights)
+{	
+	for (UINT i = 0; i < mesh->mNumBones; i++)
 	{
-		aiMesh* srcMesh = scene->mMeshes[i];
-		if (!srcMesh->HasBones())
-			continue;
+		UINT boneIndex = 0;
+		string name = mesh->mBones[i]->mName.C_Str();
 
-		MeshData* mesh = meshes[i];
-		vector<BoneWeights> boneWeights;
-		boneWeights.resize(mesh->vertices.size());
-
-		for (UINT b = 0; b < srcMesh->mNumBones; b++)
+		if (boneMap.count(name) == 0)
 		{
-			aiBone* srcBone = srcMesh->mBones[b];
+			boneIndex = boneCount++;
 
-			UINT boneIndex = 0;
-			for (BoneData* bone : bones)
-			{
-				if (bone->name == srcBone->mName.C_Str())
-				{
-					boneIndex = bone->index;
-					break;
-				}
-			}// BoneData
+			boneMap[name] = boneIndex;
 
-			for (UINT w = 0; w < srcBone->mNumWeights; w++)
-			{
-				UINT index = srcBone->mWeights[w].mVertexId;
-				float weight = srcBone->mWeights[w].mWeight;
+			BoneData* boneData = new BoneData();
+			boneData->name = name;
+			boneData->index = boneIndex;
+			Matrix matrix(mesh->mBones[i]->mOffsetMatrix[0]);
+			matrix = XMMatrixTranspose(matrix);
+			XMStoreFloat4x4(&boneData->offset, matrix);
 
-				boneWeights[index].AddWeights(boneIndex, weight);
-			}// Weight
-		}// SrcBone
-
-		for (UINT w = 0; w < boneWeights.size(); w++)
+			bones.emplace_back(boneData);
+		}
+		else
 		{
-			boneWeights[w].Normalize();
+			boneIndex = boneMap[name];
+		}
 
-			BlendWeight blendWeight;
-			boneWeights[w].GetBlendWeights(blendWeight);
-
-			mesh->vertices[w].blendIndices = blendWeight.indices;
-			mesh->vertices[w].blendWeights = blendWeight.weights;
-		}// BoneWeights
-	}// Mesh
+		for (UINT j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+		{
+			UINT index = mesh->mBones[i]->mWeights[j].mVertexId;
+			vertexWeights[index].Add(boneIndex, mesh->mBones[i]->mWeights[j].mWeight);
+		}
+	}
 }
 
 void ModelReader::WriteMesh(string savePath)
@@ -305,28 +301,10 @@ void ModelReader::WriteMesh(string savePath)
 
 	BinaryWriter* w = new BinaryWriter(ToWString(savePath));
 
-	w->UInt(bones.size());
-	for (BoneData* bone : bones)
-	{
-		w->Int(bone->index);
-		w->String(bone->name);
-		w->Int(bone->parent);
-
-		// xmmatrix와 형변환
-		Float4x4 temp;
-		XMStoreFloat4x4(&temp, bone->transform);
-		w->Float4x4(temp);
-
-		delete bone;
-	}
-	bones.clear();
-
 	w->UInt(meshes.size());
 	for (MeshData* mesh : meshes)
 	{
 		w->String(mesh->name);
-		w->Int(mesh->boneIndex);
-
 		w->String(mesh->materialName);
 
 		w->UInt(mesh->vertices.size());
@@ -338,6 +316,29 @@ void ModelReader::WriteMesh(string savePath)
 		delete mesh;
 	}
 	meshes.clear();
+
+	w->UInt(nodes.size());
+	for (NodeData* node : nodes)
+	{
+		w->Int(node->index);
+		w->String(node->name);
+		w->Int(node->parent);
+		w->Float4x4(node->transform);
+
+		delete node;
+	}
+	nodes.clear();
+
+	w->UInt(bones.size());
+	for (BoneData* bone : bones)
+	{
+		w->String(bone->name);
+		w->Int(bone->index);
+		w->Float4x4(bone->offset);
+
+		delete bone;
+	}
+	bones.clear();
 
 	delete w;
 }

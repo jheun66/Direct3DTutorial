@@ -7,9 +7,6 @@ private:
 
 	string name;
 
-	int boneIndex;
-	ModelBone* bone;
-
 	string materialName;
 	Material* material;
 
@@ -26,9 +23,6 @@ private:
 public:
 	void CreateMesh();
 
-
 	void Update();
 	void Render(UINT drawCount = 1);
-
-	int BoneIndex() { return boneIndex; }
 };

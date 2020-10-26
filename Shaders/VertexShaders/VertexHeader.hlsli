@@ -16,9 +16,7 @@ cbuffer P : register(b2)
 cbuffer ModelBone : register(b3)
 {
     // MAX_MODEL_BONE 개수 맞추기
-    matrix bones[256];
-    
-    int index;
+    matrix bones[500];
 }
 
 struct KeyFrame
@@ -119,19 +117,23 @@ struct VertexInstance
     uint instanceID : SV_InstanceID;
 };
 
+matrix BoneWorld(float4 indices, float4 weights)
+{
+    matrix transform = 0;
+    
+    transform += mul(weights.x, bones[(uint) indices.x]);
+    transform += mul(weights.y, bones[(uint) indices.y]);
+    transform += mul(weights.z, bones[(uint) indices.z]);
+    transform += mul(weights.w, bones[(uint) indices.w]);
+    
+    return transform;
+}
+
 matrix SkinWorld(int instanceID, float4 indices, float4 weights)
 {
     matrix boneWorld = 0;
     matrix cur = 0, curAnim = 0;
     matrix next = 0, nextAnim = 0;
-    
-    // 애니메이션이 아니면 그냥 모델
-    [flatten]
-    if (any(indices) == false)
-    {
-        indices[0] = index;
-        weights[0] = 1.0f;
-    }
     
     int clip[2];
     uint curFrame[2];

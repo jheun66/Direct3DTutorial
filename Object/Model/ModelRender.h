@@ -3,7 +3,8 @@
 class ModelRender : public Model
 {
 private:
-	
+	BoneBuffer* boneBuffer;
+
 	vector<Transform*> transforms;
 	Matrix worlds[MAX_MODEL_INSTANCE];
 
@@ -20,4 +21,5 @@ public:
 
 	Transform* AddTransform();
 
+	void MakeBoneTransform();
 };

@@ -6,7 +6,7 @@
 //#include "Scene/TerrainScene.h"
 //#include "Scene/ComputeScene.h"
 //#include "Scene/TerrainEditorScene.h"
-//#include "Scene/ModelScene.h"
+#include "Scene/ModelScene.h"
 #include "Scene/ModelAnimationScene.h"
 //#include "Scene/CollisionScene.h"
 //#include "Scene/AStarScene.h"
@@ -34,7 +34,7 @@ Program::Program()
 	//scene = new TerrainScene();
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
-	//scene = new ModelScene();
+	scene = new ModelScene();
 	//scene = new ModelAnimationScene();
 	//scene = new CollisionScene();
 	//scene = new AStarScene();
@@ -52,7 +52,7 @@ Program::Program()
 	//scene = new ReflectionScene();
 	//scene = new RefractionScene();
 	//scene = new WaterScene();
-	scene = new ScatteringScene();
+	//scene = new ScatteringScene();
 }
 
 Program::~Program()
