@@ -81,6 +81,11 @@
 
 #pragma comment(lib, "Assimp/assimp-vc142-mtd.lib")
 
+#include <d2d1_2.h>
+#include <dwrite.h>
+
+#pragma comment(lib,"d2d1.lib")
+#pragma comment(lib, "dwrite.lib")
 
 using namespace DirectX;
 using namespace std;
@@ -131,6 +136,7 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Utility/BinaryWriter.h"
 #include "Frameworks/Utility/BinaryReader.h"
 #include "Frameworks/Utility/Xml.h"
+#include "Frameworks/Utility/DirectWrite.h"
 
 #include "Frameworks/State/SamplerState.h"
 #include "Frameworks/State/RasterizerState.h"

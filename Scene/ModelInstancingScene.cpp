@@ -3,7 +3,7 @@
 
 ModelInstancingScene::ModelInstancingScene()
 {
-	string name = "plane";
+	string name = "medea";
 
 	Export(name);
 
@@ -52,6 +52,10 @@ void ModelInstancingScene::Render()
 
 void ModelInstancingScene::PostRender()
 {
+	RECT rect = { 300,300,700,500 };
+	DirectWrite::Get()->RenderText(L"ÀÎ½ºÅÏ½Ì ¾À", rect, 50, L"a¼Ò³ª¹«B");
+
+	model->PostRender();
 }
 
 void ModelInstancingScene::Export(string name)

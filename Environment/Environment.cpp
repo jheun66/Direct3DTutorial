@@ -31,7 +31,11 @@ Environment::~Environment()
 
 void Environment::PostRender()
 {
-    ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
+    //ImGui::Text("FPS : %d", (int)Timer::Get()->FPS());
+    wstring fps = L"FPS : " + to_wstring((int)Timer::Get()->FPS());
+    RECT rect = { 0,0,100,100 };
+    DirectWrite::Get()->RenderText(fps, rect);
+     
     mainCamera->PostRender();
 
     ImGui::Text("LightInfo");

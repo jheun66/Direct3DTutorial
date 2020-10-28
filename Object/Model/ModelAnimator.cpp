@@ -133,6 +133,12 @@ void ModelAnimator::Render()
 		mesh->Render(transforms.size());
 }
 
+void ModelAnimator::PostRender()
+{
+	for (Transform* transform : transforms)
+		transform->PostRender();
+}
+
 void ModelAnimator::UpdateTransforms()
 {
 	for (UINT i = 0; i < transforms.size(); i++)

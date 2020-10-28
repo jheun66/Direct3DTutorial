@@ -207,6 +207,7 @@
     <ClInclude Include="Frameworks\Utility\BinaryReader.h" />
     <ClInclude Include="Frameworks\Utility\BinaryWriter.h" />
     <ClInclude Include="Frameworks\Utility\Control.h" />
+    <ClInclude Include="Frameworks\Utility\DirectWrite.h" />
     <ClInclude Include="Frameworks\Utility\Timer.h" />
     <ClInclude Include="Frameworks\Utility\Utility.h" />
     <ClInclude Include="Frameworks\Utility\Xml.h" />
@@ -439,6 +440,7 @@
     <ClCompile Include="Frameworks\Utility\BinaryReader.cpp" />
     <ClCompile Include="Frameworks\Utility\BinaryWriter.cpp" />
     <ClCompile Include="Frameworks\Utility\Control.cpp" />
+    <ClCompile Include="Frameworks\Utility\DirectWrite.cpp" />
     <ClCompile Include="Frameworks\Utility\Timer.cpp" />
     <ClCompile Include="Frameworks\Utility\Utility.cpp" />
     <ClCompile Include="Frameworks\Utility\Xml.cpp" />

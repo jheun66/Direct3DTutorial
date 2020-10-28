@@ -45,6 +45,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg = {};
 
     Device::Create();
+    DirectWrite::Create();
 
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
@@ -108,6 +109,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 
+
+    DirectWrite::Delete();
     Device::Delete();
 
     

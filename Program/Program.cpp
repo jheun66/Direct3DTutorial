@@ -46,7 +46,7 @@ Program::Program()
 	//scene = new MultiRenderTargetScene();
 	//scene = new ShadowScene();
 	//scene = new InstancingScene();
-	//scene = new ModelInstancingScene();
+	scene = new ModelInstancingScene();
 	//scene = new FrustumScene();
 	//scene = new QuadTreeScene();
 	//scene = new PushCollisionScene();
@@ -54,7 +54,7 @@ Program::Program()
 	//scene = new RefractionScene();
 	//scene = new WaterScene();
 	//scene = new ScatteringScene();
-	scene = new ModelAnimatorScene();
+	//scene = new ModelAnimatorScene();
 }
 
 Program::~Program()
@@ -98,6 +98,9 @@ void Program::Render()
 
 void Program::PostRender()
 {
+	DirectWrite::Get()->GetDC()->BeginDraw();
 	Environment::Get()->PostRender();
 	scene->PostRender();
+	DirectWrite::Get()->GetDC()->EndDraw();
+
 }

@@ -70,7 +70,7 @@ void Device::CreateDevcieAndSwapChain()
         adpaters[selectedAdapterIndex],
         D3D_DRIVER_TYPE_UNKNOWN,
         0,
-        D3D11_CREATE_DEVICE_DEBUG,
+        D3D11_CREATE_DEVICE_DEBUG | D3D11_CREATE_DEVICE_BGRA_SUPPORT,
         nullptr,
         0,
         D3D11_SDK_VERSION,

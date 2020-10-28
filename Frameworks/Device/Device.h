@@ -38,6 +38,7 @@ public:
 
 	ID3D11Device* GetDevice() { return device; }
 	ID3D11DeviceContext* GetDeviceContext() { return deviceContext; }
+	IDXGISwapChain* GetSwapChain() { return swapChain; }
 
 	// https://docs.microsoft.com/ko-kr/windows/win32/direct3d11/overviews-direct3d-11-devices-enum?redirectedfrom=MSDN
 	vector<IDXGIAdapter1*> EnumerateAdpater();

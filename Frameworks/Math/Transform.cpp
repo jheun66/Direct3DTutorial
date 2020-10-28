@@ -86,3 +86,28 @@ Vector3 Transform::WorldScale()
 {
 	return globalScale;
 }
+
+void Transform::PostRender()
+{
+	Vector3 screenPos;
+
+	//POINT offset = { -50, -300 };
+	Vector3 tmpPos = globalPosition;
+	tmpPos.y += 2;
+
+	screenPos = XMVector3TransformCoord(tmpPos.data, CAMERA->GetView());
+	screenPos = XMVector3TransformCoord(screenPos.data, Environment::Get()->GetPerspective());
+
+	screenPos.y *= -1;
+	screenPos = (screenPos + 1.0f) * 0.5f;
+
+	screenPos.x *= WIN_WIDTH;
+	screenPos.y *= WIN_HEIGHT;
+	
+	POINT size = { 100,100 };
+
+	RECT rect = { screenPos.x - size.x /2, screenPos.y - size.y/2, rect.left + size.x, rect.top + size.y };
+
+	DirectWrite::Get()->RenderText(ToWString(tag), rect);
+
+}
