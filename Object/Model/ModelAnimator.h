@@ -89,6 +89,8 @@ private:
 
 	VertexBuffer* instanceBuffer;
 
+	Matrix nodeTransforms[MAX_MODEL_BONE];
+
 	map<UINT, function<void()>> EndEvent;
 public:
 	ModelAnimator(string file);

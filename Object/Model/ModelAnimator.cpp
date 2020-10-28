@@ -16,6 +16,9 @@ ModelAnimator::ModelAnimator(string file)
 	instanceBuffer = new VertexBuffer(worlds, sizeof(Matrix), MAX_MODEL_INSTANCE);
 
 	typeBuffer->data.option[0] = 1;
+
+	for (UINT i = 0; i < MAX_MODEL_BONE; i++)
+		nodeTransforms[i] = XMMatrixIdentity();
 }
 
 ModelAnimator::~ModelAnimator()
@@ -273,27 +276,14 @@ void ModelAnimator::CreateTexture()
 // texture로 넣어줄수 있도록
 void ModelAnimator::CreateClipTransform(UINT index)
 {
-	/*
-	Matrix* boneTransforms = new Matrix[MAX_MODEL_BONE];
-
 	ModelClip* clip = clips[index];
 	for (UINT f = 0; f < clip->frameCount; f++)
 	{
-		for (UINT b = 0; b < bones.size(); b++)
+		UINT nodeIndex = 0;
+		for (NodeData* node : nodes)
 		{
-			ModelBone* bone = bones[b];
-
-			Matrix parent;
-			Matrix invGlobal = XMMatrixInverse(nullptr, bone->transform);
-
-			int parentIndex = bone->parentIndex;
-			if (parentIndex < 0)
-				parent = XMMatrixIdentity();
-			else
-				parent = boneTransforms[parentIndex];
-
 			Matrix animation;
-			KeyFrame* frame = clip->GetKeyFrame(bone->name);
+			KeyFrame* frame = clip->GetKeyFrame(node->name);
 			if (frame != nullptr)
 			{
 				KeyTransform& transform = frame->transforms[f];
@@ -309,10 +299,24 @@ void ModelAnimator::CreateClipTransform(UINT index)
 				animation = XMMatrixIdentity();
 			}
 
-			boneTransforms[b] = animation * parent;
-			// T자 빼고 부모와 애니메이션의 Matrix만 넣어줌
-			clipTransform[index].transform[f][b] = invGlobal * boneTransforms[b];
+			Matrix parent;
+			int parentIndex = node->parent;
+			if (parentIndex < 0)
+				parent = XMMatrixIdentity();
+			else
+				parent = nodeTransforms[parentIndex];
+
+			nodeTransforms[nodeIndex] = animation * parent;
+
+			if (boneMap.count(node->name) > 0)
+			{
+				int boneIndex = boneMap[node->name];
+				Matrix offset = XMLoadFloat4x4(&bones[boneIndex]->offset);
+				offset *= nodeTransforms[nodeIndex];
+				clipTransform[index].transform[f][boneIndex] = offset;
+			}
+
+			nodeIndex++;
 		}
 	}
-	*/
 }

@@ -25,6 +25,7 @@
 #include "Scene/RefractionScene.h"
 #include "Scene/WaterScene.h"
 #include "Scene/ScatteringScene.h"
+#include "Scene/ModelAnimatorScene.h"
 
 Program::Program()
 {
@@ -34,7 +35,7 @@ Program::Program()
 	//scene = new TerrainScene();
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
-	scene = new ModelScene();
+	//scene = new ModelScene();
 	//scene = new ModelAnimationScene();
 	//scene = new CollisionScene();
 	//scene = new AStarScene();
@@ -53,6 +54,7 @@ Program::Program()
 	//scene = new RefractionScene();
 	//scene = new WaterScene();
 	//scene = new ScatteringScene();
+	scene = new ModelAnimatorScene();
 }
 
 Program::~Program()
