@@ -3,6 +3,8 @@
 class Transform
 {
 public:
+	bool isActive;
+
 	string tag;
 
 	Vector3 position;

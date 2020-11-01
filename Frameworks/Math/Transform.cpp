@@ -2,7 +2,7 @@
 
 Transform::Transform(string tag)
 	: tag(tag), position(0,0,0), rotation(0,0,0), scale(1,1,1),
-	pivot(0,0,0), parent(nullptr)
+	pivot(0,0,0), parent(nullptr), isActive(true)
 {
 	world = XMMatrixIdentity();
 	worldBuffer = new MatrixBuffer();
@@ -89,20 +89,15 @@ Vector3 Transform::WorldScale()
 
 void Transform::PostRender()
 {
+	if (!isActive)
+		return;
+
 	Vector3 screenPos;
 
-	//POINT offset = { -50, -300 };
-	Vector3 tmpPos = globalPosition;
-	tmpPos.y += 2;
-
-	screenPos = XMVector3TransformCoord(tmpPos.data, CAMERA->GetView());
-	screenPos = XMVector3TransformCoord(screenPos.data, Environment::Get()->GetPerspective());
-
-	screenPos.y *= -1;
-	screenPos = (screenPos + 1.0f) * 0.5f;
-
-	screenPos.x *= WIN_WIDTH;
-	screenPos.y *= WIN_HEIGHT;
+	Vector3 offset = { 0,10,0 };
+	Vector3 temp = globalPosition + offset;
+	
+	screenPos = WorldToScreen(temp);
 	
 	POINT size = { 100,100 };
 

@@ -11,8 +11,9 @@ Frustum::~Frustum()
 
 void Frustum::Update()
 {
-    Matrix view = CAMERA->GetView();
-    
+    //Matrix view = CAMERA->GetView();
+    UpdateView();
+
     Float4x4 matrix;
     XMStoreFloat4x4(&matrix, view * projection);
 
@@ -61,6 +62,14 @@ void Frustum::Update()
 
     for (UINT i = 0; i < 6; i++)
         planes[i] = XMPlaneNormalize(planes[i]);
+}
+
+void Frustum::UpdateView()
+{
+    Vector3 pos = CAMERA->GetPos() - CAMERA->GetForward() * 20.0f;
+    Vector3 focus = pos + CAMERA->GetForward();
+
+    view = XMMatrixLookAtLH(pos.data, focus.data, CAMERA->GetUp().data);
 }
 
 bool Frustum::ContainPoint(Vector3 position)

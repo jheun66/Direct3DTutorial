@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 ModelAnimator::ModelAnimator(string file)
-	:texture(nullptr), srv(nullptr)
+	:texture(nullptr), srv(nullptr), frustumCount(0)
 {
 	ReadMaterial(file);
 	ReadMesh(file);
@@ -19,6 +19,8 @@ ModelAnimator::ModelAnimator(string file)
 
 	for (UINT i = 0; i < MAX_MODEL_BONE; i++)
 		nodeTransforms[i] = XMMatrixIdentity();
+
+	frustum = new Frustum();
 }
 
 ModelAnimator::~ModelAnimator()
@@ -130,22 +132,35 @@ void ModelAnimator::Render()
 	DC->VSSetShaderResources(0, 1, &srv);
 
 	for (ModelMesh* mesh : meshes)
-		mesh->Render(transforms.size());
+		mesh->Render(frustumCount);
 }
 
 void ModelAnimator::PostRender()
 {
 	for (Transform* transform : transforms)
 		transform->PostRender();
+
+	ImGui::Text("DrawCount : %d", frustumCount);
 }
 
 void ModelAnimator::UpdateTransforms()
 {
+	frustum->Update();
+
+	frustumCount = 0;
 	for (UINT i = 0; i < transforms.size(); i++)
 	{
-		transforms[i]->UpdateWorld();
-		Matrix temp = XMMatrixTranspose(*transforms[i]->GetWorld());
-		memcpy(&worlds[i], &temp, sizeof(Matrix));
+		if (frustum->ContainPoint(transforms[i]->WorldPos()))
+		{
+			transforms[i]->isActive = true;
+			transforms[i]->UpdateWorld();
+			Matrix temp = XMMatrixTranspose(*transforms[i]->GetWorld());
+			memcpy(&worlds[frustumCount++], &temp, sizeof(Matrix));
+		}
+		else
+		{
+			transforms[i]->isActive = false;
+		}
 	}
 
 	instanceBuffer->Update(worlds, MAX_MODEL_INSTANCE);

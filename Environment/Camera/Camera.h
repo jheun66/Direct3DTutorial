@@ -38,6 +38,9 @@ public:
 	Vector3 GetPos() { return position; }
 	Vector3 GetRot() { return rotation; }
 
+	Vector3 GetForward() { return forward; }
+	Vector3 GetUp() { return up; }
+
 	void SetPosition(float x, float y, float z) { position = { x,y,z }; }
 	void SetPosition(Vector3 value) { position = value; }
 	void SetRotation(Vector3 value) { rotation = value; }

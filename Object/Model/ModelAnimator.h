@@ -92,6 +92,9 @@ private:
 	Matrix nodeTransforms[MAX_MODEL_BONE];
 
 	map<UINT, function<void()>> EndEvent;
+
+	Frustum* frustum;
+	UINT frustumCount;
 public:
 	ModelAnimator(string file);
 	virtual ~ModelAnimator();

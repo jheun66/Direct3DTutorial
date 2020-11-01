@@ -31,3 +31,20 @@ Vector3 GameMath::ClosestPointOnLineSegment(const Vector3& A, const Vector3& B, 
 
     return A + t * AB;
 }
+
+Vector3 GameMath::WorldToScreen(const Vector3& pos)
+{
+    Vector3 screenPos;
+
+    screenPos = XMVector3TransformCoord(pos.data, CAMERA->GetView());
+    screenPos = XMVector3TransformCoord(screenPos.data, Environment::Get()->GetPerspective());
+
+    screenPos.y *= -1;
+
+    screenPos = (screenPos + 1.0f) * 0.5f;
+
+    screenPos.x *= WIN_WIDTH;
+    screenPos.y *= WIN_HEIGHT;
+
+    return screenPos;
+}
