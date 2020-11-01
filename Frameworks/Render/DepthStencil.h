@@ -8,8 +8,10 @@ private:
 	ID3D11ShaderResourceView* srv;
 
 public:
-	DepthStencil(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
+	DepthStencil(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT, bool isStencil = false);
 	~DepthStencil();
+
+	void SaveTexture(wstring saveFile);
 
 	ID3D11DepthStencilView* GetDSV() { return dsv; }
 	ID3D11ShaderResourceView* GetSRV() { return srv; }

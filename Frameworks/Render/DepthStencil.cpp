@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-DepthStencil::DepthStencil(UINT width, UINT height)
+DepthStencil::DepthStencil(UINT width, UINT height, bool isStencil)
 {
 	{
 		D3D11_TEXTURE2D_DESC desc = {};
@@ -8,7 +8,7 @@ DepthStencil::DepthStencil(UINT width, UINT height)
 		desc.Height = height;
 		desc.MipLevels = 1;
 		desc.ArraySize = 1;
-		desc.Format = DXGI_FORMAT_R32_TYPELESS;
+		desc.Format = isStencil ? DXGI_FORMAT_R24G8_TYPELESS : DXGI_FORMAT_R32_TYPELESS;
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
 		desc.Usage = D3D11_USAGE_DEFAULT;
@@ -19,7 +19,7 @@ DepthStencil::DepthStencil(UINT width, UINT height)
 
 	{
 		D3D11_DEPTH_STENCIL_VIEW_DESC desc = {};
-		desc.Format = DXGI_FORMAT_D32_FLOAT;
+		desc.Format = isStencil ? DXGI_FORMAT_D24_UNORM_S8_UINT : DXGI_FORMAT_D32_FLOAT;
 		desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
 		V(DEVICE->CreateDepthStencilView(dsvTexture, &desc, &dsv));
@@ -27,7 +27,7 @@ DepthStencil::DepthStencil(UINT width, UINT height)
 
 	{
 		D3D11_SHADER_RESOURCE_VIEW_DESC desc = {};
-		desc.Format = DXGI_FORMAT_R32_FLOAT;
+		desc.Format = isStencil ? DXGI_FORMAT_R24_UNORM_X8_TYPELESS : DXGI_FORMAT_R32_FLOAT;
 		desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		desc.Texture2D.MipLevels = 1;
 
@@ -41,4 +41,9 @@ DepthStencil::~DepthStencil()
 
 	dsv->Release();
 	srv->Release();
+}
+
+void DepthStencil::SaveTexture(wstring saveFile)
+{
+
 }

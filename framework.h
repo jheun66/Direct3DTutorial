@@ -203,6 +203,8 @@ using namespace Utility;
 
 #include "Object/UI/Render2D.h"
 
+#include "Object/Deferred/DeferredTarget.h"
+
 // Program Header
 #include "Scene/Scene.h"
 #include "Program/Program.h"

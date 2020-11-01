@@ -26,6 +26,7 @@
 #include "Scene/WaterScene.h"
 #include "Scene/ScatteringScene.h"
 #include "Scene/ModelAnimatorScene.h"
+#include "Scene/DeferredScene.h"
 
 Program::Program()
 {
@@ -46,7 +47,7 @@ Program::Program()
 	//scene = new MultiRenderTargetScene();
 	//scene = new ShadowScene();
 	//scene = new InstancingScene();
-	scene = new ModelInstancingScene();
+	//scene = new ModelInstancingScene();
 	//scene = new FrustumScene();
 	//scene = new QuadTreeScene();
 	//scene = new PushCollisionScene();
@@ -55,6 +56,7 @@ Program::Program()
 	//scene = new WaterScene();
 	//scene = new ScatteringScene();
 	//scene = new ModelAnimatorScene();
+	scene = new DeferredScene();
 }
 
 Program::~Program()

@@ -293,6 +293,7 @@
     <ClInclude Include="Object\Basic\Sphere.h" />
     <ClInclude Include="Object\Character\Medea.h" />
     <ClInclude Include="Object\Character\Zombie.h" />
+    <ClInclude Include="Object\Deferred\DeferredTarget.h" />
     <ClInclude Include="Object\LandScape\Billboard.h" />
     <ClInclude Include="Object\LandScape\QuadTreeTerrain.h" />
     <ClInclude Include="Object\LandScape\Scattering.h" />
@@ -337,6 +338,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Scene\DeferredScene.h" />
     <ClInclude Include="Scene\FrustumScene.h" />
     <ClInclude Include="Scene\GridScene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -449,6 +451,7 @@
     <ClCompile Include="Object\Basic\Sphere.cpp" />
     <ClCompile Include="Object\Character\Medea.cpp" />
     <ClCompile Include="Object\Character\Zombie.cpp" />
+    <ClCompile Include="Object\Deferred\DeferredTarget.cpp" />
     <ClCompile Include="Object\LandScape\Billboard.cpp" />
     <ClCompile Include="Object\LandScape\QuadTreeTerrain.cpp" />
     <ClCompile Include="Object\LandScape\Scattering.cpp" />
@@ -492,6 +495,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Scene\DeferredScene.cpp" />
     <ClCompile Include="Scene\FrustumScene.cpp" />
     <ClCompile Include="Scene\GridScene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
