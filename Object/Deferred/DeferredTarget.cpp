@@ -25,7 +25,7 @@ DeferredTarget::DeferredTarget()
 	for (UINT i = 0; i < 5; i++)
 	{
 		targetTexture[i] = new Render2D(L"UV");
-		targetTexture[i]->position = { 100 + i * 200,100,0 };
+		targetTexture[i]->position = { 100 + (float)i * 200,100,0 };
 		targetTexture[i]->scale = { 200, 200, 200 };
 	}
 

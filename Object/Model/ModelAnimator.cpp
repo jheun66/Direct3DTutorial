@@ -17,9 +17,6 @@ ModelAnimator::ModelAnimator(string file)
 
 	typeBuffer->data.option[0] = 1;
 
-	for (UINT i = 0; i < MAX_MODEL_BONE; i++)
-		nodeTransforms[i] = XMMatrixIdentity();
-
 	frustum = new Frustum();
 }
 
@@ -27,6 +24,7 @@ ModelAnimator::~ModelAnimator()
 {
 	delete frameBuffer;
 	delete[] clipTransform;
+	delete[] nodeTransform;
 
 	texture->Release();
 	srv->Release();
@@ -215,15 +213,15 @@ void ModelAnimator::ReadClip(string file)
 	delete r;
 }
 
-Matrix ModelAnimator::GetCurBoneMatrix(UINT boneIndex)
+Matrix ModelAnimator::GetCurNodeMatrix(UINT nodeIndex)
 {
-	if (clipTransform == nullptr)
+	if (nodeTransform == nullptr)
 		return XMMatrixIdentity();
 
 	UINT curClip = frameBuffer->data.tweenDesc[0].cur.clip;
 	UINT curFrame = frameBuffer->data.tweenDesc[0].cur.curFrame;
 
-	return clipTransform[curClip].transform[curFrame][boneIndex];
+	return nodeTransform[curClip].transform[curFrame][nodeIndex];
 }
 
 void ModelAnimator::CreateTexture()
@@ -231,6 +229,7 @@ void ModelAnimator::CreateTexture()
 	UINT clipCount = clips.size();
 
 	clipTransform = new ClipTransform[clipCount];
+	nodeTransform = new ClipTransform[clipCount];
 
 	for (UINT i = 0 ; i < clipCount; i++)
 		CreateClipTransform(i);
@@ -325,15 +324,15 @@ void ModelAnimator::CreateClipTransform(UINT index)
 			if (parentIndex < 0)
 				parent = XMMatrixIdentity();
 			else
-				parent = nodeTransforms[parentIndex];
+				parent = nodeTransform[index].transform[f][parentIndex];
 
-			nodeTransforms[nodeIndex] = animation * parent;
+			nodeTransform[index].transform[f][nodeIndex] = animation * parent;
 
 			if (boneMap.count(node->name) > 0)
 			{
 				int boneIndex = boneMap[node->name];
 				Matrix offset = XMLoadFloat4x4(&bones[boneIndex]->offset);
-				offset *= nodeTransforms[nodeIndex];
+				offset *= nodeTransform[index].transform[f][nodeIndex];
 				clipTransform[index].transform[f][boneIndex] = offset;
 			}
 

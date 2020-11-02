@@ -20,6 +20,8 @@ private:
 	Collider* attackCollider;
 
 	Matrix boneWorld;
+
+	Transform* zombieWorld;
 public:
 	Zombie();
 	~Zombie();
@@ -34,4 +36,6 @@ public:
 
 	void SetAnimation(AnimState state);
 	void SetTerrain(Terrain* terrain) { this->terrain = terrain; }
+
+	void SetAttackCollision();
 };

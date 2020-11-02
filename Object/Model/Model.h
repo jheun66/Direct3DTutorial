@@ -28,4 +28,6 @@ public:
 	void SetDiffuseMap(wstring file);
 	void SetSpecularMap(wstring file);
 	void SetNormalMap(wstring file);
+
+	int GetNodeByName(string name);
 };

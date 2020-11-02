@@ -2,7 +2,7 @@
 
 class ModelAnimator : public Model
 {
-private:
+protected:
 	struct KeyFrameDesc
 	{
 		int clip = 0;
@@ -77,7 +77,10 @@ private:
 	};
 
 	FrameBuffer* frameBuffer;
+	// shader에서 정점 보간용
 	ClipTransform* clipTransform;
+	// 본 위치 찾는용도
+	ClipTransform* nodeTransform;
 
 	ID3D11Texture2D* texture;
 	ID3D11ShaderResourceView* srv;
@@ -88,8 +91,6 @@ private:
 	Matrix worlds[MAX_MODEL_INSTANCE];
 
 	VertexBuffer* instanceBuffer;
-
-	Matrix nodeTransforms[MAX_MODEL_BONE];
 
 	map<UINT, function<void()>> EndEvent;
 
@@ -112,7 +113,7 @@ public:
 
 	void SetEndEvent(UINT clip, function<void()> value) { EndEvent[clip] = value; }
 
-	Matrix GetCurBoneMatrix(UINT boneIndex);
+	Matrix GetCurNodeMatrix(UINT nodeIndex);
 private:
 	void CreateTexture();
 	void CreateClipTransform(UINT index);

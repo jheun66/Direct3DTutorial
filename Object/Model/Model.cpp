@@ -223,3 +223,14 @@ void Model::SetNormalMap(wstring file)
 	for (auto material : materials)
 		material.second->SetNormalMap(file);
 }
+
+int Model::GetNodeByName(string name)
+{
+	for (NodeData* node : nodes)
+	{
+		if (node->name == name)
+			return node->index;
+	}
+
+	return 0;
+}

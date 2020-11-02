@@ -11,7 +11,8 @@ Zombie::Zombie()
 
 	SetEndEvent(ATTACK, bind(&Zombie::AttackEnd, this));
 
-	PlayClip(0, 0);
+	//PlayClip(0, 0);
+	zombieWorld = AddTransform();
 
 	// offset을 부모 행렬로, 마치 빈 오브젝트에 담는거 처럼 
 	offset.rotation.y = XM_PI;
@@ -32,6 +33,8 @@ void Zombie::Update()
 {
 	Move();
 	Attack();
+
+	SetAttackCollision();
 
 	ModelAnimator::Update();
 }
@@ -80,6 +83,17 @@ void Zombie::SetAnimation(AnimState state)
 		this->state = state;
 		PlayClip(0, state, 1.0f, 0.1f);
 	}
+}
+
+void Zombie::SetAttackCollision()
+{
+	int nodeIndex = GetNodeByName("Zombie:LeftHand");
+
+	boneWorld = GetCurNodeMatrix(nodeIndex);
+
+	boneWorld = boneWorld * (*zombieWorld->GetWorld());
+
+	attackCollider->SetParent(&boneWorld);
 }
 
 void Zombie::Attack()
