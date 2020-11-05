@@ -1,13 +1,26 @@
 #include "Framework.h"
 
-DeferredTarget::DeferredTarget()
+GBuffer::GBuffer()
 {
 	diffuseRTV = new RenderTarget(WIN_WIDTH, WIN_HEIGHT, DXGI_FORMAT_R8G8B8A8_UNORM);
 	specularRTV = new RenderTarget(WIN_WIDTH, WIN_HEIGHT, DXGI_FORMAT_R8G8B8A8_UNORM);
 	emissiveRTV = new RenderTarget(WIN_WIDTH, WIN_HEIGHT, DXGI_FORMAT_R8G8B8A8_UNORM);
-	normalRTV = new RenderTarget();
+	normalRTV = new RenderTarget(WIN_WIDTH, WIN_HEIGHT, DXGI_FORMAT_R8G8B8A8_UNORM);
+	//normalRTV = new RenderTarget();
 	tangentRTV = new RenderTarget();
 
+	depthStencil = new DepthStencil(WIN_WIDTH, WIN_HEIGHT, true);
+
+	rtvs[0] = diffuseRTV;
+	rtvs[1] = normalRTV;
+	rtvs[2] = specularRTV;
+
+	srvs[0] = depthStencil->GetSRV();
+	srvs[1] = diffuseRTV->GetSRV();
+	srvs[2] = normalRTV->GetSRV();
+	srvs[3] = specularRTV->GetSRV();
+
+	/*
 	rtvs[0] = diffuseRTV;
 	rtvs[1] = specularRTV;
 	rtvs[2] = emissiveRTV;
@@ -19,10 +32,10 @@ DeferredTarget::DeferredTarget()
 	srvs[2] = emissiveRTV->GetSRV();
 	srvs[3] = normalRTV->GetSRV();
 	srvs[4] = tangentRTV->GetSRV();
+	*/
 
-	depthStencil = new DepthStencil(WIN_WIDTH, WIN_HEIGHT, true);
 
-	for (UINT i = 0; i < 5; i++)
+	for (UINT i = 0; i < 3; i++)
 	{
 		targetTexture[i] = new Render2D(L"UV");
 		targetTexture[i]->position = { 100 + (float)i * 200,100,0 };
@@ -30,13 +43,18 @@ DeferredTarget::DeferredTarget()
 	}
 
 	targetTexture[0]->SetSRV(diffuseRTV->GetSRV());
+	targetTexture[1]->SetSRV(normalRTV->GetSRV());
+	targetTexture[2]->SetSRV(specularRTV->GetSRV());
+	/*
+	targetTexture[0]->SetSRV(diffuseRTV->GetSRV());
 	targetTexture[1]->SetSRV(specularRTV->GetSRV());
 	targetTexture[2]->SetSRV(emissiveRTV->GetSRV());
 	targetTexture[3]->SetSRV(normalRTV->GetSRV());
 	targetTexture[4]->SetSRV(tangentRTV->GetSRV());
+	*/
 }
 
-DeferredTarget::~DeferredTarget()
+GBuffer::~GBuffer()
 {
 	delete diffuseRTV;
 	delete specularRTV;
@@ -49,17 +67,24 @@ DeferredTarget::~DeferredTarget()
 		delete texture;
 }
 
-void DeferredTarget::PreRender()
+void GBuffer::PreRender()
 {
-	RenderTarget::Sets(rtvs, 5, depthStencil);
+	RenderTarget::Sets(rtvs, 3, depthStencil);
 }
 
-void DeferredTarget::Render()
+void GBuffer::Render()
 {
-	DC->PSSetShaderResources(10, 5, srvs);
+	//DC->PSSetShaderResources(10, 4, srvs);
+	DC->PSSetShaderResources(10, 1, &srvs[0]);
+	DC->PSSetShaderResources(11, 1, &srvs[1]);
+	DC->PSSetShaderResources(12, 1, &srvs[2]);
+	DC->PSSetShaderResources(13, 1, &srvs[3]);
+
+
+
 }
 
-void DeferredTarget::PostRender()
+void GBuffer::PostRender()
 {
 	for (Render2D* texture : targetTexture)
 	{

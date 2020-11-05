@@ -50,6 +50,7 @@ public:
 	bool ComputePicking(OUT Vector3* position);
 
 	Float2 GetSize() { return Float2(width, height); }
+	Material* GetMaterial() { return material; }
 private:
 	void CreateData();
 	void CreateNormal();

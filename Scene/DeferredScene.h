@@ -3,7 +3,13 @@
 class DeferredScene : public Scene
 {
 private:
+	GBuffer* gBuffer;
 
+	Zombie* zombie;
+	Terrain* terrain;
+
+	Material* material;
+	VertexBuffer* vertexBuffer;
 public:
 	DeferredScene();
 	~DeferredScene();
@@ -13,4 +19,6 @@ public:
 	virtual void PreRender() override;
 	virtual void Render() override;
 	virtual void PostRender() override;
+
+	void CreateMesh();
 };

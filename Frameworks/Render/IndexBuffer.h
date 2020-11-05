@@ -10,4 +10,5 @@ public:
 	~IndexBuffer();
 
 	void IASet();
+	void Update(void* data, UINT count);
 };

@@ -23,3 +23,8 @@ void Mesh::UpdateVertex(void* data, UINT count)
 {
 	vertexBuffer->Update(data, count);
 }
+
+void Mesh::UpdateIndex(void* data, UINT count)
+{
+	indexBuffer->Update(data, count);
+}

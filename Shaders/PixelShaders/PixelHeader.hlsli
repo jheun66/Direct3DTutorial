@@ -1,3 +1,13 @@
+static const float2 specPowerRange = { 0.1f, 250.0f };
+
+struct Material
+{
+    float3 normal;
+    float4 diffuseColor;
+    float specPow;
+    float specIntensity;
+};
+
 Texture2D diffuseMap : register(t0);
 Texture2D specularMap : register(t1);
 Texture2D normalMap : register(t2);
@@ -32,13 +42,25 @@ cbuffer LightInfo : register(b0)
     float4 ambientCeil;
 }
 
-cbuffer Material : register(b1)
+cbuffer MaterialBuffer : register(b1)
 {
     float4 mDiffuse;
     float4 mSpecular;
     float4 mAmbient;
+    float4 mEmissive;
     
     int4 hasMap;
+}
+
+cbuffer ViewBuffer : register(b2)
+{
+    matrix view;
+    matrix viewInv;
+}
+
+cbuffer ProjectionBuffer : register(b3)
+{
+    matrix perspective;
 }
 
 float NormalMapping(float3 tangent, float3 binormal, float3 normal, float3 lightDir, float2 uv)
@@ -63,6 +85,31 @@ float NormalMapping(float3 tangent, float3 binormal, float3 normal, float3 light
     
     return saturate(dot(normal, light));
 }
+
+//void NormalMapping(float2 uv, float3 normal, float3 tangent)
+//{
+//    float4 map = normalMap.Sample(samp, uv);
+    
+//    [flatten]
+//    if (any(map.rgb) == false)
+//        return;
+    
+//    float3 N = normalize(normal);
+    
+//    [flatten]
+//    if (any(tangent)== false)
+//        tangent = float3(1e-6f, 1e-6f, 1e-6f);
+    
+//    float3 T = normalize(tangent - dot(tangent, N) * N);
+//    float3 B = normalize(cross(N, T));
+//    float3x3 TBN = float3x3(T, B, N);
+    
+//    float3 coord = map.rgb * 2.0f - 1.0f;
+    
+//    coord = mul(coord, TBN);
+    
+//    //mDiffuse *= saturate(dot(-lights[0].direction, coord));
+//}
 
 float4 SpecularMapping(float3 normal, float3 camPos, float3 lightDir, 
                     float3 worldPos, float2 uv)
@@ -105,6 +152,25 @@ float4 CalcDirection(float3 tangent, float3 binoraml, float3 normal,
     }
     
     return float4(color.rgb, 1.0f);
+}
+
+// 디퍼드 렌더용
+// Directional light calculation helper function
+float4 CalcDirection(float3 position, Material mat)
+{
+    float3 toLight = -normalize(lights[0].direction);
+	// Phong diffuse
+    float NDotL = dot(toLight, mat.normal);
+    float3 finalColor = lights[0].color.rgb * saturate(NDotL);
+   
+	// Blinn specular
+    float3 camPos = viewInv._41_42_43;
+    float3 toEye = normalize(camPos - position);
+    float3 halfWay = normalize(toEye - toLight);
+    float NDotH = saturate(dot(halfWay, mat.normal));
+    finalColor += lights[0].color.rgb * pow(NDotH, mat.specPow) * mat.specIntensity;
+
+    return float4(finalColor * mat.diffuseColor.rgb, 1);
 }
 
 float4 CalcPoint(float3 tangent, float3 binoraml, float3 normal, 

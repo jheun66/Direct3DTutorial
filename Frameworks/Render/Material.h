@@ -11,6 +11,7 @@ public:
 			Float4 diffuse;
 			Float4 specular;
 			Float4 ambient;
+			Float4 emissive;
 
 			UINT hasMap[4];
 		}data;
@@ -21,6 +22,7 @@ public:
 			// 현재 터레인 기준(다른거 쓰면 바꿔줘야함)
 			data.specular = Float4(1, 1, 1, 25);
 			data.ambient = Float4(1, 1, 1, 1);
+			data.emissive = Float4(0, 0, 0, 1);
 
 			for (UINT &i : data.hasMap)
 				i = 0;

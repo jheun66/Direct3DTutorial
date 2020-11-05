@@ -56,6 +56,11 @@ void Camera::VSSet(UINT slot)
 	viewBuffer->SetVSBuffer(slot);
 }
 
+void Camera::PSSet(UINT slot)
+{
+	viewBuffer->SetPSBuffer(slot);
+}
+
 void Camera::GSSet(UINT slot)
 {
 	viewBuffer->SetGSBuffer(slot);

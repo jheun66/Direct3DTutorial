@@ -37,7 +37,7 @@ Program::Program()
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
-	scene = new ModelAnimationScene();
+	//scene = new ModelAnimationScene();
 	//scene = new CollisionScene();
 	//scene = new AStarScene();
 	//scene = new BillboardScene();
@@ -56,7 +56,7 @@ Program::Program()
 	//scene = new WaterScene();
 	//scene = new ScatteringScene();
 	//scene = new ModelAnimatorScene();
-	//scene = new DeferredScene();
+	scene = new DeferredScene();
 }
 
 Program::~Program()
@@ -92,6 +92,8 @@ void Program::Render()
 
 	Environment::Get()->MainCamera()->VSSet(1);
 	Environment::Get()->GetProjection()->SetVSBuffer(2);
+	Environment::Get()->MainCamera()->PSSet();
+	Environment::Get()->GetProjection()->SetPSBuffer(2);
 	Environment::Get()->GetLight()->SetPSBuffer(0);
 	Environment::Get()->SetViewport();
 

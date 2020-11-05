@@ -13,4 +13,5 @@ public:
 
 	void Set(D3D11_PRIMITIVE_TOPOLOGY pt = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	void UpdateVertex(void* data, UINT count);
+	void UpdateIndex(void* data, UINT count);
 };

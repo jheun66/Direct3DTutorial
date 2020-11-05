@@ -44,10 +44,10 @@ void Render2D::Render()
 	material->Set();
 
 	depthState[1]->SetState();
-	blendState[1]->SetState();
+	//blendState[1]->SetState();
 	DC->DrawIndexed(6, 0, 0);
 	depthState[0]->SetState();
-	blendState[0]->SetState();
+	//blendState[0]->SetState();
 }
 
 void Render2D::Create()

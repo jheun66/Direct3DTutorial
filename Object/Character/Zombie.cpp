@@ -11,13 +11,14 @@ Zombie::Zombie()
 
 	SetEndEvent(ATTACK, bind(&Zombie::AttackEnd, this));
 
-	//PlayClip(0, 0);
+	PlayClip(0, 0);
 	zombieWorld = AddTransform();
+	zombieWorld->scale = { 0.1f, 0.1f, 0.1f };
 
 	// offset을 부모 행렬로, 마치 빈 오브젝트에 담는거 처럼 
 	offset.rotation.y = XM_PI;
 	offset.UpdateWorld();
-	parent = offset.GetWorld();
+	zombieWorld->SetParent(offset.GetWorld());
 
 	attackCollider = new SphereCollider();
 	attackCollider->scale = { 10, 10, 10 };
@@ -49,22 +50,22 @@ void Zombie::Move()
 {
 	if (KEY_PRESS(VK_UP))
 	{
-		position += Forward() * moveSpeed * DELTA;
+		zombieWorld->position += zombieWorld->Forward() * moveSpeed * DELTA;
 		SetAnimation(RUN);
 	}
 	if (KEY_PRESS(VK_DOWN))
 	{
-		position -= Forward() * moveSpeed * DELTA;
+		zombieWorld->position -= zombieWorld->Forward() * moveSpeed * DELTA;
 		SetAnimation(RUN);
 	}
 	if (KEY_PRESS(VK_RIGHT))
 	{
-		rotation.y += rotSpeed * DELTA;
+		zombieWorld->rotation.y += rotSpeed * DELTA;
 		SetAnimation(RUN);
 	}
 	if (KEY_PRESS(VK_LEFT))
 	{
-		rotation.y -= rotSpeed * DELTA;
+		zombieWorld->rotation.y -= rotSpeed * DELTA;
 		SetAnimation(RUN);
 	}
 
@@ -73,7 +74,7 @@ void Zombie::Move()
 		SetAnimation(IDLE);
 	}
 
-	position.y = terrain->GetHeight(WorldPos());
+	zombieWorld->position.y = terrain->GetHeight(zombieWorld->WorldPos());
 }
 
 void Zombie::SetAnimation(AnimState state)

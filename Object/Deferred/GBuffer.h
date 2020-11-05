@@ -1,6 +1,6 @@
 #pragma once
 
-class DeferredTarget
+class GBuffer
 {
 private:
 	RenderTarget* diffuseRTV;
@@ -8,17 +8,18 @@ private:
 	RenderTarget* emissiveRTV;
 	RenderTarget* normalRTV;
 	RenderTarget* tangentRTV;
+	
 	DepthStencil* depthStencil;
 
-	RenderTarget* rtvs[5];
+	RenderTarget* rtvs[3];
 
-	Render2D* targetTexture[5];
+	Render2D* targetTexture[3];
 
-	ID3D11ShaderResourceView* srvs[5];
+	ID3D11ShaderResourceView* srvs[4];
 
 public:
-	DeferredTarget();
-	~DeferredTarget();
+	GBuffer();
+	~GBuffer();
 
 	void PreRender();
 	void Render();

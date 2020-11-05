@@ -576,7 +576,7 @@
     <ClInclude Include="Scene\DeferredScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Deferred\DeferredTarget.h">
+    <ClInclude Include="Object\Deferred\GBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -893,7 +893,7 @@
     <ClCompile Include="Scene\DeferredScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Deferred\DeferredTarget.cpp">
+    <ClCompile Include="Object\Deferred\GBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -959,6 +959,10 @@
     <FxCompile Include="Shaders\PixelShaders\PixelScatteringTarget.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexScattering.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelScattering.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelDeferredTarget.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelGBuffer.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelDeferredDirection.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexDeferred.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />
