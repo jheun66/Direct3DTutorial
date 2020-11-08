@@ -8,7 +8,6 @@ GBuffer::GBuffer()
 	normalRTV = new RenderTarget(WIN_WIDTH, WIN_HEIGHT, DXGI_FORMAT_R8G8B8A8_UNORM);
 	//normalRTV = new RenderTarget();
 	tangentRTV = new RenderTarget();
-
 	depthStencil = new DepthStencil(WIN_WIDTH, WIN_HEIGHT, true);
 
 	rtvs[0] = diffuseRTV;
@@ -19,7 +18,6 @@ GBuffer::GBuffer()
 	srvs[1] = diffuseRTV->GetSRV();
 	srvs[2] = normalRTV->GetSRV();
 	srvs[3] = specularRTV->GetSRV();
-
 	/*
 	rtvs[0] = diffuseRTV;
 	rtvs[1] = specularRTV;
@@ -34,17 +32,17 @@ GBuffer::GBuffer()
 	srvs[4] = tangentRTV->GetSRV();
 	*/
 
-
-	for (UINT i = 0; i < 3; i++)
+	for (UINT i = 0; i < 4; i++)
 	{
 		targetTexture[i] = new Render2D(L"UV");
-		targetTexture[i]->position = { 100 + (float)i * 200,100,0 };
+		targetTexture[i]->position = { 100 + (float)i * 200, 100, 0 };
 		targetTexture[i]->scale = { 200, 200, 200 };
 	}
 
-	targetTexture[0]->SetSRV(diffuseRTV->GetSRV());
-	targetTexture[1]->SetSRV(normalRTV->GetSRV());
-	targetTexture[2]->SetSRV(specularRTV->GetSRV());
+	targetTexture[0]->SetSRV(depthStencil->GetSRV());
+	targetTexture[1]->SetSRV(diffuseRTV->GetSRV());
+	targetTexture[2]->SetSRV(normalRTV->GetSRV());
+	targetTexture[3]->SetSRV(specularRTV->GetSRV());
 	/*
 	targetTexture[0]->SetSRV(diffuseRTV->GetSRV());
 	targetTexture[1]->SetSRV(specularRTV->GetSRV());
@@ -63,7 +61,7 @@ GBuffer::~GBuffer()
 	delete tangentRTV;
 	delete depthStencil;
 
-	for(Render2D* texture : targetTexture)
+	for (Render2D* texture : targetTexture)
 		delete texture;
 }
 
@@ -75,13 +73,10 @@ void GBuffer::PreRender()
 void GBuffer::Render()
 {
 	//DC->PSSetShaderResources(10, 4, srvs);
-	DC->PSSetShaderResources(10, 1, &srvs[0]);
-	DC->PSSetShaderResources(11, 1, &srvs[1]);
-	DC->PSSetShaderResources(12, 1, &srvs[2]);
-	DC->PSSetShaderResources(13, 1, &srvs[3]);
-
-
-
+	DC->PSSetShaderResources(3, 1, &srvs[0]);
+	DC->PSSetShaderResources(4, 1, &srvs[1]);
+	DC->PSSetShaderResources(5, 1, &srvs[2]);
+	DC->PSSetShaderResources(6, 1, &srvs[3]);
 }
 
 void GBuffer::PostRender()

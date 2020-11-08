@@ -3,9 +3,9 @@
 Terrain::Terrain()
 {
 	material = new Material(L"NormalMapping");
-	material->SetDiffuseMap(L"Textures/Landscape/Wall.png");
-	material->SetSpecularMap(L"Textures/Landscape/Wall_specular.png");
-	material->SetNormalMap(L"Textures/Landscape/Wall_normal.png");
+	material->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
+	material->SetSpecularMap(L"Textures/Landscape/Fieldstone_SM.tga");
+	material->SetNormalMap(L"Textures/Landscape/Fieldstone_NM.tga");
 
 	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
 
@@ -18,7 +18,6 @@ Terrain::Terrain()
 
 	computeShader = Shader::AddCS(L"Intersection");
 
-	// 폴리곤 개수
 	size = indices.size() / 3;
 
 	structuredBuffer = new StructuredBuffer(input, sizeof(InputDesc), size,
@@ -48,7 +47,7 @@ void Terrain::Update()
 void Terrain::Render()
 {
 	mesh->Set();
-	
+
 	SetWorldBuffer();
 
 	material->Set();
@@ -58,7 +57,7 @@ void Terrain::Render()
 
 bool Terrain::Picking(OUT Vector3* position)
 {
-	Ray ray = CAMERA->ScreenPointToRay(MOUSEPOS);
+	Ray ray = Environment::Get()->MainCamera()->ScreenPointToRay(MOUSEPOS);
 
 	for (UINT z = 0; z < height; z++)
 	{
@@ -73,20 +72,21 @@ bool Terrain::Picking(OUT Vector3* position)
 			Vector3 p[4];
 			for (UINT i = 0; i < 4; i++)
 				p[i] = vertices[index[i]].position;
-			
+
 			float distance;
-			if (Intersects(ray.position.data, ray.direction.data, p[0].data, p[1].data, p[2].data,distance))
+			if (Intersects(ray.position.data, ray.direction.data,
+				p[0].data, p[1].data, p[2].data, distance))
 			{
 				*position = ray.position + ray.direction * distance;
 				return true;
 			}
 
-			if (Intersects(ray.position.data, ray.direction.data, p[3].data, p[1].data, p[2].data, distance))
+			if (Intersects(ray.position.data, ray.direction.data,
+				p[3].data, p[1].data, p[2].data, distance))
 			{
 				*position = ray.position + ray.direction * distance;
 				return true;
 			}
-
 		}
 	}
 
@@ -108,14 +108,14 @@ float Terrain::GetHeight(Vector3 position)
 	index[3] = (width + 1) * (z + 1) + x + 1;
 
 	Vector3 p[4];
-	for (UINT i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 		p[i] = vertices[index[i]].position;
 
 	float u = position.x - p[0].x;
 	float v = position.z - p[0].z;
 
 	Vector3 result;
-	if (u + v <= 1)
+	if (u + v <= 1.0f)
 	{
 		result = p[0] + (p[2] - p[0]) * u + (p[1] - p[0]) * v;
 	}
@@ -143,11 +143,10 @@ bool Terrain::ComputePicking(OUT Vector3* position)
 	DC->CSSetShaderResources(0, 1, &structuredBuffer->GetSRV());
 	DC->CSSetUnorderedAccessViews(0, 1, &structuredBuffer->GetUAV(), nullptr);
 
-	// ceil 올림				1024 쓰레드 개수
 	UINT x = ceil((float)size / 1024.0f);
 
 	DC->Dispatch(x, 1, 1);
-	
+
 	structuredBuffer->Copy(output, sizeof(OutputDesc) * size);
 
 	float minDistance = FLT_MAX;
@@ -168,50 +167,50 @@ bool Terrain::ComputePicking(OUT Vector3* position)
 
 	if (minIndex >= 0)
 	{
-
 		*position = ray.position + ray.direction * minDistance;
 		return true;
 	}
-
 
 	return false;
 }
 
 void Terrain::CreateData()
 {
-	width = heightMap->GetWidth() -1;
+	width = heightMap->GetWidth() - 1;
 	height = heightMap->GetHeight() - 1;
 
 	vector<Float4> pixels = heightMap->ReadPixels();
 
+	//Vertices
 	for (UINT z = 0; z <= height; z++)
 	{
 		for (UINT x = 0; x <= width; x++)
 		{
 			VertexType vertex;
 			vertex.position = Float3(x, 0, z);
-			vertex.uv = Float2(x / (float)width, 1.0f - (z / (float)height));
+			vertex.uv = Float2(x / (float)width, 1.0f - z / (float)height);
 
 			UINT index = (width + 1) * z + x;
-
-			vertex.position.y += pixels[index].x * 20.0f;
-			vertex.position.y += pixels[index].y * 20.0f;
-			vertex.position.y += pixels[index].z * 20.0f;
+			vertex.position.y += pixels[index].x * 20.f;
+			vertex.position.y += pixels[index].y * 20.f;
+			vertex.position.y += pixels[index].z * 20.f;
 
 			vertices.emplace_back(vertex);
 		}
 	}
 
+	//Indices
 	for (UINT z = 0; z < height; z++)
 	{
 		for (UINT x = 0; x < width; x++)
 		{
-			indices.emplace_back((width + 1) * z + x);
-			indices.emplace_back((width + 1) * (z + 1) + x);
-			indices.emplace_back((width + 1) * (z + 1) + x + 1);
-			indices.emplace_back((width + 1) * z + x);
-			indices.emplace_back((width + 1) * (z + 1) + x + 1);
-			indices.emplace_back((width + 1) * z + x + 1);
+			indices.emplace_back((width + 1) * z + x);//0
+			indices.emplace_back((width + 1) * (z + 1) + x);//1
+			indices.emplace_back((width + 1) * (z + 1) + x + 1);//2
+
+			indices.emplace_back((width + 1) * z + x);//0
+			indices.emplace_back((width + 1) * (z + 1) + x + 1);//2
+			indices.emplace_back((width + 1) * z + x + 1);//3
 		}
 	}
 
@@ -289,7 +288,6 @@ void Terrain::CreateTangent()
 		vertices[index0].tangent = tangent + vertices[index0].tangent;
 		vertices[index1].tangent = tangent + vertices[index1].tangent;
 		vertices[index2].tangent = tangent + vertices[index2].tangent;
-
 	}
 
 	for (VertexType& vertex : vertices)

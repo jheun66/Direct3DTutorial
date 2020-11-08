@@ -12,5 +12,7 @@ public:
 	~SkyBox();
 
 	void Render();
+
+	Material* GetMaterial() { return sphere->GetMaterial(); }
 };
 

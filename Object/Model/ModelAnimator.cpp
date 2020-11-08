@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 ModelAnimator::ModelAnimator(string file)
-	:texture(nullptr), srv(nullptr), frustumCount(0)
+	: texture(nullptr), srv(nullptr), frustumCount(0)
 {
 	ReadMaterial(file);
 	ReadMesh(file);
@@ -36,6 +36,7 @@ ModelAnimator::~ModelAnimator()
 		delete transform;
 
 	delete instanceBuffer;
+	delete frustum;
 }
 
 void ModelAnimator::Update()
@@ -44,17 +45,15 @@ void ModelAnimator::Update()
 	{
 		TweenDesc& tweenDesc = frameBuffer->data.tweenDesc[i];
 
-
-		{// 현재 애니메이션
+		{//현재 애니메이션
 			KeyFrameDesc& desc = tweenDesc.cur;
 			ModelClip* clip = clips[desc.clip];
 
 			float time = 1.0f / clip->frameRate / desc.speed;
 			desc.runningTime += DELTA;
 
-			if (desc.time >= 1.0f)	// 다음 프레임으로 넘기는 조건
+			if (desc.time >= 1.0f)//다음 프레임으로 넘기는 조건
 			{
-				// 현재 애니메이션이 끝나는 조건 (프레임 끝에 도달)
 				if (desc.curFrame + desc.time >= clip->frameCount)
 				{
 					if (EndEvent.count(desc.clip) > 0)
@@ -62,16 +61,13 @@ void ModelAnimator::Update()
 				}
 
 				desc.runningTime = 0.0f;
-
-				//									루프 돌게
 				desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
 				desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
 			}
-
 			desc.time = desc.runningTime / time;
 		}
 
-		{// 다음 애니메이션
+		{//다음 애니메이션
 			KeyFrameDesc& desc = tweenDesc.next;
 
 			if (desc.clip > -1)
@@ -103,7 +99,6 @@ void ModelAnimator::Update()
 						desc.runningTime = 0.0f;
 
 						desc.curFrame = (desc.curFrame + 1) % clip->frameCount;
-
 						desc.nextFrame = (desc.curFrame + 1) % clip->frameCount;
 					}
 					desc.time = desc.runningTime / time;
@@ -122,11 +117,9 @@ void ModelAnimator::Render()
 
 	instanceBuffer->IASet(1);
 
-	// 프레임은 4번
 	frameBuffer->SetVSBuffer(4);
 	typeBuffer->SetVSBuffer(5);
 
-	// texture는 0번
 	DC->VSSetShaderResources(0, 1, &srv);
 
 	for (ModelMesh* mesh : meshes)
@@ -144,7 +137,6 @@ void ModelAnimator::PostRender()
 void ModelAnimator::UpdateTransforms()
 {
 	frustum->Update();
-
 	frustumCount = 0;
 	for (UINT i = 0; i < transforms.size(); i++)
 	{
@@ -230,13 +222,12 @@ void ModelAnimator::CreateTexture()
 
 	clipTransform = new ClipTransform[clipCount];
 	nodeTransform = new ClipTransform[clipCount];
-
-	for (UINT i = 0 ; i < clipCount; i++)
+	for (UINT i = 0; i < clipCount; i++)
 		CreateClipTransform(i);
-	
-	{//Craete Texture
+
+	{//Create Texture
 		D3D11_TEXTURE2D_DESC desc = {};
-		desc.Width = MAX_MODEL_BONE * 4;	// 텍스처의 가로 길이, x4는 rgba
+		desc.Width = MAX_MODEL_BONE * 4;
 		desc.Height = MAX_ANIM_KEY;
 		desc.ArraySize = clipCount;
 		desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -245,10 +236,8 @@ void ModelAnimator::CreateTexture()
 		desc.MipLevels = 1;
 		desc.SampleDesc.Count = 1;
 
-		// 우리가 만들 메모리 크기
 		UINT pageSize = MAX_MODEL_BONE * sizeof(Float4x4) * MAX_ANIM_KEY;
 
-		// malloc은 크기를 감당못함, 용량이 큰거는 가상메모리 예약
 		void* p = VirtualAlloc(nullptr, pageSize * clipCount, MEM_RESERVE, PAGE_READWRITE);
 
 		for (UINT c = 0; c < clipCount; c++)
@@ -259,9 +248,7 @@ void ModelAnimator::CreateTexture()
 			{
 				void* temp = (BYTE*)p + MAX_MODEL_BONE * y * sizeof(Matrix) + start;
 
-				// 실제 메모리 쪼개서 할당
 				VirtualAlloc(temp, MAX_MODEL_BONE * sizeof(Matrix), MEM_COMMIT, PAGE_READWRITE);
-				// memcpy도 쪼개서 넣어줌
 				memcpy(temp, clipTransform[c].transform[y], MAX_MODEL_BONE * sizeof(Matrix));
 			}
 		}
@@ -276,12 +263,12 @@ void ModelAnimator::CreateTexture()
 			subResource[c].SysMemSlicePitch = pageSize;
 		}
 		V(DEVICE->CreateTexture2D(&desc, subResource, &texture));
+
 		delete[] subResource;
 		VirtualFree(p, 0, MEM_RELEASE);
 	}
 
-
-	{// Create SRV
+	{//Create SRV
 		D3D11_SHADER_RESOURCE_VIEW_DESC desc = {};
 		desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
@@ -290,10 +277,8 @@ void ModelAnimator::CreateTexture()
 
 		V(DEVICE->CreateShaderResourceView(texture, &desc, &srv));
 	}
-	
 }
 
-// texture로 넣어줄수 있도록
 void ModelAnimator::CreateClipTransform(UINT index)
 {
 	ModelClip* clip = clips[index];
@@ -321,6 +306,7 @@ void ModelAnimator::CreateClipTransform(UINT index)
 
 			Matrix parent;
 			int parentIndex = node->parent;
+
 			if (parentIndex < 0)
 				parent = XMMatrixIdentity();
 			else

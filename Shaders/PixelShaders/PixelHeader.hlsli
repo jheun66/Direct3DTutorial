@@ -8,9 +8,23 @@ struct Material
     float specIntensity;
 };
 
+struct SurfaceData
+{
+    float linearDepth;
+    float3 color;
+    float3 normal;
+    float specInt;
+    float specPow;
+};
+
 Texture2D diffuseMap : register(t0);
 Texture2D specularMap : register(t1);
 Texture2D normalMap : register(t2);
+
+Texture2D depthTexture : register(t3);
+Texture2D colorSpecIntTexture : register(t4);
+Texture2D normalTexture : register(t5);
+Texture2D specPowTexture : register(t6);
 
 SamplerState samp : register(s0);
 
@@ -67,18 +81,15 @@ float NormalMapping(float3 tangent, float3 binormal, float3 normal, float3 light
 {
     float3 light = normalize(lightDir);
     
-                                   // polygon의 
-    tangent = normalize(tangent); // x
-    binormal = normalize(binormal); // y
-    normal = normalize(normal); // z
-    
+    tangent = normalize(tangent);
+    binormal = normalize(binormal);
+    normal = normalize(normal);
+        
     if (hasMap[2])
     {
         float4 normalMapping = normalMap.Sample(samp, uv);
     
         float3x3 TBN = float3x3(tangent, binormal, normal);
-    
-        // color 범위 0 ~ 1 을 벡터의 -1 ~ 1 로 바꿔주기 위해
         normal = normalMapping.xyz * 2.0f - 1.0f;
         normal = normalize(mul(normal, TBN));
     }
@@ -86,33 +97,51 @@ float NormalMapping(float3 tangent, float3 binormal, float3 normal, float3 light
     return saturate(dot(normal, light));
 }
 
-//void NormalMapping(float2 uv, float3 normal, float3 tangent)
-//{
-//    float4 map = normalMap.Sample(samp, uv);
+float3 GetMappingNormal(float3 tangent, float3 binormal, float3 normal, float2 uv)
+{
+    tangent = normalize(tangent);
+    binormal = normalize(binormal);
+    normal = normalize(normal);
+        
+    if (hasMap[2])
+    {
+        float4 normalMapping = normalMap.Sample(samp, uv);
     
-//    [flatten]
-//    if (any(map.rgb) == false)
-//        return;
+        float3x3 TBN = float3x3(tangent, binormal, normal);
+        normal = normalMapping.xyz * 2.0f - 1.0f;
+        normal = normalize(mul(normal, TBN));
+    }
     
-//    float3 N = normalize(normal);
+    return normal;
+}
+/*
+void NormalMapping(float2 uv, float3 normal, float3 tangent)
+{
+    float4 map = normalMap.Sample(samp, uv);
     
-//    [flatten]
-//    if (any(tangent)== false)
-//        tangent = float3(1e-6f, 1e-6f, 1e-6f);
+    [flatten]
+    if(any(map.rgb) == false)
+        return;
     
-//    float3 T = normalize(tangent - dot(tangent, N) * N);
-//    float3 B = normalize(cross(N, T));
-//    float3x3 TBN = float3x3(T, B, N);
+    float3 N = normalize(normal);
     
-//    float3 coord = map.rgb * 2.0f - 1.0f;
-    
-//    coord = mul(coord, TBN);
-    
-//    //mDiffuse *= saturate(dot(-lights[0].direction, coord));
-//}
+    [flatten]
+    if (any(tangent) == false)
+        tangent = float3(1e-6f, 1e-6f, 1e-6f);
 
-float4 SpecularMapping(float3 normal, float3 camPos, float3 lightDir, 
-                    float3 worldPos, float2 uv)
+    float3 T = normalize(tangent - dot(tangent, N) * N);
+    float3 B = normalize(cross(N, T));
+    float3x3 TBN = float3x3(T, B, N);
+
+    float3 coord = map.rgb * 2.0f - 1.0f;
+    
+    coord = mul(coord, TBN);
+    
+    mDiffuse *= saturate(dot(-lights[0].direction, coord));
+}*/
+
+float4 SpecularMapping(float3 normal, float3 camPos, float3 lightDir,
+float3 worldPos, float2 uv)
 {
     float3 toEye = normalize(camPos - worldPos);
     float3 halfWay = normalize(toEye + lightDir);
@@ -120,7 +149,7 @@ float4 SpecularMapping(float3 normal, float3 camPos, float3 lightDir,
     
     specularIntensity = pow(specularIntensity, mSpecular.w);
     
-    if(hasMap[1])
+    if (hasMap[1])
     {
         float4 specularMapping = specularMap.Sample(samp, uv);
         return specularMapping * specularIntensity;
@@ -131,19 +160,19 @@ float4 SpecularMapping(float3 normal, float3 camPos, float3 lightDir,
 
 float4 CalcAmbient(float3 normal, float4 color)
 {
-    float up = normal.y * 0.5f * 0.5f;
+    float up = normal.y * 0.5f + 0.5f;
     
     float4 resultAmbient = ambient + up * ambientCeil;
     
     return resultAmbient * color;
 }
 
-float4 CalcDirection(float3 tangent, float3 binoraml, float3 normal, 
-                float4 color, float3 worldPos, float3 camPos, Light light, float2 uv)
+float4 CalcDirection(float3 tangent, float3 binormal, float3 normal,
+    float4 color, float3 worldPos, float3 camPos, Light light, float2 uv)
 {
     float3 toLight = -normalize(light.direction);
     
-    float diffuseIntensity = NormalMapping(tangent, binoraml, normal, toLight, uv);
+    float diffuseIntensity = NormalMapping(tangent, binormal, normal, toLight, uv);
     color *= light.color * saturate(diffuseIntensity) * mDiffuse;
     
     if (diffuseIntensity > 0.0f)
@@ -154,79 +183,96 @@ float4 CalcDirection(float3 tangent, float3 binoraml, float3 normal,
     return float4(color.rgb, 1.0f);
 }
 
-// 디퍼드 렌더용
-// Directional light calculation helper function
-float4 CalcDirection(float3 position, Material mat)
+float4 CalcDirection(float3 position, Material mat, Light light)
 {
-    float3 toLight = -normalize(lights[0].direction);
-	// Phong diffuse
+    float3 toLight = -normalize(light.direction);
+    
     float NDotL = dot(toLight, mat.normal);
-    float3 finalColor = lights[0].color.rgb * saturate(NDotL);
-   
-	// Blinn specular
+    float3 finalColor = light.color.rgb * saturate(NDotL);
+    
     float3 camPos = viewInv._41_42_43;
     float3 toEye = normalize(camPos - position);
     float3 halfWay = normalize(toEye - toLight);
     float NDotH = saturate(dot(halfWay, mat.normal));
-    finalColor += lights[0].color.rgb * pow(NDotH, mat.specPow) * mat.specIntensity;
-
-    return float4(finalColor * mat.diffuseColor.rgb, 1);
+    finalColor += light.color.rgb * pow(NDotH, mat.specPow) * mat.specIntensity;
+    
+    return float4(finalColor * mat.diffuseColor.rgb, 1.0f);
 }
 
-float4 CalcPoint(float3 tangent, float3 binoraml, float3 normal, 
-            float4 color, float3 worldPos, float3 camPos, Light light, float2 uv)
+float4 CalcPoint(float3 tangent, float3 binormal, float3 normal, float4 color,
+    float3 worldPos, float3 camPos, Light light, float2 uv)
 {
     float3 toLight = light.position - worldPos;
-    float3 distanceToLight = length(toLight);
+    float distanceToLight = length(toLight);
     toLight /= distanceToLight;
     
-    float diffuseIntensity = NormalMapping(tangent, binoraml, normal, toLight, uv);
+    float diffuseIntensity = NormalMapping(tangent, binormal, normal, toLight, uv);
     color *= light.color * saturate(diffuseIntensity) * mDiffuse;
     
     if (diffuseIntensity > 0.0f)
     {
         color += light.color * SpecularMapping(normal, camPos, toLight, worldPos, uv);
     }
-        
+    
     float distanceToLightNormal = 1.0f - saturate(distanceToLight / light.range);
     float attention = distanceToLightNormal * distanceToLightNormal;
- 
+    
     return float4(color.rgb * attention, 1.0f);
 }
 
-float4 CalcSpot(float3 tangent, float3 binoraml, float3 normal,
-            float4 color, float3 worldPos, float3 camPos, Light light, float2 uv)
+float4 CalcPoint(float3 position, Material mat, Light light)
 {
-    float3 toLight = light.position - worldPos;
-    float3 distanceToLight = length(toLight);
+    float3 toLight = light.position - position;
+    float distanceToLight = length(toLight);
     toLight /= distanceToLight;
     
-    float diffuseIntensity = NormalMapping(tangent, binoraml, normal, toLight, uv);
+    float NDotL = dot(toLight, mat.normal);
+    float3 finalColor = light.color.rgb * saturate(NDotL);
+    
+    //float3 camPos = viewInv._41_42_43;
+    //float3 toEye = normalize(camPos - position);
+    //float3 halfWay = normalize(toEye - toLight);
+    //float NDotH = saturate(dot(halfWay, mat.normal));
+    //finalColor += light.color.rgb * pow(NDotH, mat.specPow) * mat.specIntensity;
+    
+    float distanceToLightNormal = 1.0f - saturate(distanceToLight / light.range);
+    float attention = distanceToLightNormal * distanceToLightNormal;
+    
+    return float4(finalColor * mat.diffuseColor.rgb * attention, 1.0f);
+}
+
+float4 CalcSpot(float3 tangent, float3 binormal, float3 normal, float4 color,
+    float3 worldPos, float3 camPos, Light light, float2 uv)
+{
+    float3 toLight = light.position - worldPos;
+    float distanceToLight = length(toLight);
+    toLight /= distanceToLight;
+    
+    float diffuseIntensity = NormalMapping(tangent, binormal, normal, toLight, uv);
     color *= light.color * saturate(diffuseIntensity) * mDiffuse;
     
     if (diffuseIntensity > 0.0f)
     {
         color += light.color * SpecularMapping(normal, camPos, toLight, worldPos, uv);
     }
-        
+    
     float3 dir = -normalize(light.direction);
     float cosAngle = dot(dir, toLight);
     
     float outer = cos(radians(light.outer));
     float inner = 1.0f / cos(radians(light.inner));
     
-    // 번지는 값
     float conAttention = saturate((cosAngle - outer) * inner);
     conAttention *= conAttention;
     
     float distanceToLightNormal = 1.0f - saturate(distanceToLight / light.range);
     float attention = distanceToLightNormal * distanceToLightNormal;
- 
-    return float4(color.rgb * attention * conAttention, 1.0f);
+    
+    return color * attention * conAttention;
 }
 
-float4 CalcCapsule(float3 tangent, float3 binoraml, float3 normal,
-            float4 color, float3 worldPos, float3 camPos, Light light, float2 uv)
+float4 CalcCapsule(float3 tangent, float3 binormal, float3 normal, float4 color,
+    float3 worldPos, float3 camPos, Light light, float2 uv)
 {
     float3 direction = normalize(light.direction);
     float3 start = worldPos - light.position;
@@ -235,19 +281,63 @@ float4 CalcCapsule(float3 tangent, float3 binoraml, float3 normal,
     
     float3 pointOnLine = light.position + direction * distanceOnLine;
     float3 toLight = pointOnLine - worldPos;
-    float3 distanceToLight = length(toLight);
+    float distanceToLight = length(toLight);
     toLight /= distanceToLight;
     
-    float diffuseIntensity = NormalMapping(tangent, binoraml, normal, toLight, uv);
+    float diffuseIntensity = NormalMapping(tangent, binormal, normal, toLight, uv);
     color *= light.color * saturate(diffuseIntensity) * mDiffuse;
     
     if (diffuseIntensity > 0.0f)
     {
         color += light.color * SpecularMapping(normal, camPos, toLight, worldPos, uv);
     }
-        
+    
     float distanceToLightNormal = 1.0f - saturate(distanceToLight / light.range);
     float attention = distanceToLightNormal * distanceToLightNormal;
- 
-    return float4(color.rgb * attention, 1.0f);
+    
+    return color * attention;
+}
+
+float ConvertDepthToLinear(float depth)
+{
+    float linearDepth = perspective._43 / (depth - perspective._33);
+    
+    return linearDepth;
+}
+
+SurfaceData UnpackGBuffer(int2 location)
+{
+    SurfaceData output;
+    
+    int3 location3 = int3(location, 0);
+    
+    float depth = depthTexture.Load(location3).x;
+    output.linearDepth = ConvertDepthToLinear(depth);
+    
+    float4 baseColorSpecInt = colorSpecIntTexture.Load(location3);
+    
+    output.color = baseColorSpecInt.xyz;
+    output.specInt = baseColorSpecInt.w;
+    
+    output.normal = normalTexture.Load(location3).xyz;
+    output.normal = normalize(output.normal * 2.0f - 1.0f);
+    
+    float specPowerNormal = specPowTexture.Load(location3).x;
+    output.specPow = specPowerRange.x + specPowerNormal * specPowerRange.y;
+    
+    return output;
+}
+
+float3 CalcWorldPos(float2 csPos, float linearDepth)
+{
+    float4 position;
+    
+    float2 temp;
+    temp.x = 1 / perspective._11;
+    temp.y = 1 / perspective._22;
+    position.xy = csPos.xy * temp * linearDepth;
+    position.z = linearDepth;
+    position.w = 1.0f;
+    
+    return mul(position, viewInv).xyz;
 }

@@ -3,7 +3,7 @@
 //#include "Scene/CubeScene.h"
 //#include "Scene/TextureScene.h"
 //#include "Scene/GridScene.h"
-//#include "Scene/TerrainScene.h"
+#include "Scene/TerrainScene.h"
 //#include "Scene/ComputeScene.h"
 //#include "Scene/TerrainEditorScene.h"
 #include "Scene/ModelScene.h"
@@ -33,7 +33,7 @@ Program::Program()
 	//scene = new CubeScene();
 	//scene = new TextureScene();
 	//scene = new GridScene();
-	//scene = new TerrainScene();
+	scene = new TerrainScene();
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
@@ -56,7 +56,7 @@ Program::Program()
 	//scene = new WaterScene();
 	//scene = new ScatteringScene();
 	//scene = new ModelAnimatorScene();
-	scene = new DeferredScene();
+	//scene = new DeferredScene();
 }
 
 Program::~Program()
@@ -93,7 +93,7 @@ void Program::Render()
 	Environment::Get()->MainCamera()->VSSet(1);
 	Environment::Get()->GetProjection()->SetVSBuffer(2);
 	Environment::Get()->MainCamera()->PSSet();
-	Environment::Get()->GetProjection()->SetPSBuffer(2);
+	Environment::Get()->GetProjection()->SetPSBuffer(3);
 	Environment::Get()->GetLight()->SetPSBuffer(0);
 	Environment::Get()->SetViewport();
 

@@ -4,7 +4,7 @@ Environment* Environment::instance = nullptr;
 
 Environment::Environment()
 {
-	CreateViewort();
+	CreateViewport();
 	CreatePerspective();
     CreateSamplerState();
 
@@ -85,7 +85,7 @@ void Environment::SetViewport(UINT width, UINT height)
     DC->RSSetViewports(1, &viewport);
 }
 
-void Environment::CreateViewort()
+void Environment::CreateViewport()
 {
     viewport.Width = WIN_WIDTH;
     viewport.Height = WIN_HEIGHT;

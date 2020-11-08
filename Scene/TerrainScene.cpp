@@ -4,18 +4,19 @@
 TerrainScene::TerrainScene()
 {
 	terrain = new Terrain();
-	settingBuffer = new SettingBuffer();
+	sphere = new Sphere(L"NormalMapping");
 }
 
 TerrainScene::~TerrainScene()
 {
-	delete settingBuffer;
 	delete terrain;
+	delete sphere;
 }
 
 void TerrainScene::Update()
 {
 	terrain->Update();
+	sphere->Update();
 }
 
 void TerrainScene::PreRender()
@@ -24,19 +25,15 @@ void TerrainScene::PreRender()
 
 void TerrainScene::Render()
 {
-	settingBuffer->SetPSBuffer(1);
 	terrain->Render();
+	sphere->Render();
 }
 
 void TerrainScene::PostRender()
 {
-	ImGui::Checkbox("SpecularMapping", (bool*)&settingBuffer->data.option[0]);
-	ImGui::Checkbox("NormalMapping", (bool*)&settingBuffer->data.option[1]);
+	ImGui::SliderFloat4("TEmissive",
+		(float*)&terrain->GetMaterial()->GetBuffer()->data.emissive, 0.0f, 1.0f);
 
-	Vector3 pickingPos;
-	terrain->ComputePicking(&pickingPos);
-	ImGui::SliderFloat3("PickingPos", (float*)&pickingPos, 0, 500);
-
-	float height = terrain->GetHeight(pickingPos);
-	ImGui::Text("Height : %f", height);
+	ImGui::SliderFloat4("SEmissive",
+		(float*)&sphere->GetMaterial()->GetBuffer()->data.emissive, 0.0f, 1.0f);
 }

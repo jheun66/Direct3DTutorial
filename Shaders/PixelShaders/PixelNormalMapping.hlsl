@@ -48,5 +48,18 @@ float4 PS(PixelInput input) : SV_Target
         }
     }
     
+    float emissive = 0.0f;
+    
+    [flatten]
+    if (mEmissive.a > 0.0f)
+    {
+        float E = normalize(input.camPos - input.worldPos);
+        
+        float NdotE = dot(E, normalize(input.normal));
+        emissive = smoothstep(1.0f - mEmissive.a, 1.0f, 1.0f - saturate(NdotE));
+    }
+    
+    result.rgb += mEmissive.rgb * emissive;
+    
     return result;
 }

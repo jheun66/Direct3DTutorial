@@ -19,12 +19,11 @@ public:
 		MaterialBuffer() : ConstBuffer(&data, sizeof(Data))
 		{
 			data.diffuse = Float4(1, 1, 1, 1);
-			// 현재 터레인 기준(다른거 쓰면 바꿔줘야함)
 			data.specular = Float4(1, 1, 1, 25);
 			data.ambient = Float4(1, 1, 1, 1);
-			data.emissive = Float4(0, 0, 0, 1);
+			data.emissive = Float4(0.1f, 0.1f, 0.1f, 0.3f);
 
-			for (UINT &i : data.hasMap)
+			for (UINT& i : data.hasMap)
 				i = 0;
 		}
 	};

@@ -30,7 +30,7 @@ public:
 	virtual void SetTarget(Transform* value) {}
 
 	void VSSet(UINT slot = 1);
-	void PSSet(UINT slot = 1);
+	void PSSet(UINT slot = 2);
 	void GSSet(UINT slot = 1);
 
 	Ray ScreenPointToRay(Vector3 pos);

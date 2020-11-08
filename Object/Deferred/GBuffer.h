@@ -13,7 +13,7 @@ private:
 
 	RenderTarget* rtvs[3];
 
-	Render2D* targetTexture[3];
+	Render2D* targetTexture[4];
 
 	ID3D11ShaderResourceView* srvs[4];
 

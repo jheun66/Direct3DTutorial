@@ -37,7 +37,7 @@ public:
 
 	void SetViewport(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
 private:
-	void CreateViewort();
+	void CreateViewport();
 	void CreatePerspective();
 	void CreateSamplerState();
 };

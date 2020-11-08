@@ -4,8 +4,7 @@ class TerrainScene : public Scene
 {
 private:
 	Terrain* terrain;
-
-	SettingBuffer* settingBuffer;
+	Sphere* sphere;
 
 public:
 	TerrainScene();

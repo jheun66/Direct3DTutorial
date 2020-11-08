@@ -1,7 +1,7 @@
 #include "Framework.h"
 
-Zombie::Zombie()
-	:ModelAnimator("Zombie/Zombie"), moveSpeed(50), rotSpeed(10)
+Zombie::Zombie() :
+	ModelAnimator("Zombie/Zombie"), moveSpeed(50), rotSpeed(10)
 {
 	scale = { 0.1f, 0.1f, 0.1f };
 
@@ -11,18 +11,16 @@ Zombie::Zombie()
 
 	SetEndEvent(ATTACK, bind(&Zombie::AttackEnd, this));
 
-	PlayClip(0, 0);
+	//PlayClip(0, 1.0f, );
 	zombieWorld = AddTransform();
 	zombieWorld->scale = { 0.1f, 0.1f, 0.1f };
 
-	// offset을 부모 행렬로, 마치 빈 오브젝트에 담는거 처럼 
 	offset.rotation.y = XM_PI;
 	offset.UpdateWorld();
 	zombieWorld->SetParent(offset.GetWorld());
 
 	attackCollider = new SphereCollider();
 	attackCollider->scale = { 10, 10, 10 };
-
 }
 
 Zombie::~Zombie()
@@ -61,20 +59,27 @@ void Zombie::Move()
 	if (KEY_PRESS(VK_RIGHT))
 	{
 		zombieWorld->rotation.y += rotSpeed * DELTA;
-		SetAnimation(RUN);
 	}
 	if (KEY_PRESS(VK_LEFT))
 	{
 		zombieWorld->rotation.y -= rotSpeed * DELTA;
-		SetAnimation(RUN);
 	}
 
 	if (KEY_UP(VK_UP) || KEY_UP(VK_DOWN))
-	{
 		SetAnimation(IDLE);
-	}
 
 	zombieWorld->position.y = terrain->GetHeight(zombieWorld->WorldPos());
+}
+
+void Zombie::Attack()
+{
+	if (KEY_DOWN(VK_SPACE))
+		SetAnimation(ATTACK);
+}
+
+void Zombie::AttackEnd()
+{
+	SetAnimation(IDLE);
 }
 
 void Zombie::SetAnimation(AnimState state)
@@ -88,22 +93,10 @@ void Zombie::SetAnimation(AnimState state)
 
 void Zombie::SetAttackCollision()
 {
-	int nodeIndex = GetNodeByName("Zombie:LeftHand");
+	int nodeIndex = GetNodeByName("Zombie:RightHand");
 
 	boneWorld = GetCurNodeMatrix(nodeIndex);
-
 	boneWorld = boneWorld * (*zombieWorld->GetWorld());
 
 	attackCollider->SetParent(&boneWorld);
-}
-
-void Zombie::Attack()
-{
-	if (KEY_DOWN(VK_SPACE))
-		SetAnimation(ATTACK);
-}
-
-void Zombie::AttackEnd()
-{
-	SetAnimation(IDLE);
 }

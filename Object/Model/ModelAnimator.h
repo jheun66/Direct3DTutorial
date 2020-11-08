@@ -35,11 +35,9 @@ protected:
 			runningTime = 0.0f;
 
 			cur.clip = 0;
-			next.clip = 1;
+			next.clip = -1;
 		}
-
 	};
-
 
 	class FrameBuffer : public ConstBuffer
 	{
@@ -56,9 +54,8 @@ protected:
 
 	struct ClipTransform
 	{
-		// Matrix 의 2차원 배열
 		Matrix** transform;
-		
+
 		ClipTransform()
 		{
 			transform = new Matrix * [MAX_ANIM_KEY];
@@ -66,20 +63,18 @@ protected:
 			for (UINT i = 0; i < MAX_ANIM_KEY; i++)
 				transform[i] = new Matrix[MAX_MODEL_BONE];
 		}
+
 		~ClipTransform()
 		{
 			for (UINT i = 0; i < MAX_ANIM_KEY; i++)
-				delete transform[i];
+				delete[] transform[i];
 
 			delete[] transform;
 		}
-	
 	};
 
 	FrameBuffer* frameBuffer;
-	// shader에서 정점 보간용
 	ClipTransform* clipTransform;
-	// 본 위치 찾는용도
 	ClipTransform* nodeTransform;
 
 	ID3D11Texture2D* texture;
@@ -109,6 +104,7 @@ public:
 	Transform* AddTransform();
 
 	void PlayClip(UINT instance, UINT clip, float speed = 1.0f, float takeTime = 0.2f);
+
 	void ReadClip(string file);
 
 	void SetEndEvent(UINT clip, function<void()> value) { EndEvent[clip] = value; }

@@ -1,6 +1,6 @@
 #pragma once
 
-class Terrain : Transform
+class Terrain : public Transform
 {
 private:
 	typedef VertexUVNormalTangent VertexType;
@@ -29,14 +29,11 @@ private:
 
 	ComputeShader* computeShader;
 	RayBuffer* rayBuffer;
-
 	StructuredBuffer* structuredBuffer;
-
 	InputDesc* input;
 	OutputDesc* output;
 
 	UINT size;
-
 public:
 	Terrain();
 	~Terrain();
@@ -46,7 +43,7 @@ public:
 
 	bool Picking(OUT Vector3* position);
 	float GetHeight(Vector3 position);
-	
+
 	bool ComputePicking(OUT Vector3* position);
 
 	Float2 GetSize() { return Float2(width, height); }
@@ -55,6 +52,4 @@ private:
 	void CreateData();
 	void CreateNormal();
 	void CreateTangent();
-
-
 };

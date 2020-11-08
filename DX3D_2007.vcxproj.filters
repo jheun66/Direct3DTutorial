@@ -963,6 +963,7 @@
     <FxCompile Include="Shaders\PixelShaders\PixelGBuffer.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelDeferredDirection.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexDeferred.hlsl" />
+    <FxCompile Include="Shaders\PixelShaders\PixelDeferred.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

@@ -4,11 +4,11 @@ struct PixelInput
 {
     float4 pos : SV_Position;
     float2 uv : UV;
-    float3 normal : NORMAL;
-    float3 tangent : TANGENT;
-    float3 binormal : BINORMAL;
-    float3 worldPos : POSITION0;
-    float3 camPos : POSITION1;
+    float3 normal : Normal;
+    float3 tangent : Tangent;
+    float3 binormal : Binormal;
+    float3 worldPos : Position0;
+    float3 camPos : Position1;
 };
 
 struct PixelOutput
@@ -26,20 +26,23 @@ PixelOutput PackGBuffer(float3 baseColor, float3 normal, float specIntensity, fl
     
     output.colorSpecInt = float4(baseColor.rgb, specIntensity);
     output.normal = float4(normal * 0.5f + 0.5f, 0.0f);
-    output.specPow = float4(specPowerNorm, 0.0f, 0.0f, 0.0f);
+    output.specPow = float4(specPowerNorm, 0, 0, 0);
     
     return output;
 }
-
 PixelOutput PS(PixelInput input)
 {
-    float3 diffuseColor = diffuseMap.Sample(samp, input.uv);
+    float3 diffuseColor = diffuseMap.Sample(samp, input.uv).rgb;
     diffuseColor *= diffuseColor;
     
     float specIntensity = 1.0f;
     
-    if(hasMap[1])
+    if (hasMap[1])
         specIntensity = specularMap.Sample(samp, input.uv).r;
     
-    return PackGBuffer(diffuseColor, normalize(input.normal), specIntensity, mSpecular.a);
+    float3 normal = GetMappingNormal(input.tangent,
+    input.binormal, input.normal, input.uv);
+    
+    return PackGBuffer(diffuseColor, normal,
+    specIntensity, mSpecular.a);
 }

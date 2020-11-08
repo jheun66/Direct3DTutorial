@@ -7,9 +7,13 @@ private:
 
 	Zombie* zombie;
 	Terrain* terrain;
+	SkyBox* skyBox;
 
 	Material* material;
 	VertexBuffer* vertexBuffer;
+
+	BlendState* blendState[2];
+	DepthStencilState* depthState[2];
 public:
 	DeferredScene();
 	~DeferredScene();
