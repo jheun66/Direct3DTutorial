@@ -27,13 +27,14 @@
 #include "Scene/ScatteringScene.h"
 #include "Scene/ModelAnimatorScene.h"
 #include "Scene/DeferredScene.h"
+#include "Scene/TessellationTriangleScene.h"
 
 Program::Program()
 {
 	//scene = new CubeScene();
 	//scene = new TextureScene();
 	//scene = new GridScene();
-	scene = new TerrainScene();
+	//scene = new TerrainScene();
 	//scene = new ComputeScene();
 	//scene = new TerrainEditorScene();
 	//scene = new ModelScene();
@@ -57,6 +58,7 @@ Program::Program()
 	//scene = new ScatteringScene();
 	//scene = new ModelAnimatorScene();
 	//scene = new DeferredScene();
+	scene = new TessellationTriangleScene();
 }
 
 Program::~Program()

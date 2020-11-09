@@ -579,6 +579,15 @@
     <ClInclude Include="Object\Deferred\GBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\TessellationTriangleScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\HullShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frameworks\Render\DomainShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -896,6 +905,15 @@
     <ClCompile Include="Object\Deferred\GBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\TessellationTriangleScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\HullShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frameworks\Render\DomainShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2007.rc">
@@ -964,6 +982,9 @@
     <FxCompile Include="Shaders\PixelShaders\PixelDeferredDirection.hlsl" />
     <FxCompile Include="Shaders\VertexShaders\VertexDeferred.hlsl" />
     <FxCompile Include="Shaders\PixelShaders\PixelDeferred.hlsl" />
+    <FxCompile Include="Shaders\VertexShaders\VertexTSTriangle.hlsl" />
+    <FxCompile Include="Shaders\HullShaders\HullTSTriangle.hlsl" />
+    <FxCompile Include="Shaders\DomainShaders\DomainTSTriangle.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelShaders\PixelHeader.hlsli" />

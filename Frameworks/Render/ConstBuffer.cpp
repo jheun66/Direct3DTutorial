@@ -53,3 +53,15 @@ void ConstBuffer::SetGSBuffer(UINT slot)
     MapData();
     DC->GSSetConstantBuffers(slot, 1, &buffer);
 }
+
+void ConstBuffer::SetHSBuffer(UINT slot)
+{
+    MapData();
+    DC->HSSetConstantBuffers(slot, 1, &buffer);
+}
+
+void ConstBuffer::SetDSBuffer(UINT slot)
+{
+    MapData();
+    DC->DSSetConstantBuffers(slot, 1, &buffer);
+}

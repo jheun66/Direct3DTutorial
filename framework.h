@@ -110,6 +110,8 @@ const XMVECTORF32 kForward = { 0, 0, 1 };
 #include "Frameworks/Render/PixelShader.h"
 #include "Frameworks/Render/ComputeShader.h"
 #include "Frameworks/Render/GeometryShader.h"
+#include "Frameworks/Render/HullShader.h"
+#include "Frameworks/Render/DomainShader.h"
 
 #include "Frameworks/Render/VertexBuffer.h"
 #include "Frameworks/Render/IndexBuffer.h"

@@ -43,6 +43,26 @@ GeometryShader* Shader::AddGS(wstring file, string gsName)
     return (GeometryShader*)totalShader[file];
 }
 
+HullShader* Shader::AddHS(wstring file, string hsName)
+{
+    if (totalShader.count(file) > 0)
+        return (HullShader*)totalShader[file];
+
+    totalShader[file] = new HullShader(file, hsName);
+
+    return (HullShader*)totalShader[file];
+}
+
+DomainShader* Shader::AddDS(wstring file, string dsName)
+{
+    if (totalShader.count(file) > 0)
+        return (DomainShader*)totalShader[file];
+
+    totalShader[file] = new DomainShader(file, dsName);
+
+    return (DomainShader*)totalShader[file];
+}
+
 void Shader::Delete()
 {
     for (auto shader : totalShader)
