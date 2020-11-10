@@ -58,12 +58,15 @@ Program::Program()
 	//scene = new ScatteringScene();
 	//scene = new ModelAnimatorScene();
 	//scene = new DeferredScene();
-	scene = new TessellationTriangleScene();
+	//scene = new TessellationTriangleScene();
+	SCENE->AddScene("start", new TessellationTriangleScene());
+
+	SCENE->ChangeScene("start");
 }
 
 Program::~Program()
 {
-	delete scene;
+	SCENE->Delete();
 
 	Texture::Delete();
 	Shader::Delete();
@@ -71,7 +74,7 @@ Program::~Program()
 
 void Program::Update()
 {
-	scene->Update();
+	SCENE->Update();
 
 	Environment::Get()->MainCamera()->Update();
 	
@@ -85,7 +88,7 @@ void Program::PreRender()
 	Environment::Get()->GetLight()->SetPSBuffer(0);
 	Environment::Get()->SetViewport();
 
-	scene->PreRender();
+	SCENE->PreRender();
 }
 
 void Program::Render()
@@ -99,14 +102,14 @@ void Program::Render()
 	Environment::Get()->GetLight()->SetPSBuffer(0);
 	Environment::Get()->SetViewport();
 
-	scene->Render();
+	SCENE->Render();
 }
 
 void Program::PostRender()
 {
 	DirectWrite::Get()->GetDC()->BeginDraw();
 	Environment::Get()->PostRender();
-	scene->PostRender();
+	SCENE->PostRender();
 	DirectWrite::Get()->GetDC()->EndDraw();
 
 }

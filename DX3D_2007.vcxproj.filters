@@ -588,6 +588,9 @@
     <ClInclude Include="Frameworks\Render\DomainShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2007.cpp">
@@ -912,6 +915,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Frameworks\Render\DomainShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -58,6 +58,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     Environment::Create();
 
+    SceneManager::Create();
+
     Program* program = new Program();
 
     // PeekMessage vs GetMessage : 반환값 차이
@@ -112,7 +114,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     DirectWrite::Delete();
     Device::Delete();
-
+    SceneManager::Delete();
     
     return (int) msg.wParam;
 }

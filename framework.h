@@ -40,6 +40,8 @@
 
 #define CAMERA Environment::Get()->MainCamera()
 
+#define SCENE SceneManager::Get()
+
 #define LERP(s, e, t) (s + (e - s) * t)
 //#define LERP(s, e, t) (s * (1 - t) + e * t)
 
@@ -209,6 +211,7 @@ using namespace Utility;
 
 // Program Header
 #include "Scene/Scene.h"
+#include "Scene/SceneManager.h"
 #include "Program/Program.h"
 
 extern HWND hWnd;

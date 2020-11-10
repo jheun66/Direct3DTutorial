@@ -3,7 +3,7 @@
 class Program
 {
 private:
-	Scene* scene;
+	//Scene* scene;
 
 public:
 	Program();
